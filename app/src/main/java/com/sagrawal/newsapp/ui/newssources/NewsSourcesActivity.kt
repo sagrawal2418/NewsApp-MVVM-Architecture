@@ -1,4 +1,4 @@
-package com.sagrawal.newsapp.ui.topheadline
+package com.sagrawal.newsapp.ui.newssources
 
 import android.os.Bundle
 import android.view.View
@@ -7,31 +7,30 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sagrawal.newsapp.NewsApplication
-import com.sagrawal.newsapp.data.model.Article
-import com.sagrawal.newsapp.databinding.ActivityTopHeadlineBinding
-import com.sagrawal.newsapp.di.component.DaggerActivityComponent
-import com.sagrawal.newsapp.di.module.ActivityModule
+import com.sagrawal.newsapp.data.model.NewsSource
+import com.sagrawal.newsapp.databinding.ActivityNewsSourcesBinding
+import com.sagrawal.newsapp.di.component.DaggerNewsSourcesActivityComponent
+import com.sagrawal.newsapp.di.module.NewsSourcesActivityModule
 import com.sagrawal.newsapp.ui.base.UiState
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class TopHeadlineActivity : AppCompatActivity() {
+class NewsSourcesActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var newsListViewModel: TopHeadlineViewModel
+    lateinit var newsListViewModel: NewsSourcesViewModel
 
     @Inject
-    lateinit var adapter: TopHeadlineAdapter
+    lateinit var adapter: NewsSourcesAdapter
 
-    private lateinit var binding: ActivityTopHeadlineBinding
+    private lateinit var binding: ActivityNewsSourcesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injectDependencies()
         super.onCreate(savedInstanceState)
-        binding = ActivityTopHeadlineBinding.inflate(layoutInflater)
+        binding = ActivityNewsSourcesBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupUI()
         setupObserver()
@@ -41,12 +40,6 @@ class TopHeadlineActivity : AppCompatActivity() {
     private fun setupUI() {
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                recyclerView.context,
-                (recyclerView.layoutManager as LinearLayoutManager).orientation
-            )
-        )
         recyclerView.adapter = adapter
     }
 
@@ -67,7 +60,7 @@ class TopHeadlineActivity : AppCompatActivity() {
                         is UiState.Error -> {
                             //Handle Error
                             binding.progressBar.visibility = View.GONE
-                            Toast.makeText(this@TopHeadlineActivity, it.message, Toast.LENGTH_LONG)
+                            Toast.makeText(this@NewsSourcesActivity, it.message, Toast.LENGTH_LONG)
                                 .show()
                         }
                     }
@@ -76,14 +69,14 @@ class TopHeadlineActivity : AppCompatActivity() {
         }
     }
 
-    private fun renderList(articleList: List<Article>) {
+    private fun renderList(articleList: List<NewsSource>) {
         adapter.addData(articleList)
         adapter.notifyDataSetChanged()
     }
 
     private fun injectDependencies() {
-        DaggerActivityComponent.builder()
+        DaggerNewsSourcesActivityComponent.builder()
             .applicationComponent((application as NewsApplication).applicationComponent)
-            .activityModule(ActivityModule(this)).build().inject(this)
+            .newsSourcesActivityModule(NewsSourcesActivityModule(this)).build().inject(this)
     }
 }

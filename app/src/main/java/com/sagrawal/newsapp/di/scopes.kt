@@ -4,4 +4,8 @@ import javax.inject.Scope
 
 @Scope
 @Retention(AnnotationRetention.BINARY)
-annotation class ActivityScope
+annotation class TopHeadlineActivityScope
+
+@Scope
+@Retention(AnnotationRetention.BINARY)
+annotation class NewsSourcesActivityScope

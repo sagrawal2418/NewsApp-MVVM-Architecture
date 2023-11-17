@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sagrawal.newsapp.NewsApplication
 import com.sagrawal.newsapp.data.model.Article
 import com.sagrawal.newsapp.databinding.ActivityTopHeadlineBinding
-import com.sagrawal.newsapp.di.component.DaggerActivityComponent
-import com.sagrawal.newsapp.di.module.ActivityModule
+import com.sagrawal.newsapp.di.component.DaggerTopHeadlineActivityComponent
+import com.sagrawal.newsapp.di.module.TopHeadlineActivityModule
 import com.sagrawal.newsapp.ui.base.UiState
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -82,8 +82,8 @@ class TopHeadlineActivity : AppCompatActivity() {
     }
 
     private fun injectDependencies() {
-        DaggerActivityComponent.builder()
+        DaggerTopHeadlineActivityComponent.builder()
             .applicationComponent((application as NewsApplication).applicationComponent)
-            .activityModule(ActivityModule(this)).build().inject(this)
+            .topHeadlineActivityModule(TopHeadlineActivityModule(this)).build().inject(this)
     }
 }

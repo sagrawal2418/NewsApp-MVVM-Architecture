@@ -8,7 +8,11 @@ annotation class ApplicationContext
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class ActivityContext
+annotation class TopHeadlineActivityContext
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class NewsSourcesActivityContext
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)

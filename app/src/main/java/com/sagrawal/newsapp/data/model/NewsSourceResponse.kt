@@ -1,4 +1,10 @@
 package com.sagrawal.newsapp.data.model
 
-class NewsSourceResponse {
-}
+import com.google.gson.annotations.SerializedName
+
+data class NewsSourceResponse(
+    @SerializedName("status")
+    val status: String = "",
+    @SerializedName("sources")
+    val sources: List<NewsSource> = ArrayList(),
+)

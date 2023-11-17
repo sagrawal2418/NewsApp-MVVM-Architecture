@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.sagrawal.newsapp.data.repository.TopHeadlineRepository
-import com.sagrawal.newsapp.di.ActivityContext
+import com.sagrawal.newsapp.di.TopHeadlineActivityContext
 import com.sagrawal.newsapp.ui.base.ViewModelProviderFactory
 import com.sagrawal.newsapp.ui.topheadline.TopHeadlineAdapter
 import com.sagrawal.newsapp.ui.topheadline.TopHeadlineViewModel
@@ -12,9 +12,9 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class ActivityModule(private val activity: AppCompatActivity) {
+class TopHeadlineActivityModule(private val activity: AppCompatActivity) {
 
-    @ActivityContext
+    @TopHeadlineActivityContext
     @Provides
     fun provideContext(): Context {
         return activity

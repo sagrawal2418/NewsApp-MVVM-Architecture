@@ -1,14 +1,14 @@
 package com.sagrawal.newsapp.di.component
 
-import com.sagrawal.newsapp.di.ActivityScope
-import com.sagrawal.newsapp.di.module.ActivityModule
-import com.sagrawal.newsapp.ui.topheadline.TopHeadlineActivity
+import com.sagrawal.newsapp.di.NewsSourcesActivityScope
+import com.sagrawal.newsapp.di.module.NewsSourcesActivityModule
+import com.sagrawal.newsapp.ui.newssources.NewsSourcesActivity
 import dagger.Component
 
-@ActivityScope
-@Component(dependencies = [ApplicationComponent::class], modules = [ActivityModule::class])
-interface TopHeadlineActivityComponent {
+@NewsSourcesActivityScope
+@Component(dependencies = [ApplicationComponent::class], modules = [NewsSourcesActivityModule::class])
+interface NewsSourcesActivityComponent {
 
-    fun inject(activity: TopHeadlineActivity)
+    fun inject(activity: NewsSourcesActivity)
 
 }
