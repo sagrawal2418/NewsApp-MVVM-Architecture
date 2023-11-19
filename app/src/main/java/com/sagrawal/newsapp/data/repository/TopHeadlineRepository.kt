@@ -2,6 +2,7 @@ package com.sagrawal.newsapp.data.repository
 
 import com.sagrawal.newsapp.data.api.NetworkService
 import com.sagrawal.newsapp.data.model.Article
+import com.sagrawal.newsapp.utils.AppConstant.COUNTRY
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -11,9 +12,13 @@ import javax.inject.Singleton
 @Singleton
 class TopHeadlineRepository @Inject constructor(private val networkService: NetworkService) {
 
-    fun getTopHeadlines(country: String): Flow<List<Article>> {
+    fun getTopHeadlines(query: String, byCountry: Boolean = true): Flow<List<Article>> {
         return flow {
-            emit(networkService.getTopHeadlines(country))
+            if (byCountry) {
+                emit(networkService.getTopHeadlinesByCountry(query))
+            } else {
+                emit(networkService.getTopHeadlinesBySources(query))
+            }
         }.map {
             it.articles
         }

@@ -12,9 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sagrawal.newsapp.NewsApplication
 import com.sagrawal.newsapp.data.model.Article
 import com.sagrawal.newsapp.databinding.ActivityTopHeadlineBinding
-import com.sagrawal.newsapp.di.component.DaggerTopHeadlineActivityComponent
-import com.sagrawal.newsapp.di.module.TopHeadlineActivityModule
+import com.sagrawal.newsapp.di.component.DaggerActivityComponent
+import com.sagrawal.newsapp.di.module.ActivityModule
 import com.sagrawal.newsapp.ui.base.UiState
+import com.sagrawal.newsapp.utils.AppConstant.INTENT_EXTRA_NEWS_SOURCE_ID
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,6 +34,8 @@ class TopHeadlineActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityTopHeadlineBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val newsSource = intent.getStringExtra(INTENT_EXTRA_NEWS_SOURCE_ID)
+        newsSource?.let { newsListViewModel.fetchNews(it) }
         setupUI()
         setupObserver()
     }
@@ -60,10 +63,12 @@ class TopHeadlineActivity : AppCompatActivity() {
                             renderList(it.data)
                             binding.recyclerView.visibility = View.VISIBLE
                         }
+
                         is UiState.Loading -> {
                             binding.progressBar.visibility = View.VISIBLE
                             binding.recyclerView.visibility = View.GONE
                         }
+
                         is UiState.Error -> {
                             //Handle Error
                             binding.progressBar.visibility = View.GONE
@@ -82,8 +87,8 @@ class TopHeadlineActivity : AppCompatActivity() {
     }
 
     private fun injectDependencies() {
-        DaggerTopHeadlineActivityComponent.builder()
+        DaggerActivityComponent.builder()
             .applicationComponent((application as NewsApplication).applicationComponent)
-            .topHeadlineActivityModule(TopHeadlineActivityModule(this)).build().inject(this)
+            .activityModule(ActivityModule(this)).build().inject(this)
     }
 }

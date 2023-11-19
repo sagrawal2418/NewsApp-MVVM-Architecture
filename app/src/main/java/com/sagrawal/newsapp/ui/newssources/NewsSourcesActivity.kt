@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sagrawal.newsapp.NewsApplication
 import com.sagrawal.newsapp.data.model.NewsSource
 import com.sagrawal.newsapp.databinding.ActivityNewsSourcesBinding
-import com.sagrawal.newsapp.di.component.DaggerNewsSourcesActivityComponent
-import com.sagrawal.newsapp.di.module.NewsSourcesActivityModule
+import com.sagrawal.newsapp.di.component.DaggerActivityComponent
+import com.sagrawal.newsapp.di.module.ActivityModule
 import com.sagrawal.newsapp.ui.base.UiState
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -75,8 +75,8 @@ class NewsSourcesActivity : AppCompatActivity() {
     }
 
     private fun injectDependencies() {
-        DaggerNewsSourcesActivityComponent.builder()
+        DaggerActivityComponent.builder()
             .applicationComponent((application as NewsApplication).applicationComponent)
-            .newsSourcesActivityModule(NewsSourcesActivityModule(this)).build().inject(this)
+            .activityModule(ActivityModule(this)).build().inject(this)
     }
 }

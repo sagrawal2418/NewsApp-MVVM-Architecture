@@ -1,5 +1,6 @@
 package com.sagrawal.newsapp.ui.topheadline
 
+import android.text.TextUtils
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sagrawal.newsapp.data.model.Article
@@ -17,20 +18,17 @@ class TopHeadlineViewModel(private val topHeadlineRepository: TopHeadlineReposit
 
     val uiState: StateFlow<UiState<List<Article>>> = _uiState
 
-    init {
-        fetchNews()
-    }
-
-    private fun fetchNews() {
+    fun fetchNews(newsSource: String) {
         viewModelScope.launch {
-            topHeadlineRepository.getTopHeadlines(COUNTRY)
-                .catch { e ->
-                    _uiState.value = UiState.Error(e.toString())
-                }.collect {
-                    _uiState.value = UiState.Success(it)
-                }
+            if (TextUtils.isEmpty(newsSource)) {
+                topHeadlineRepository.getTopHeadlines(COUNTRY, true)
+            } else {
+                topHeadlineRepository.getTopHeadlines(newsSource)
+            }.catch { e ->
+                _uiState.value = UiState.Error(e.toString())
+            }.collect {
+                _uiState.value = UiState.Success(it)
+            }
         }
     }
-
-
 }
