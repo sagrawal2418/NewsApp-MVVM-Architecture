@@ -15,6 +15,8 @@ import com.sagrawal.newsapp.databinding.ActivityTopHeadlineBinding
 import com.sagrawal.newsapp.di.component.DaggerActivityComponent
 import com.sagrawal.newsapp.di.module.ActivityModule
 import com.sagrawal.newsapp.ui.base.UiState
+import com.sagrawal.newsapp.utils.AppConstant.INTENT_EXTRA_COUNTRY_SOURCE_ID
+import com.sagrawal.newsapp.utils.AppConstant.INTENT_EXTRA_LANGUAGE_SOURCE_ID
 import com.sagrawal.newsapp.utils.AppConstant.INTENT_EXTRA_NEWS_SOURCE_ID
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,8 +36,18 @@ class TopHeadlineActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityTopHeadlineBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val newsSource = intent.getStringExtra(INTENT_EXTRA_NEWS_SOURCE_ID)
-        newsSource?.let { newsListViewModel.fetchNews(it) }
+
+        val newsSourceId = intent.getStringExtra(INTENT_EXTRA_NEWS_SOURCE_ID)
+        val languageSourceId = intent.getStringExtra(INTENT_EXTRA_LANGUAGE_SOURCE_ID)
+        val countrySourceId = intent.getStringExtra(INTENT_EXTRA_COUNTRY_SOURCE_ID)
+
+        when {
+            newsSourceId != null -> newsListViewModel.fetchNewsBySources(newsSourceId)
+            languageSourceId != null -> newsListViewModel.fetchNewsByLanguage(languageSourceId)
+            countrySourceId != null -> newsListViewModel.fetchTopHeadlines(countrySourceId)
+            else -> newsListViewModel.fetchTopHeadlines()
+        }
+
         setupUI()
         setupObserver()
     }
@@ -83,7 +95,6 @@ class TopHeadlineActivity : AppCompatActivity() {
 
     private fun renderList(articleList: List<Article>) {
         adapter.addData(articleList)
-        adapter.notifyDataSetChanged()
     }
 
     private fun injectDependencies() {

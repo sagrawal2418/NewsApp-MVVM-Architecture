@@ -6,4 +6,6 @@
     <string name="languages_button">Languages</string>
     <string name="search_button">Search</string>
     <string name="news_sources">News Sources</string>
+    <string name="countries">Countries</string>
+    <string name="languages">Languages</string>
 </resources>

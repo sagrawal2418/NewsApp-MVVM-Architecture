@@ -46,5 +46,6 @@ class TopHeadlineAdapter(
 
     fun addData(list: List<Article>) {
         articleList.addAll(list)
+        notifyDataSetChanged()
     }
 }

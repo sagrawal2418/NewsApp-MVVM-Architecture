@@ -1,12 +1,11 @@
 package com.sagrawal.newsapp.ui.topheadline
 
-import android.text.TextUtils
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sagrawal.newsapp.data.model.Article
 import com.sagrawal.newsapp.data.repository.TopHeadlineRepository
 import com.sagrawal.newsapp.ui.base.UiState
-import com.sagrawal.newsapp.utils.AppConstant.COUNTRY
+import com.sagrawal.newsapp.utils.AppConstant
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -18,17 +17,36 @@ class TopHeadlineViewModel(private val topHeadlineRepository: TopHeadlineReposit
 
     val uiState: StateFlow<UiState<List<Article>>> = _uiState
 
-    fun fetchNews(newsSource: String) {
+    fun fetchTopHeadlines(country: String = AppConstant.COUNTRY) {
         viewModelScope.launch {
-            if (TextUtils.isEmpty(newsSource)) {
-                topHeadlineRepository.getTopHeadlines(COUNTRY, true)
-            } else {
-                topHeadlineRepository.getTopHeadlines(newsSource)
-            }.catch { e ->
-                _uiState.value = UiState.Error(e.toString())
-            }.collect {
-                _uiState.value = UiState.Success(it)
-            }
+            topHeadlineRepository.getTopHeadlines(country)
+                .catch { e ->
+                    _uiState.value = UiState.Error(e.toString())
+                }.collect {
+                    _uiState.value = UiState.Success(it)
+                }
+        }
+    }
+
+    fun fetchNewsBySources(sources: String) {
+        viewModelScope.launch {
+            topHeadlineRepository.getNewsBySources(sources)
+                .catch { e ->
+                    _uiState.value = UiState.Error(e.toString())
+                }.collect {
+                    _uiState.value = UiState.Success(it)
+                }
+        }
+    }
+
+    fun fetchNewsByLanguage(languageSource: String) {
+        viewModelScope.launch {
+            topHeadlineRepository.getNewsByLanguage(languageSource)
+                .catch { e ->
+                    _uiState.value = UiState.Error(e.toString())
+                }.collect {
+                    _uiState.value = UiState.Success(it)
+                }
         }
     }
 }

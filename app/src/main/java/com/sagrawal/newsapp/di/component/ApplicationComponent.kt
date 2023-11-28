@@ -3,6 +3,8 @@ package com.sagrawal.newsapp.di.component
 import android.content.Context
 import com.sagrawal.newsapp.NewsApplication
 import com.sagrawal.newsapp.data.api.NetworkService
+import com.sagrawal.newsapp.data.repository.CountriesRepository
+import com.sagrawal.newsapp.data.repository.LanguagesRepository
 import com.sagrawal.newsapp.data.repository.NewsSourcesRepository
 import com.sagrawal.newsapp.data.repository.TopHeadlineRepository
 import com.sagrawal.newsapp.di.ApplicationContext
@@ -24,5 +26,11 @@ interface ApplicationComponent {
     fun getTopHeadlineRepository(): TopHeadlineRepository
 
     fun getNewsSourcesRepository(): NewsSourcesRepository
+
+    fun getCountriesRepository(): CountriesRepository
+
+    fun getLanguagesRepository(): LanguagesRepository
+
+
 
 }

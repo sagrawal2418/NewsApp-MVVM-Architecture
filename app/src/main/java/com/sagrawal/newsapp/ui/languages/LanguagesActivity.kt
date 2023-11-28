@@ -1,4 +1,4 @@
-package com.sagrawal.newsapp.ui.newssources
+package com.sagrawal.newsapp.ui.languages
 
 import android.os.Bundle
 import android.view.View
@@ -10,7 +10,11 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sagrawal.newsapp.NewsApplication
+import com.sagrawal.newsapp.data.model.Country
+import com.sagrawal.newsapp.data.model.Language
 import com.sagrawal.newsapp.data.model.NewsSource
+import com.sagrawal.newsapp.databinding.ActivityCountriesBinding
+import com.sagrawal.newsapp.databinding.ActivityLanguagesBinding
 import com.sagrawal.newsapp.databinding.ActivityNewsSourcesBinding
 import com.sagrawal.newsapp.di.component.DaggerActivityComponent
 import com.sagrawal.newsapp.di.module.ActivityModule
@@ -18,20 +22,20 @@ import com.sagrawal.newsapp.ui.base.UiState
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class NewsSourcesActivity : AppCompatActivity() {
+class LanguagesActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var newsListViewModel: NewsSourcesViewModel
+    lateinit var languagesViewModel: LanguagesViewModel
 
     @Inject
-    lateinit var adapter: NewsSourcesAdapter
+    lateinit var adapter: LanguagesAdapter
 
-    private lateinit var binding: ActivityNewsSourcesBinding
+    private lateinit var binding: ActivityLanguagesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injectDependencies()
         super.onCreate(savedInstanceState)
-        binding = ActivityNewsSourcesBinding.inflate(layoutInflater)
+        binding = ActivityLanguagesBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupUI()
         setupObserver()
@@ -53,21 +57,23 @@ class NewsSourcesActivity : AppCompatActivity() {
     private fun setupObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                newsListViewModel.uiState.collect {
+                languagesViewModel.uiState.collect {
                     when (it) {
                         is UiState.Success -> {
                             binding.progressBar.visibility = View.GONE
                             renderList(it.data)
                             binding.recyclerView.visibility = View.VISIBLE
                         }
+
                         is UiState.Loading -> {
                             binding.progressBar.visibility = View.VISIBLE
                             binding.recyclerView.visibility = View.GONE
                         }
+
                         is UiState.Error -> {
                             //Handle Error
                             binding.progressBar.visibility = View.GONE
-                            Toast.makeText(this@NewsSourcesActivity, it.message, Toast.LENGTH_LONG)
+                            Toast.makeText(this@LanguagesActivity, it.message, Toast.LENGTH_LONG)
                                 .show()
                         }
                     }
@@ -76,8 +82,8 @@ class NewsSourcesActivity : AppCompatActivity() {
         }
     }
 
-    private fun renderList(articleList: List<NewsSource>) {
-        adapter.addData(articleList)
+    private fun renderList(languageList: List<Language>) {
+        adapter.addData(languageList)
     }
 
     private fun injectDependencies() {

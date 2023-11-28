@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.sagrawal.newsapp.databinding.ActivityMainBinding
+import com.sagrawal.newsapp.ui.countries.CountriesActivity
+import com.sagrawal.newsapp.ui.languages.LanguagesActivity
 import com.sagrawal.newsapp.ui.newssources.NewsSourcesActivity
 import com.sagrawal.newsapp.ui.topheadline.TopHeadlineActivity
 
@@ -26,6 +28,20 @@ class MainActivity : AppCompatActivity() {
 
         binding.newsSourcesBtn.setOnClickListener {
             val intent = Intent(this, NewsSourcesActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.countriesBtn.setOnClickListener {
+            val intent = Intent(this, CountriesActivity::class.java)
+            startActivity(intent)
+        }
+        binding.languagesBtn.setOnClickListener {
+            val intent = Intent(this, LanguagesActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.languagesBtn.setOnClickListener {
+            val intent = Intent(this, LanguagesActivity::class.java)
             startActivity(intent)
         }
     }

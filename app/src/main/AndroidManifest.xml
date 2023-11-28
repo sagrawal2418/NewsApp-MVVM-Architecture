@@ -27,10 +27,16 @@
         </activity>
         <activity
             android:name=".ui.topheadline.TopHeadlineActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".ui.newssources.NewsSourcesActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
+        <activity
+            android:name=".ui.countries.CountriesActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.languages.LanguagesActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
