@@ -1,8 +1,11 @@
 package com.sagrawal.newsapp.ui.newssources
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -15,6 +18,7 @@ import com.sagrawal.newsapp.databinding.ActivityNewsSourcesBinding
 import com.sagrawal.newsapp.di.component.DaggerActivityComponent
 import com.sagrawal.newsapp.di.module.ActivityModule
 import com.sagrawal.newsapp.ui.base.UiState
+import com.sagrawal.newsapp.ui.error.ErrorActivity
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -60,21 +64,31 @@ class NewsSourcesActivity : AppCompatActivity() {
                             renderList(it.data)
                             binding.recyclerView.visibility = View.VISIBLE
                         }
+
                         is UiState.Loading -> {
                             binding.progressBar.visibility = View.VISIBLE
                             binding.recyclerView.visibility = View.GONE
                         }
+
                         is UiState.Error -> {
                             //Handle Error
                             binding.progressBar.visibility = View.GONE
-                            Toast.makeText(this@NewsSourcesActivity, it.message, Toast.LENGTH_LONG)
-                                .show()
+                            val intent = Intent(this@NewsSourcesActivity, ErrorActivity::class.java)
+                            resultLauncher.launch(intent)
                         }
                     }
                 }
             }
         }
     }
+
+    var resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                // There are no request codes
+                newsListViewModel.fetchNews()
+            }
+        }
 
     private fun renderList(articleList: List<NewsSource>) {
         adapter.addData(articleList)

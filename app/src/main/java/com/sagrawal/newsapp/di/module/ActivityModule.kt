@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.sagrawal.newsapp.data.repository.CountriesRepository
 import com.sagrawal.newsapp.data.repository.LanguagesRepository
 import com.sagrawal.newsapp.data.repository.NewsSourcesRepository
+import com.sagrawal.newsapp.data.repository.SearchSourcesRepository
 import com.sagrawal.newsapp.data.repository.TopHeadlineRepository
 import com.sagrawal.newsapp.di.ActivityContext
 import com.sagrawal.newsapp.ui.base.ViewModelProviderFactory
@@ -15,6 +16,7 @@ import com.sagrawal.newsapp.ui.languages.LanguagesAdapter
 import com.sagrawal.newsapp.ui.languages.LanguagesViewModel
 import com.sagrawal.newsapp.ui.newssources.NewsSourcesAdapter
 import com.sagrawal.newsapp.ui.newssources.NewsSourcesViewModel
+import com.sagrawal.newsapp.ui.search.SearchSourcesViewModel
 import com.sagrawal.newsapp.ui.topheadline.TopHeadlineAdapter
 import com.sagrawal.newsapp.ui.topheadline.TopHeadlineViewModel
 import dagger.Module
@@ -59,6 +61,14 @@ class ActivityModule(private val activity: AppCompatActivity) {
             ViewModelProviderFactory(LanguagesViewModel::class) {
                 LanguagesViewModel(languagesRepository)
             })[LanguagesViewModel::class.java]
+    }
+
+    @Provides
+    fun provideSearchSourcesViewModel(searchSourcesRepository: SearchSourcesRepository): SearchSourcesViewModel {
+        return ViewModelProvider(activity,
+            ViewModelProviderFactory(SearchSourcesViewModel::class) {
+                SearchSourcesViewModel(searchSourcesRepository)
+            })[SearchSourcesViewModel::class.java]
     }
 
 

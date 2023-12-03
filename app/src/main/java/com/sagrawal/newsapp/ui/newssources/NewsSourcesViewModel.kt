@@ -23,7 +23,7 @@ class NewsSourcesViewModel(private val newsSourcesRepository: NewsSourcesReposit
         fetchNews()
     }
 
-    private fun fetchNews() {
+    fun fetchNews() {
         viewModelScope.launch {
             newsSourcesRepository.getNewsSources(COUNTRY)
                 .catch { e ->

@@ -37,6 +37,12 @@
         <activity
             android:name=".ui.languages.LanguagesActivity"
             android:exported="true" />
+        <activity
+            android:name=".ui.search.SearchActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.error.ErrorActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

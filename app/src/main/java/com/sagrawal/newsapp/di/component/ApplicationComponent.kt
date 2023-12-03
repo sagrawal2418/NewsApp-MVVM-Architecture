@@ -6,6 +6,7 @@ import com.sagrawal.newsapp.data.api.NetworkService
 import com.sagrawal.newsapp.data.repository.CountriesRepository
 import com.sagrawal.newsapp.data.repository.LanguagesRepository
 import com.sagrawal.newsapp.data.repository.NewsSourcesRepository
+import com.sagrawal.newsapp.data.repository.SearchSourcesRepository
 import com.sagrawal.newsapp.data.repository.TopHeadlineRepository
 import com.sagrawal.newsapp.di.ApplicationContext
 import com.sagrawal.newsapp.di.module.ApplicationModule
@@ -30,6 +31,8 @@ interface ApplicationComponent {
     fun getCountriesRepository(): CountriesRepository
 
     fun getLanguagesRepository(): LanguagesRepository
+
+    fun getSearchSourcesRepository(): SearchSourcesRepository
 
 
 

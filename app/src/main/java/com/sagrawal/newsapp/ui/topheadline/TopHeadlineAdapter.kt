@@ -4,6 +4,8 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sagrawal.newsapp.data.model.Article
@@ -39,13 +41,33 @@ class TopHeadlineAdapter(
             )
         )
 
-    override fun getItemCount(): Int = articleList.size
+    /*
+  here we don't use list.notifyDatasetChanged
+  because using that it the recyclerview adapter will always update the whole items even if they are not changed
+
+  to solve this, we use DiffUtil
+  it calculates the diff between two list and enable us to only update those items that are different
+  also runs in background so don't block the main thread
+   */
+    private val differCallback = object : DiffUtil.ItemCallback<Article>() {
+        override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
+            return oldItem.url == newItem.url
+        }
+
+        override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    // tool that will take the two list and tell the differences
+    val differ = AsyncListDiffer(this, differCallback)
+
+    override fun getItemCount(): Int = differ.currentList.size
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) =
-        holder.bind(articleList[position])
+        holder.bind(differ.currentList[position])
 
     fun addData(list: List<Article>) {
         articleList.addAll(list)
-        notifyDataSetChanged()
     }
 }

@@ -7,6 +7,7 @@ import com.sagrawal.newsapp.databinding.ActivityMainBinding
 import com.sagrawal.newsapp.ui.countries.CountriesActivity
 import com.sagrawal.newsapp.ui.languages.LanguagesActivity
 import com.sagrawal.newsapp.ui.newssources.NewsSourcesActivity
+import com.sagrawal.newsapp.ui.search.SearchActivity
 import com.sagrawal.newsapp.ui.topheadline.TopHeadlineActivity
 
 class MainActivity : AppCompatActivity() {
@@ -40,8 +41,8 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.languagesBtn.setOnClickListener {
-            val intent = Intent(this, LanguagesActivity::class.java)
+        binding.searchBtn.setOnClickListener {
+            val intent = Intent(this, SearchActivity::class.java)
             startActivity(intent)
         }
     }

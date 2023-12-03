@@ -17,36 +17,61 @@ class TopHeadlineViewModel(private val topHeadlineRepository: TopHeadlineReposit
 
     val uiState: StateFlow<UiState<List<Article>>> = _uiState
 
-    fun fetchTopHeadlines(country: String = AppConstant.COUNTRY) {
+    private var newsSourceId: String? = null
+    private var languageSourceId: String? = null
+    private var countrySourceId: String? = null
+
+    fun fetchTopHeadlines(country: String? = AppConstant.COUNTRY) {
         viewModelScope.launch {
-            topHeadlineRepository.getTopHeadlines(country)
-                .catch { e ->
-                    _uiState.value = UiState.Error(e.toString())
-                }.collect {
-                    _uiState.value = UiState.Success(it)
-                }
+            if (country != null) {
+                topHeadlineRepository.getTopHeadlines(country)
+                    .catch { e ->
+                        _uiState.value = UiState.Error(e.toString())
+                    }.collect {
+                        _uiState.value = UiState.Success(it)
+                    }
+            }
         }
     }
 
-    fun fetchNewsBySources(sources: String) {
+    fun fetchNewsBySources(sources: String?) {
         viewModelScope.launch {
-            topHeadlineRepository.getNewsBySources(sources)
-                .catch { e ->
-                    _uiState.value = UiState.Error(e.toString())
-                }.collect {
-                    _uiState.value = UiState.Success(it)
-                }
+            if (sources != null) {
+                topHeadlineRepository.getNewsBySources(sources)
+                    .catch { e ->
+                        _uiState.value = UiState.Error(e.toString())
+                    }.collect {
+                        _uiState.value = UiState.Success(it)
+                    }
+            }
         }
     }
 
-    fun fetchNewsByLanguage(languageSource: String) {
+    fun fetchNewsByLanguage(languageSource: String?) {
         viewModelScope.launch {
-            topHeadlineRepository.getNewsByLanguage(languageSource)
-                .catch { e ->
-                    _uiState.value = UiState.Error(e.toString())
-                }.collect {
-                    _uiState.value = UiState.Success(it)
-                }
+            if (languageSource != null) {
+                topHeadlineRepository.getNewsByLanguage(languageSource)
+                    .catch { e ->
+                        _uiState.value = UiState.Error(e.toString())
+                    }.collect {
+                        _uiState.value = UiState.Success(it)
+                    }
+            }
+        }
+    }
+
+    fun init(newsSourceId: String?, languageSourceId: String?, countrySourceId: String?) {
+        this.newsSourceId = newsSourceId
+        this.languageSourceId = languageSourceId
+        this.countrySourceId = countrySourceId
+    }
+
+    fun makeServiceCall() {
+        when {
+            newsSourceId != null -> fetchNewsBySources(newsSourceId)
+            languageSourceId != null -> fetchNewsByLanguage(languageSourceId)
+            countrySourceId != null -> fetchTopHeadlines(countrySourceId)
+            else -> fetchTopHeadlines()
         }
     }
 }

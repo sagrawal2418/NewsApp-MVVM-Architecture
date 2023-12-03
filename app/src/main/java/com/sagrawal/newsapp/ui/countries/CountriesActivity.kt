@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -11,14 +12,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sagrawal.newsapp.NewsApplication
 import com.sagrawal.newsapp.data.model.Country
-import com.sagrawal.newsapp.data.model.NewsSource
 import com.sagrawal.newsapp.databinding.ActivityCountriesBinding
-import com.sagrawal.newsapp.databinding.ActivityNewsSourcesBinding
 import com.sagrawal.newsapp.di.component.DaggerActivityComponent
 import com.sagrawal.newsapp.di.module.ActivityModule
 import com.sagrawal.newsapp.ui.base.UiState
+import com.sagrawal.newsapp.ui.error.ErrorActivity
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 
 class CountriesActivity : AppCompatActivity() {
 
@@ -38,7 +39,6 @@ class CountriesActivity : AppCompatActivity() {
         setupUI()
         setupObserver()
     }
-
 
     private fun setupUI() {
         val recyclerView = binding.recyclerView
