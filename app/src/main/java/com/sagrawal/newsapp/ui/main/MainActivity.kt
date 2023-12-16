@@ -1,6 +1,5 @@
 package com.sagrawal.newsapp.ui.main
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.sagrawal.newsapp.databinding.ActivityMainBinding
@@ -23,27 +22,22 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupUI() {
         binding.topHeadlinesBtn.setOnClickListener {
-            val intent = Intent(this, TopHeadlineActivity::class.java)
-            startActivity(intent)
+            startActivity(TopHeadlineActivity.getStartIntent(this))
         }
 
         binding.newsSourcesBtn.setOnClickListener {
-            val intent = Intent(this, NewsSourcesActivity::class.java)
-            startActivity(intent)
+            startActivity(NewsSourcesActivity.getStartIntent(this))
         }
 
         binding.countriesBtn.setOnClickListener {
-            val intent = Intent(this, CountriesActivity::class.java)
-            startActivity(intent)
+            startActivity(CountriesActivity.getStartIntent(this))
         }
         binding.languagesBtn.setOnClickListener {
-            val intent = Intent(this, LanguagesActivity::class.java)
-            startActivity(intent)
+            startActivity(LanguagesActivity.getStartIntent(this))
         }
 
         binding.searchBtn.setOnClickListener {
-            val intent = Intent(this, SearchActivity::class.java)
-            startActivity(intent)
+            startActivity(SearchActivity.getStartIntent(this))
         }
     }
 }

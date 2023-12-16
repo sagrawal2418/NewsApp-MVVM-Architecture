@@ -1,10 +1,11 @@
 package com.sagrawal.newsapp.ui.countries
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -16,7 +17,6 @@ import com.sagrawal.newsapp.databinding.ActivityCountriesBinding
 import com.sagrawal.newsapp.di.component.DaggerActivityComponent
 import com.sagrawal.newsapp.di.module.ActivityModule
 import com.sagrawal.newsapp.ui.base.UiState
-import com.sagrawal.newsapp.ui.error.ErrorActivity
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -89,5 +89,12 @@ class CountriesActivity : AppCompatActivity() {
         DaggerActivityComponent.builder()
             .applicationComponent((application as NewsApplication).applicationComponent)
             .activityModule(ActivityModule(this)).build().inject(this)
+    }
+
+    companion object {
+
+        fun getStartIntent(context: Context): Intent {
+            return Intent(context, CountriesActivity::class.java)
+        }
     }
 }

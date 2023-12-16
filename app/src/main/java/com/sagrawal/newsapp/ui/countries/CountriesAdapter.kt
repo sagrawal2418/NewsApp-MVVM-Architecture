@@ -1,15 +1,13 @@
 package com.sagrawal.newsapp.ui.countries
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sagrawal.newsapp.data.model.Country
+import com.sagrawal.newsapp.data.model.NewsRequest
 import com.sagrawal.newsapp.databinding.CountriesItemLayoutBinding
 import com.sagrawal.newsapp.ui.topheadline.TopHeadlineActivity
-import com.sagrawal.newsapp.utils.AppConstant.INTENT_EXTRA_COUNTRY_SOURCE_ID
-import com.sagrawal.newsapp.utils.AppConstant.INTENT_EXTRA_NEWS_SOURCE_ID
 
 class CountriesAdapter(
     private val context: Context,
@@ -22,9 +20,12 @@ class CountriesAdapter(
             binding.countryBtn.text = country.countryName
 
             binding.countryBtn.setOnClickListener {
-                val intent = Intent(it.context, TopHeadlineActivity::class.java)
-                intent.putExtra(INTENT_EXTRA_COUNTRY_SOURCE_ID, country.countryCode)
-                context.startActivity(intent)
+                context.startActivity(
+                    TopHeadlineActivity.getStartIntent(
+                        it.context,
+                        NewsRequest(country = country.countryCode)
+                    )
+                )
             }
         }
     }

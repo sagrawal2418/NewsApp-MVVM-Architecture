@@ -1,12 +1,12 @@
 package com.sagrawal.newsapp.ui.search
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -105,8 +105,7 @@ class SearchActivity : AppCompatActivity() {
                     is UiState.Error -> {
                         //Handle Error
                         binding.progressBar.visibility = View.GONE
-                        val intent = Intent(this@SearchActivity, ErrorActivity::class.java)
-                        resultLauncher.launch(intent)
+                        resultLauncher.launch(ErrorActivity.getStartIntent(this@SearchActivity))
                     }
                 }
             }
@@ -126,5 +125,11 @@ class SearchActivity : AppCompatActivity() {
         DaggerActivityComponent.builder()
             .applicationComponent((application as NewsApplication).applicationComponent)
             .activityModule(ActivityModule(this)).build().inject(this)
+    }
+
+    companion object {
+        fun getStartIntent(context: Context): Intent {
+            return Intent(context, SearchActivity::class.java)
+        }
     }
 }

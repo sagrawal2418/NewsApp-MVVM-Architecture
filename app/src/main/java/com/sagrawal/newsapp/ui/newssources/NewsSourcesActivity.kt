@@ -1,6 +1,7 @@
 package com.sagrawal.newsapp.ui.newssources
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -18,6 +19,7 @@ import com.sagrawal.newsapp.databinding.ActivityNewsSourcesBinding
 import com.sagrawal.newsapp.di.component.DaggerActivityComponent
 import com.sagrawal.newsapp.di.module.ActivityModule
 import com.sagrawal.newsapp.ui.base.UiState
+import com.sagrawal.newsapp.ui.countries.CountriesActivity
 import com.sagrawal.newsapp.ui.error.ErrorActivity
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -73,8 +75,7 @@ class NewsSourcesActivity : AppCompatActivity() {
                         is UiState.Error -> {
                             //Handle Error
                             binding.progressBar.visibility = View.GONE
-                            val intent = Intent(this@NewsSourcesActivity, ErrorActivity::class.java)
-                            resultLauncher.launch(intent)
+                            resultLauncher.launch(ErrorActivity.getStartIntent(this@NewsSourcesActivity))
                         }
                     }
                 }
@@ -98,5 +99,11 @@ class NewsSourcesActivity : AppCompatActivity() {
         DaggerActivityComponent.builder()
             .applicationComponent((application as NewsApplication).applicationComponent)
             .activityModule(ActivityModule(this)).build().inject(this)
+    }
+
+    companion object {
+        fun getStartIntent(context: Context): Intent {
+            return Intent(context, NewsSourcesActivity::class.java)
+        }
     }
 }

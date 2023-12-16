@@ -1,14 +1,13 @@
 package com.sagrawal.newsapp.ui.newssources
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.sagrawal.newsapp.data.model.NewsRequest
 import com.sagrawal.newsapp.data.model.NewsSource
 import com.sagrawal.newsapp.databinding.NewsSourceItemLayoutBinding
 import com.sagrawal.newsapp.ui.topheadline.TopHeadlineActivity
-import com.sagrawal.newsapp.utils.AppConstant.INTENT_EXTRA_NEWS_SOURCE_ID
 
 class NewsSourcesAdapter(
     private val context: Context,
@@ -21,9 +20,12 @@ class NewsSourcesAdapter(
             binding.newsSourceBtn.text = newsSource.name
 
             binding.newsSourceBtn.setOnClickListener {
-                val intent = Intent(it.context, TopHeadlineActivity::class.java)
-                intent.putExtra(INTENT_EXTRA_NEWS_SOURCE_ID,newsSource.id)
-                context.startActivity(intent)
+                context.startActivity(
+                    TopHeadlineActivity.getStartIntent(
+                        it.context,
+                        NewsRequest(news = newsSource.id)
+                    )
+                )
             }
         }
     }

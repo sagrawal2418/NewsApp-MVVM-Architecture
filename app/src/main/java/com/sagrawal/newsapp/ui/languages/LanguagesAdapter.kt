@@ -1,17 +1,13 @@
 package com.sagrawal.newsapp.ui.languages
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.sagrawal.newsapp.data.model.Country
 import com.sagrawal.newsapp.data.model.Language
-import com.sagrawal.newsapp.databinding.CountriesItemLayoutBinding
+import com.sagrawal.newsapp.data.model.NewsRequest
 import com.sagrawal.newsapp.databinding.LanguagesItemLayoutBinding
 import com.sagrawal.newsapp.ui.topheadline.TopHeadlineActivity
-import com.sagrawal.newsapp.utils.AppConstant.INTENT_EXTRA_LANGUAGE_SOURCE_ID
-import com.sagrawal.newsapp.utils.AppConstant.INTENT_EXTRA_NEWS_SOURCE_ID
 
 class LanguagesAdapter(
     private val context: Context,
@@ -24,9 +20,12 @@ class LanguagesAdapter(
             binding.languageBtn.text = language.name
 
             binding.languageBtn.setOnClickListener {
-                val intent = Intent(it.context, TopHeadlineActivity::class.java)
-                intent.putExtra(INTENT_EXTRA_LANGUAGE_SOURCE_ID, language.code)
-                context.startActivity(intent)
+                context.startActivity(
+                    TopHeadlineActivity.getStartIntent(
+                        it.context,
+                        NewsRequest(language = language.code)
+                    )
+                )
             }
         }
     }

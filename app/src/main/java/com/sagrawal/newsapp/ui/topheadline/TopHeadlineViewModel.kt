@@ -21,7 +21,7 @@ class TopHeadlineViewModel(private val topHeadlineRepository: TopHeadlineReposit
     private var languageSourceId: String? = null
     private var countrySourceId: String? = null
 
-    fun fetchTopHeadlines(country: String? = AppConstant.COUNTRY) {
+    private fun fetchTopHeadlines(country: String? = AppConstant.COUNTRY) {
         viewModelScope.launch {
             if (country != null) {
                 topHeadlineRepository.getTopHeadlines(country)
@@ -34,7 +34,7 @@ class TopHeadlineViewModel(private val topHeadlineRepository: TopHeadlineReposit
         }
     }
 
-    fun fetchNewsBySources(sources: String?) {
+    private fun fetchNewsBySources(sources: String?) {
         viewModelScope.launch {
             if (sources != null) {
                 topHeadlineRepository.getNewsBySources(sources)
