@@ -3,12 +3,14 @@ package com.sagrawal.newsapp.ui.search
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -60,6 +62,11 @@ class SearchActivity : AppCompatActivity() {
             )
         )
         recyclerView.adapter = adapter
+        adapter.itemClickListener = {
+            val builder = CustomTabsIntent.Builder()
+            val customTabsIntent = builder.build()
+            customTabsIntent.launchUrl(this, Uri.parse(it))
+        }
 
         val searchView = binding.searchView
         searchView.addTextChangedListener(object : TextWatcher {

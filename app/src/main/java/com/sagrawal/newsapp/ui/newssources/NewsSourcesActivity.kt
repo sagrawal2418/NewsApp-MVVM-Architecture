@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
@@ -14,13 +13,14 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sagrawal.newsapp.NewsApplication
+import com.sagrawal.newsapp.data.model.NewsRequest
 import com.sagrawal.newsapp.data.model.NewsSource
 import com.sagrawal.newsapp.databinding.ActivityNewsSourcesBinding
 import com.sagrawal.newsapp.di.component.DaggerActivityComponent
 import com.sagrawal.newsapp.di.module.ActivityModule
 import com.sagrawal.newsapp.ui.base.UiState
-import com.sagrawal.newsapp.ui.countries.CountriesActivity
 import com.sagrawal.newsapp.ui.error.ErrorActivity
+import com.sagrawal.newsapp.ui.topheadline.TopHeadlineActivity
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -54,6 +54,14 @@ class NewsSourcesActivity : AppCompatActivity() {
             )
         )
         recyclerView.adapter = adapter
+        adapter.itemClickListener = {
+            startActivity(
+                TopHeadlineActivity.getStartIntent(
+                    this,
+                    NewsRequest(news = it)
+                )
+            )
+        }
     }
 
     private fun setupObserver() {

@@ -13,10 +13,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sagrawal.newsapp.NewsApplication
 import com.sagrawal.newsapp.data.model.Country
+import com.sagrawal.newsapp.data.model.NewsRequest
 import com.sagrawal.newsapp.databinding.ActivityCountriesBinding
 import com.sagrawal.newsapp.di.component.DaggerActivityComponent
 import com.sagrawal.newsapp.di.module.ActivityModule
 import com.sagrawal.newsapp.ui.base.UiState
+import com.sagrawal.newsapp.ui.topheadline.TopHeadlineActivity
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -50,6 +52,9 @@ class CountriesActivity : AppCompatActivity() {
             )
         )
         recyclerView.adapter = adapter
+        adapter.itemClickListener = {
+            startActivity(TopHeadlineActivity.getStartIntent(this, NewsRequest(country = it)))
+        }
     }
 
     private fun setupObserver() {

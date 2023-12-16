@@ -73,15 +73,15 @@ class ActivityModule(private val activity: AppCompatActivity) {
 
 
     @Provides
-    fun provideNewsSourcesAdapter() = NewsSourcesAdapter(activity, ArrayList())
+    fun provideNewsSourcesAdapter() = NewsSourcesAdapter(ArrayList())
 
     @Provides
     fun provideTopHeadlineAdapter() = TopHeadlineAdapter(ArrayList())
 
     @Provides
-    fun provideCountriesAdapter() = CountriesAdapter(activity, ArrayList())
+    fun provideCountriesAdapter() = CountriesAdapter(ArrayList())
 
     @Provides
-    fun provideLanguagesAdapter() = LanguagesAdapter(activity, ArrayList())
+    fun provideLanguagesAdapter() = LanguagesAdapter(ArrayList())
 
 }
