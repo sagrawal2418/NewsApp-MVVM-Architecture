@@ -5,11 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -22,8 +21,6 @@ import com.sagrawal.newsapp.ui.base.UiState
 import com.sagrawal.newsapp.ui.error.ErrorActivity
 import com.sagrawal.newsapp.ui.topheadline.TopHeadlineAdapter
 import kotlinx.coroutines.launch
-import java.util.Timer
-import java.util.TimerTask
 import javax.inject.Inject
 
 
@@ -68,29 +65,15 @@ class SearchActivity : AppCompatActivity() {
             customTabsIntent.launchUrl(this, Uri.parse(it))
         }
 
-        val searchView = binding.searchView
-        searchView.addTextChangedListener(object : TextWatcher {
-            private var timer = Timer()
-            private val DELAY: Long = 1000 // Milliseconds
-
-            override fun afterTextChanged(s: Editable) {
-
-                timer.cancel()
-                timer = Timer()
-                timer.schedule(
-                    object : TimerTask() {
-                        override fun run() {
-                            // task HERE
-                            adapter.addData(ArrayList())
-                            searchSourcesViewModel.fetchNewsByQueries(s.toString())
-                        }
-                    },
-                    DELAY
-                )
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
             }
 
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun onQueryTextChange(newText: String): Boolean {
+                searchSourcesViewModel.searchNews(newText)
+                return true
+            }
         })
     }
 
@@ -100,7 +83,7 @@ class SearchActivity : AppCompatActivity() {
                 when (it) {
                     is UiState.Success -> {
                         binding.progressBar.visibility = View.GONE
-                        adapter.differ.submitList(it.data.toList())
+                        adapter.differ.submitList(it.data)
                         binding.searchRv.visibility = View.VISIBLE
                     }
 
@@ -124,7 +107,7 @@ class SearchActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 // There are no request codes
-                searchSourcesViewModel.fetchNewsByQueries("")
+                searchSourcesViewModel.searchNews("")
             }
         }
 

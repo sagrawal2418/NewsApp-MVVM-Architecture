@@ -6,19 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".ui.search.SearchActivity">
 
-    <androidx.appcompat.widget.AppCompatEditText
+    <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:drawableLeft="@android:drawable/ic_menu_search"
-        android:drawablePadding="16dp"
-        android:drawableRight="@android:drawable/ic_btn_speak_now"
+        android:background="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
-        android:hint="Search"
-        android:singleLine="true"
-        android:imeOptions="actionDone"
-        android:padding="16dp"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

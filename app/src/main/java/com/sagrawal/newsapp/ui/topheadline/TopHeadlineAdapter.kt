@@ -10,9 +10,7 @@ import com.sagrawal.newsapp.data.model.Article
 import com.sagrawal.newsapp.databinding.TopHeadlineItemLayoutBinding
 import com.sagrawal.newsapp.utils.ItemClickListener
 
-class TopHeadlineAdapter(
-    private val articleList: ArrayList<Article>
-) : RecyclerView.Adapter<TopHeadlineAdapter.DataViewHolder>() {
+class TopHeadlineAdapter : RecyclerView.Adapter<TopHeadlineAdapter.DataViewHolder>() {
 
     lateinit var itemClickListener: ItemClickListener<String>
 
@@ -66,8 +64,4 @@ class TopHeadlineAdapter(
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) =
         holder.bind(differ.currentList[position], itemClickListener)
-
-    fun addData(list: List<Article>) {
-        articleList.addAll(list)
-    }
 }
