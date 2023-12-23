@@ -2,10 +2,8 @@ package com.sagrawal.newsapp.ui.newssources
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sagrawal.newsapp.data.model.Article
 import com.sagrawal.newsapp.data.model.NewsSource
 import com.sagrawal.newsapp.data.repository.NewsSourcesRepository
-import com.sagrawal.newsapp.data.repository.TopHeadlineRepository
 import com.sagrawal.newsapp.ui.base.UiState
 import com.sagrawal.newsapp.utils.AppConstant.COUNTRY
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -91,7 +91,7 @@ class NewsSourcesActivity : AppCompatActivity() {
         }
     }
 
-    var resultLauncher =
+    private var resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 // There are no request codes

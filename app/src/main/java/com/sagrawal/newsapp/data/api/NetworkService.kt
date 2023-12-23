@@ -2,10 +2,7 @@ package com.sagrawal.newsapp.data.api
 
 import com.sagrawal.newsapp.data.model.NewsSourceResponse
 import com.sagrawal.newsapp.data.model.TopHeadlinesResponse
-import com.sagrawal.newsapp.utils.AppConstant
-import com.sagrawal.newsapp.utils.AppConstant.API_KEY
 import retrofit2.http.GET
-import retrofit2.http.Headers
 import retrofit2.http.Query
 
 interface NetworkService {

@@ -16,7 +16,7 @@ import com.sagrawal.newsapp.ui.languages.LanguagesAdapter
 import com.sagrawal.newsapp.ui.languages.LanguagesViewModel
 import com.sagrawal.newsapp.ui.newssources.NewsSourcesAdapter
 import com.sagrawal.newsapp.ui.newssources.NewsSourcesViewModel
-import com.sagrawal.newsapp.ui.search.SearchSourcesViewModel
+import com.sagrawal.newsapp.ui.search.SearchViewModel
 import com.sagrawal.newsapp.ui.topheadline.TopHeadlineAdapter
 import com.sagrawal.newsapp.ui.topheadline.TopHeadlineViewModel
 import dagger.Module
@@ -64,11 +64,11 @@ class ActivityModule(private val activity: AppCompatActivity) {
     }
 
     @Provides
-    fun provideSearchSourcesViewModel(searchSourcesRepository: SearchSourcesRepository): SearchSourcesViewModel {
+    fun provideSearchSourcesViewModel(searchSourcesRepository: SearchSourcesRepository): SearchViewModel {
         return ViewModelProvider(activity,
-            ViewModelProviderFactory(SearchSourcesViewModel::class) {
-                SearchSourcesViewModel(searchSourcesRepository)
-            })[SearchSourcesViewModel::class.java]
+            ViewModelProviderFactory(SearchViewModel::class) {
+                SearchViewModel(searchSourcesRepository)
+            })[SearchViewModel::class.java]
     }
 
 

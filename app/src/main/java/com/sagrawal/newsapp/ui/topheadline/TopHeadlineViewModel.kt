@@ -47,7 +47,7 @@ class TopHeadlineViewModel(private val topHeadlineRepository: TopHeadlineReposit
         }
     }
 
-    fun fetchNewsByLanguage(languageSource: String?) {
+    private fun fetchNewsByLanguage(languageSource: String?) {
         viewModelScope.launch {
             if (languageSource != null) {
                 topHeadlineRepository.getNewsByLanguage(languageSource)

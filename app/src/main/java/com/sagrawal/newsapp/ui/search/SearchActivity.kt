@@ -27,7 +27,7 @@ import javax.inject.Inject
 class SearchActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var searchSourcesViewModel: SearchSourcesViewModel
+    lateinit var searchViewModel: SearchViewModel
 
     @Inject
     lateinit var adapter: TopHeadlineAdapter
@@ -71,7 +71,7 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                searchSourcesViewModel.searchNews(newText)
+                searchViewModel.searchNews(newText)
                 return true
             }
         })
@@ -79,7 +79,7 @@ class SearchActivity : AppCompatActivity() {
 
     private fun setupObserver() {
         lifecycleScope.launch {
-            searchSourcesViewModel.uiState.collect {
+            searchViewModel.uiState.collect {
                 when (it) {
                     is UiState.Success -> {
                         binding.progressBar.visibility = View.GONE
@@ -107,7 +107,7 @@ class SearchActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 // There are no request codes
-                searchSourcesViewModel.searchNews("")
+                searchViewModel.searchNews("")
             }
         }
 

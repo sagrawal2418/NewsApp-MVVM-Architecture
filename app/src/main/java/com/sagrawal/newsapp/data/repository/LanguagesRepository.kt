@@ -3,7 +3,6 @@ package com.sagrawal.newsapp.data.repository
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.sagrawal.newsapp.data.model.Country
 import com.sagrawal.newsapp.data.model.Language
 import com.sagrawal.newsapp.di.ApplicationContext
 import javax.inject.Inject

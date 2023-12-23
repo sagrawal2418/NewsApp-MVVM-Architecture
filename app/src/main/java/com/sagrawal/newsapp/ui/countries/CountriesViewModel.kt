@@ -6,11 +6,8 @@ import com.sagrawal.newsapp.data.model.Country
 import com.sagrawal.newsapp.data.repository.CountriesRepository
 import com.sagrawal.newsapp.ui.base.UiState
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,7 +24,7 @@ class CountriesViewModel @Inject constructor(
     }
 
     private fun fetchCountries() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Main) {
             try {
                 val countries = countriesRepository.getCountries("countries.json")
                 _uiState.value = UiState.Success(countries)

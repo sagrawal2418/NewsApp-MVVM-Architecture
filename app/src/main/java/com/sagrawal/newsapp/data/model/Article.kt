@@ -1,7 +1,6 @@
 package com.sagrawal.newsapp.data.model
 
 import com.google.gson.annotations.SerializedName
-import com.sagrawal.newsapp.data.model.Source
 
 data class Article(
     @SerializedName("title")

@@ -1,6 +1,5 @@
 package com.sagrawal.newsapp.ui.search
 
-import android.text.TextUtils
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sagrawal.newsapp.data.model.Article
@@ -19,7 +18,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
-class SearchSourcesViewModel(private val searchSourcesRepository: SearchSourcesRepository) :
+class SearchViewModel(private val searchSourcesRepository: SearchSourcesRepository) :
     ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState<List<Article>>>(UiState.Success(emptyList()))
