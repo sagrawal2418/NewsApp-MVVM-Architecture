@@ -5,8 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.sagrawal.newsapp.data.model.Language
 import com.sagrawal.newsapp.data.repository.LanguagesRepository
 import com.sagrawal.newsapp.ui.base.UiState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,12 +27,13 @@ class LanguagesViewModel @Inject constructor(
 
     private fun fetchLanguages() {
         viewModelScope.launch {
-            try {
-                val languages = languageRepository.getLanguages("languages.json")
-                _uiState.value = UiState.Success(languages)
-            } catch (e: Exception) {
-                _uiState.value = UiState.Error("Failed to fetch languages")
-            }
+            languageRepository.getLanguages("languages.json")
+                .flowOn(Dispatchers.Default)
+                .catch { e ->
+                    _uiState.value = UiState.Error(e.toString())
+                }.collect {
+                    _uiState.value = UiState.Success(it)
+                }
         }
     }
 
