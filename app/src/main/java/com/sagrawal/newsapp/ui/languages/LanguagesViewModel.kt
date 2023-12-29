@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.sagrawal.newsapp.data.model.Language
 import com.sagrawal.newsapp.data.repository.LanguagesRepository
 import com.sagrawal.newsapp.ui.base.UiState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class LanguagesViewModel @Inject constructor(
     private val languageRepository: LanguagesRepository
 ) : ViewModel() {
@@ -27,7 +29,7 @@ class LanguagesViewModel @Inject constructor(
 
     private fun fetchLanguages() {
         viewModelScope.launch {
-            languageRepository.getLanguages("languages.json")
+            languageRepository.getLanguages()
                 .flowOn(Dispatchers.Default)
                 .catch { e ->
                     _uiState.value = UiState.Error(e.toString())

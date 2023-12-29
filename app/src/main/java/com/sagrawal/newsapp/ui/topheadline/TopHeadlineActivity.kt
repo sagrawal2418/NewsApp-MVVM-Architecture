@@ -10,24 +10,23 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sagrawal.newsapp.NewsApplication
 import com.sagrawal.newsapp.data.model.NewsRequest
 import com.sagrawal.newsapp.databinding.ActivityTopHeadlineBinding
-import com.sagrawal.newsapp.di.component.DaggerActivityComponent
-import com.sagrawal.newsapp.di.module.ActivityModule
 import com.sagrawal.newsapp.ui.base.UiState
 import com.sagrawal.newsapp.ui.error.ErrorActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class TopHeadlineActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var newsListViewModel: TopHeadlineViewModel
+    private lateinit var topHeadlineViewModel: TopHeadlineViewModel
 
     @Inject
     lateinit var adapter: TopHeadlineAdapter
@@ -35,21 +34,23 @@ class TopHeadlineActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTopHeadlineBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        injectDependencies()
         super.onCreate(savedInstanceState)
         binding = ActivityTopHeadlineBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        setupViewModel()
         val newsSourceId = intent.getStringExtra(INTENT_EXTRA_NEWS_SOURCE_ID)
         val languageSourceId = intent.getStringExtra(INTENT_EXTRA_LANGUAGE_SOURCE_ID)
         val countrySourceId = intent.getStringExtra(INTENT_EXTRA_COUNTRY_SOURCE_ID)
 
-        newsListViewModel.init(newsSourceId, languageSourceId, countrySourceId)
-        newsListViewModel.makeServiceCall()
+        topHeadlineViewModel.init(newsSourceId, languageSourceId, countrySourceId)
+        topHeadlineViewModel.makeServiceCall()
         setupUI()
         setupObserver()
     }
 
+    private fun setupViewModel() {
+        topHeadlineViewModel = ViewModelProvider(this)[TopHeadlineViewModel::class.java]
+    }
 
     private fun setupUI() {
         val recyclerView = binding.recyclerView
@@ -71,7 +72,7 @@ class TopHeadlineActivity : AppCompatActivity() {
     private fun setupObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                newsListViewModel.uiState.collect {
+                topHeadlineViewModel.uiState.collect {
                     when (it) {
                         is UiState.Success -> {
                             binding.progressBar.visibility = View.GONE
@@ -100,15 +101,9 @@ class TopHeadlineActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 // There are no request codes
-                newsListViewModel.makeServiceCall()
+                topHeadlineViewModel.makeServiceCall()
             }
         }
-
-    private fun injectDependencies() {
-        DaggerActivityComponent.builder()
-            .applicationComponent((application as NewsApplication).applicationComponent)
-            .activityModule(ActivityModule(this)).build().inject(this)
-    }
 
     companion object {
 

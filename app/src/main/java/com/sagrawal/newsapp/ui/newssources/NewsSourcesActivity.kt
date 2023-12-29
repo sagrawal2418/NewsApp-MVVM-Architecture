@@ -8,26 +8,25 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sagrawal.newsapp.NewsApplication
 import com.sagrawal.newsapp.data.model.NewsRequest
 import com.sagrawal.newsapp.data.model.NewsSource
 import com.sagrawal.newsapp.databinding.ActivityNewsSourcesBinding
-import com.sagrawal.newsapp.di.component.DaggerActivityComponent
-import com.sagrawal.newsapp.di.module.ActivityModule
 import com.sagrawal.newsapp.ui.base.UiState
 import com.sagrawal.newsapp.ui.error.ErrorActivity
 import com.sagrawal.newsapp.ui.topheadline.TopHeadlineActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class NewsSourcesActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var newsListViewModel: NewsSourcesViewModel
+    private lateinit var newsListViewModel: NewsSourcesViewModel
 
     @Inject
     lateinit var adapter: NewsSourcesAdapter
@@ -35,14 +34,17 @@ class NewsSourcesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNewsSourcesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        injectDependencies()
         super.onCreate(savedInstanceState)
         binding = ActivityNewsSourcesBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setupViewModel()
         setupUI()
         setupObserver()
     }
 
+    private fun setupViewModel() {
+        newsListViewModel = ViewModelProvider(this)[NewsSourcesViewModel::class.java]
+    }
 
     private fun setupUI() {
         val recyclerView = binding.recyclerView
@@ -101,12 +103,6 @@ class NewsSourcesActivity : AppCompatActivity() {
 
     private fun renderList(articleList: List<NewsSource>) {
         adapter.addData(articleList)
-    }
-
-    private fun injectDependencies() {
-        DaggerActivityComponent.builder()
-            .applicationComponent((application as NewsApplication).applicationComponent)
-            .activityModule(ActivityModule(this)).build().inject(this)
     }
 
     companion object {

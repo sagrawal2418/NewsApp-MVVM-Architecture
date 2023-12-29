@@ -1,91 +1,32 @@
 package com.sagrawal.newsapp.di.module
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import com.sagrawal.newsapp.data.repository.CountriesRepository
-import com.sagrawal.newsapp.data.repository.LanguagesRepository
-import com.sagrawal.newsapp.data.repository.NewsSourcesRepository
-import com.sagrawal.newsapp.data.repository.SearchSourcesRepository
-import com.sagrawal.newsapp.data.repository.TopHeadlineRepository
-import com.sagrawal.newsapp.di.ActivityContext
-import com.sagrawal.newsapp.ui.base.ViewModelProviderFactory
 import com.sagrawal.newsapp.ui.countries.CountriesAdapter
-import com.sagrawal.newsapp.ui.countries.CountriesViewModel
 import com.sagrawal.newsapp.ui.languages.LanguagesAdapter
-import com.sagrawal.newsapp.ui.languages.LanguagesViewModel
 import com.sagrawal.newsapp.ui.newssources.NewsSourcesAdapter
-import com.sagrawal.newsapp.ui.newssources.NewsSourcesViewModel
-import com.sagrawal.newsapp.ui.search.SearchViewModel
 import com.sagrawal.newsapp.ui.topheadline.TopHeadlineAdapter
-import com.sagrawal.newsapp.ui.topheadline.TopHeadlineViewModel
-import com.sagrawal.newsapp.utils.logger.Logger
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.scopes.ActivityScoped
 
 @Module
-class ActivityModule(private val activity: AppCompatActivity) {
+@InstallIn(ActivityComponent::class)
+class ActivityModule {
 
-    @ActivityContext
-    @Provides
-    fun provideContext(): Context {
-        return activity
-    }
-
-    @Provides
-    fun provideNewsSourceViewModel(newsSourceRepository: NewsSourcesRepository): NewsSourcesViewModel {
-        return ViewModelProvider(activity,
-            ViewModelProviderFactory(NewsSourcesViewModel::class) {
-                NewsSourcesViewModel(newsSourceRepository)
-            })[NewsSourcesViewModel::class.java]
-    }
-
-    @Provides
-    fun provideTopHeadlineViewModel(
-        topHeadlineRepository: TopHeadlineRepository,
-        logger: Logger
-
-    ): TopHeadlineViewModel {
-        return ViewModelProvider(activity,
-            ViewModelProviderFactory(TopHeadlineViewModel::class) {
-                TopHeadlineViewModel(topHeadlineRepository, logger)
-            })[TopHeadlineViewModel::class.java]
-    }
-
-    @Provides
-    fun provideCountriesViewModel(countriesRepository: CountriesRepository): CountriesViewModel {
-        return ViewModelProvider(activity,
-            ViewModelProviderFactory(CountriesViewModel::class) {
-                CountriesViewModel(countriesRepository)
-            })[CountriesViewModel::class.java]
-    }
-
-    @Provides
-    fun provideLanguagesViewModel(languagesRepository: LanguagesRepository): LanguagesViewModel {
-        return ViewModelProvider(activity,
-            ViewModelProviderFactory(LanguagesViewModel::class) {
-                LanguagesViewModel(languagesRepository)
-            })[LanguagesViewModel::class.java]
-    }
-
-    @Provides
-    fun provideSearchSourcesViewModel(searchSourcesRepository: SearchSourcesRepository): SearchViewModel {
-        return ViewModelProvider(activity,
-            ViewModelProviderFactory(SearchViewModel::class) {
-                SearchViewModel(searchSourcesRepository)
-            })[SearchViewModel::class.java]
-    }
-
-
+    @ActivityScoped
     @Provides
     fun provideNewsSourcesAdapter() = NewsSourcesAdapter(ArrayList())
 
+    @ActivityScoped
     @Provides
     fun provideTopHeadlineAdapter() = TopHeadlineAdapter()
 
+    @ActivityScoped
     @Provides
     fun provideCountriesAdapter() = CountriesAdapter(ArrayList())
 
+    @ActivityScoped
     @Provides
     fun provideLanguagesAdapter() = LanguagesAdapter(ArrayList())
 

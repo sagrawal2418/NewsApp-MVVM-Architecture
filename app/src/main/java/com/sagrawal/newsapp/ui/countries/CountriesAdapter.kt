@@ -17,9 +17,9 @@ class CountriesAdapter(
     class DataViewHolder(private val binding: CountriesItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(country: Country, itemClickListener: ItemClickListener<String>) {
-            binding.countryBtn.text = country.countryName
+            binding.countryBtn.text = country.name
             binding.countryBtn.setOnClickListener {
-                itemClickListener(country.countryCode)
+                itemClickListener(country.id)
             }
         }
     }

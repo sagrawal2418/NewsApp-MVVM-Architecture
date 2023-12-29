@@ -1,29 +1,18 @@
 package com.sagrawal.newsapp.data.repository
 
-import android.content.Context
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.sagrawal.newsapp.data.model.Country
-import com.sagrawal.newsapp.di.ApplicationContext
+import com.sagrawal.newsapp.utils.AppConstant
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CountriesRepository @Inject constructor(
-    @ApplicationContext private val context: Context
-) {
+class CountriesRepository @Inject constructor() {
 
-    fun getCountries(fileName: String): Flow<List<Country>> {
+    fun getCountries(): Flow<List<Country>> {
         return flow {
-            emit(parseJsonToCountryList(context.assets.open(fileName).bufferedReader().use {
-                it.readText()
-            }))
+            emit(AppConstant.COUNTRIES)
         }
-    }
-
-    private fun parseJsonToCountryList(jsonString: String): List<Country> {
-        return Gson().fromJson(jsonString, object : TypeToken<List<Country>>() {}.type)
     }
 }

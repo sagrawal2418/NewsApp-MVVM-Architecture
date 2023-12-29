@@ -1,29 +1,23 @@
 package com.sagrawal.newsapp.di.module
 
-import android.content.Context
-import com.sagrawal.newsapp.NewsApplication
 import com.sagrawal.newsapp.data.api.ApiKeyInterceptor
 import com.sagrawal.newsapp.data.api.NetworkService
-import com.sagrawal.newsapp.di.ApplicationContext
 import com.sagrawal.newsapp.di.BaseUrl
 import com.sagrawal.newsapp.di.NetworkApiKey
+import com.sagrawal.newsapp.utils.logger.Logger
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import me.amitshekhar.newsapp.utils.logger.AppLogger
-import com.sagrawal.newsapp.utils.logger.Logger
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class ApplicationModule(private val application: NewsApplication) {
-
-    @ApplicationContext
-    @Provides
-    fun provideContext(): Context {
-        return application
-    }
+@InstallIn(SingletonComponent::class)
+class ApplicationModule {
 
     @NetworkApiKey
     @Provides

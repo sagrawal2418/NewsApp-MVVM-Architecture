@@ -19,7 +19,7 @@ class LanguagesAdapter(
             binding.languageBtn.text = language.name
 
             binding.languageBtn.setOnClickListener {
-                itemClickListener(language.code)
+                itemClickListener(language.id)
             }
         }
     }

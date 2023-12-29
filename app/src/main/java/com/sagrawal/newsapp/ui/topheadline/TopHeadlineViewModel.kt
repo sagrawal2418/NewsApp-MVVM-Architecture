@@ -7,12 +7,15 @@ import com.sagrawal.newsapp.data.repository.TopHeadlineRepository
 import com.sagrawal.newsapp.ui.base.UiState
 import com.sagrawal.newsapp.utils.AppConstant
 import com.sagrawal.newsapp.utils.logger.Logger
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class TopHeadlineViewModel(
+@HiltViewModel
+class TopHeadlineViewModel @Inject constructor(
     private val topHeadlineRepository: TopHeadlineRepository,
     private val logger: Logger
 ) : ViewModel() {

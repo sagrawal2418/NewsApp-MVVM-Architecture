@@ -10,24 +10,23 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sagrawal.newsapp.NewsApplication
 import com.sagrawal.newsapp.databinding.ActivitySearchBinding
-import com.sagrawal.newsapp.di.component.DaggerActivityComponent
-import com.sagrawal.newsapp.di.module.ActivityModule
 import com.sagrawal.newsapp.ui.base.UiState
 import com.sagrawal.newsapp.ui.error.ErrorActivity
 import com.sagrawal.newsapp.ui.topheadline.TopHeadlineAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class SearchActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var searchViewModel: SearchViewModel
+    private lateinit var searchViewModel: SearchViewModel
 
     @Inject
     lateinit var adapter: TopHeadlineAdapter
@@ -35,7 +34,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySearchBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        injectDependencies()
+        setupViewModel()
         super.onCreate(savedInstanceState)
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -43,11 +42,14 @@ class SearchActivity : AppCompatActivity() {
         setupObserver()
     }
 
+    private fun setupViewModel() {
+        searchViewModel = ViewModelProvider(this)[SearchViewModel::class.java]
+    }
+
     override fun onResume() {
         super.onResume()
         setupObserver()
     }
-
 
     private fun setupUI() {
         val recyclerView = binding.searchRv
@@ -110,12 +112,6 @@ class SearchActivity : AppCompatActivity() {
                 searchViewModel.searchNews("")
             }
         }
-
-    private fun injectDependencies() {
-        DaggerActivityComponent.builder()
-            .applicationComponent((application as NewsApplication).applicationComponent)
-            .activityModule(ActivityModule(this)).build().inject(this)
-    }
 
     companion object {
         fun getStartIntent(context: Context): Intent {

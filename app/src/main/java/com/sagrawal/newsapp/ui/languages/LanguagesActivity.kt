@@ -7,25 +7,24 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sagrawal.newsapp.NewsApplication
 import com.sagrawal.newsapp.data.model.Language
 import com.sagrawal.newsapp.data.model.NewsRequest
 import com.sagrawal.newsapp.databinding.ActivityLanguagesBinding
-import com.sagrawal.newsapp.di.component.DaggerActivityComponent
-import com.sagrawal.newsapp.di.module.ActivityModule
 import com.sagrawal.newsapp.ui.base.UiState
 import com.sagrawal.newsapp.ui.topheadline.TopHeadlineActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class LanguagesActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var languagesViewModel: LanguagesViewModel
+    private lateinit var languagesViewModel: LanguagesViewModel
 
     @Inject
     lateinit var adapter: LanguagesAdapter
@@ -33,14 +32,17 @@ class LanguagesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLanguagesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        injectDependencies()
         super.onCreate(savedInstanceState)
         binding = ActivityLanguagesBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setupViewModel()
         setupUI()
         setupObserver()
     }
 
+    private fun setupViewModel() {
+        languagesViewModel = ViewModelProvider(this)[LanguagesViewModel::class.java]
+    }
 
     private fun setupUI() {
         val recyclerView = binding.recyclerView
@@ -92,12 +94,6 @@ class LanguagesActivity : AppCompatActivity() {
 
     private fun renderList(languageList: List<Language>) {
         adapter.addData(languageList)
-    }
-
-    private fun injectDependencies() {
-        DaggerActivityComponent.builder()
-            .applicationComponent((application as NewsApplication).applicationComponent)
-            .activityModule(ActivityModule(this)).build().inject(this)
     }
 
     companion object {
