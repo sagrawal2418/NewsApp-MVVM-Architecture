@@ -6,12 +6,16 @@ import com.sagrawal.newsapp.data.model.Article
 import com.sagrawal.newsapp.data.repository.TopHeadlineRepository
 import com.sagrawal.newsapp.ui.base.UiState
 import com.sagrawal.newsapp.utils.AppConstant
+import com.sagrawal.newsapp.utils.logger.Logger
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
-class TopHeadlineViewModel(private val topHeadlineRepository: TopHeadlineRepository) : ViewModel() {
+class TopHeadlineViewModel(
+    private val topHeadlineRepository: TopHeadlineRepository,
+    private val logger: Logger
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState<List<Article>>>(UiState.Loading)
 
@@ -27,6 +31,7 @@ class TopHeadlineViewModel(private val topHeadlineRepository: TopHeadlineReposit
                 topHeadlineRepository.getTopHeadlines(country)
                     .catch { e ->
                         _uiState.value = UiState.Error(e.toString())
+                        logger.d("TopHeadlineViewModel", "fetching top headlines failed")
                     }.collect {
                         _uiState.value = UiState.Success(it)
                     }

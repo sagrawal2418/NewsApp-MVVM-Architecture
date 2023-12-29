@@ -10,6 +10,7 @@ import com.sagrawal.newsapp.data.repository.SearchSourcesRepository
 import com.sagrawal.newsapp.data.repository.TopHeadlineRepository
 import com.sagrawal.newsapp.di.ApplicationContext
 import com.sagrawal.newsapp.di.module.ApplicationModule
+import com.sagrawal.newsapp.utils.logger.Logger
 import dagger.Component
 import javax.inject.Singleton
 
@@ -34,6 +35,5 @@ interface ApplicationComponent {
 
     fun getSearchSourcesRepository(): SearchSourcesRepository
 
-
-
+    fun getLogger(): Logger
 }

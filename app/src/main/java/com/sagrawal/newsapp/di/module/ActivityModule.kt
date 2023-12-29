@@ -19,6 +19,7 @@ import com.sagrawal.newsapp.ui.newssources.NewsSourcesViewModel
 import com.sagrawal.newsapp.ui.search.SearchViewModel
 import com.sagrawal.newsapp.ui.topheadline.TopHeadlineAdapter
 import com.sagrawal.newsapp.ui.topheadline.TopHeadlineViewModel
+import com.sagrawal.newsapp.utils.logger.Logger
 import dagger.Module
 import dagger.Provides
 
@@ -40,10 +41,14 @@ class ActivityModule(private val activity: AppCompatActivity) {
     }
 
     @Provides
-    fun provideTopHeadlineViewModel(topHeadlineRepository: TopHeadlineRepository): TopHeadlineViewModel {
+    fun provideTopHeadlineViewModel(
+        topHeadlineRepository: TopHeadlineRepository,
+        logger: Logger
+
+    ): TopHeadlineViewModel {
         return ViewModelProvider(activity,
             ViewModelProviderFactory(TopHeadlineViewModel::class) {
-                TopHeadlineViewModel(topHeadlineRepository)
+                TopHeadlineViewModel(topHeadlineRepository, logger)
             })[TopHeadlineViewModel::class.java]
     }
 

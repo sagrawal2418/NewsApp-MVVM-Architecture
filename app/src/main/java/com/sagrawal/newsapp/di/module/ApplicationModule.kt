@@ -9,6 +9,8 @@ import com.sagrawal.newsapp.di.BaseUrl
 import com.sagrawal.newsapp.di.NetworkApiKey
 import dagger.Module
 import dagger.Provides
+import me.amitshekhar.newsapp.utils.logger.AppLogger
+import com.sagrawal.newsapp.utils.logger.Logger
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -59,4 +61,8 @@ class ApplicationModule(private val application: NewsApplication) {
             .build()
             .create(NetworkService::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideLogger(): Logger = AppLogger()
 }
