@@ -1,4 +1,4 @@
-package me.amitshekhar.newsapp.utils.logger
+package com.sagrawal.newsapp.utils.logger
 
 import android.util.Log
 import com.sagrawal.newsapp.utils.logger.Logger

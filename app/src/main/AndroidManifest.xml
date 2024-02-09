@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.NewsAppMVVMArchitecture"
+        android:theme="@style/Theme.NewsApp"
         tools:targetApi="33">
         <activity
             android:name=".ui.main.MainActivity"
@@ -25,24 +25,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.topheadline.TopHeadlineActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.newssources.NewsSourcesActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.countries.CountriesActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.languages.LanguagesActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.search.SearchActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.error.ErrorActivity"
-            android:exported="true" />
     </application>
 
 </manifest>

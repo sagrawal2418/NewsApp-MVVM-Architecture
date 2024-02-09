@@ -35,6 +35,4 @@ class NewsSourcesViewModel @Inject constructor(private val newsSourcesRepository
                 }
         }
     }
-
-
 }

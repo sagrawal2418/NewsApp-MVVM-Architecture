@@ -6,6 +6,7 @@ import com.sagrawal.newsapp.data.model.Language
 object AppConstant {
 
     const val COUNTRY = "us"
+    const val APP_NAME = "NewsApp"
     const val DEBOUNCE_TIMEOUT = 300L
     const val MIN_SEARCH_CHAR = 3
 
