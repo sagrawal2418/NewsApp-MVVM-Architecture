@@ -1,61 +1,123 @@
 package com.sagrawal.newsapp.ui.base
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.sagrawal.newsapp.ui.countries.CountriesRoute
 import com.sagrawal.newsapp.ui.languages.LanguageRoute
-import com.sagrawal.newsapp.ui.main.MainRoute
+import com.sagrawal.newsapp.ui.main.TabBarItem
+import com.sagrawal.newsapp.ui.main.TabView
 import com.sagrawal.newsapp.ui.newssources.NewsSourcesRoute
 import com.sagrawal.newsapp.ui.search.SearchRoute
 import com.sagrawal.newsapp.ui.topheadline.TopHeadlineRoute
 
-sealed class Route(val name: String) {
-    object MainScreen : Route("main")
-    object TopHeadlineScreen : Route("topheadline")
-    object NewsSourceScreen : Route("newsSource")
-    object LanguageScreen : Route("language")
-    object CountryScreen : Route("country")
-    object SearchScreen : Route("search")
+object Route {
+
+    const val TopHeadlineScreenNewsSources = "top-headline/newsId/{newsId}"
+
+    const val TopHeadlineScreenNewsByCountry = "top-headline/country/{country}"
+
+    const val TopHeadlineScreenNewsByLanguage = "top-headline/language/{language}"
+
+    fun topHeadlineScreenWithCountry(country: String): String {
+        return "top-headline/country/$country"
+    }
+
+    fun topHeadlineScreenWithId(newsId: String): String {
+        return "top-headline/newsId/$newsId"
+    }
+
+    fun topHeadlineScreenWithLanguage(language: String): String {
+        return "top-headline/language/$language"
+    }
 
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NewsNavHost() {
+fun NewsNavHost(tabBarItems: List<TabBarItem>) {
 
     val navController = rememberNavController()
     val context = LocalContext.current
 
-    NavHost(
-        navController = navController,
-        startDestination = Route.MainScreen.name
-    ) {
-        composable(route = Route.MainScreen.name) {
-            MainRoute(navController)
-        }
-        composable(route = Route.TopHeadlineScreen.name) {
-            TopHeadlineRoute(onNewsClick = {
-                openCustomChromeTab(context, it)
-            })
-        }
-        composable(route = Route.NewsSourceScreen.name) {
-            NewsSourcesRoute(navController)
-        }
-        composable(route = Route.LanguageScreen.name) {
-            LanguageRoute(navController)
-        }
-        composable(route = Route.CountryScreen.name) {
-            CountriesRoute(navController)
-        }
-        composable(route = Route.SearchScreen.name) {
-            SearchRoute(onNewsClick = {
-                openCustomChromeTab(context, it)
-            })
+    Scaffold(bottomBar = { TabView(tabBarItems, navController) }) {
+        NavHost(navController = navController, startDestination = "Headlines") {
+            composable("Headlines") {
+                TopHeadlineRoute(navController, onNewsClick = {
+                    openCustomChromeTab(context, it)
+                })
+            }
+
+            composable("Sources") {
+                NewsSourcesRoute(navController)
+            }
+            composable("Countries") {
+                CountriesRoute(navController)
+            }
+            composable("Languages") {
+                LanguageRoute(navController)
+            }
+            composable("Search") {
+                SearchRoute(navController, onNewsClick = {
+                    openCustomChromeTab(context, it)
+                })
+            }
+
+            composable(
+                route = Route.TopHeadlineScreenNewsSources,
+                arguments = listOf(navArgument("newsId") {
+                    type = NavType.StringType
+                })
+            ) { backStackEntry ->
+                val newsId = backStackEntry.arguments?.getString("newsId") ?: ""
+                TopHeadlineRoute(
+                    newsId = newsId,
+                    navHostController = navController,
+                    onNewsClick = {
+                        openCustomChromeTab(context, it)
+                    })
+            }
+
+            composable(
+                route = Route.TopHeadlineScreenNewsByCountry,
+                arguments = listOf(navArgument("country") {
+                    type = NavType.StringType
+                })
+            ) { backStackEntry ->
+                val country = backStackEntry.arguments?.getString("country") ?: ""
+                TopHeadlineRoute(
+                    country = country,
+                    navHostController = navController,
+                    onNewsClick = {
+                        openCustomChromeTab(context, it)
+                    })
+            }
+
+            composable(
+                route = Route.TopHeadlineScreenNewsByLanguage,
+                arguments = listOf(navArgument("language") {
+                    type = NavType.StringType
+                })
+            ) { backStackEntry ->
+                val language = backStackEntry.arguments?.getString("language") ?: ""
+                TopHeadlineRoute(
+                    language = language,
+                    navHostController = navController,
+                    onNewsClick = {
+                        openCustomChromeTab(context, it)
+                    })
+            }
         }
     }
 }

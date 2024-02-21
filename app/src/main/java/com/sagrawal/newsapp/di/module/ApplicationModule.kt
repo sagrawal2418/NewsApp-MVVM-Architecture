@@ -1,15 +1,15 @@
 package com.sagrawal.newsapp.di.module
 
-import com.sagrawal.newsapp.data.api.ApiKeyInterceptor
-import com.sagrawal.newsapp.data.api.NetworkService
+import com.sagrawal.newsapp.data.network.ApiKeyInterceptor
+import com.sagrawal.newsapp.data.network.NetworkService
 import com.sagrawal.newsapp.di.BaseUrl
 import com.sagrawal.newsapp.di.NetworkApiKey
+import com.sagrawal.newsapp.utils.logger.AppLogger
 import com.sagrawal.newsapp.utils.logger.Logger
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import com.sagrawal.newsapp.utils.logger.AppLogger
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -21,7 +21,7 @@ class ApplicationModule {
 
     @NetworkApiKey
     @Provides
-    fun provideApiKey(): String = "310495aab98c41e7bbbb3a2397ddafee"
+    fun provideApiKey(): String = "b2ab15af13604703a9c0d9717aa0b0a4"
 
     @BaseUrl
     @Provides

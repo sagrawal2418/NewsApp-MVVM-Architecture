@@ -1,7 +1,7 @@
 package com.sagrawal.newsapp.data.repository
 
-import com.sagrawal.newsapp.data.api.NetworkService
 import com.sagrawal.newsapp.data.model.NewsSource
+import com.sagrawal.newsapp.data.network.NetworkService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map

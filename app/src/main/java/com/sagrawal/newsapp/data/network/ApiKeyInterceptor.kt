@@ -1,4 +1,4 @@
-package com.sagrawal.newsapp.data.api
+package com.sagrawal.newsapp.data.network
 
 import com.sagrawal.newsapp.di.NetworkApiKey
 import okhttp3.Interceptor

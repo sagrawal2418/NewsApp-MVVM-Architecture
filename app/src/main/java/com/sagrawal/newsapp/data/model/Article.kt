@@ -1,8 +1,11 @@
 package com.sagrawal.newsapp.data.model
 
 import com.google.gson.annotations.SerializedName
+import java.util.UUID
 
 data class Article(
+    val uniqueId: String = UUID.randomUUID().toString(), // Auto-generate unique ID
+
     @SerializedName("title")
     val title: String = "",
     @SerializedName("description")
