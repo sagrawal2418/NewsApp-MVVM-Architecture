@@ -7,11 +7,13 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Face
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Place
 import androidx.compose.material.icons.outlined.Search
@@ -51,8 +53,8 @@ class MainActivity : ComponentActivity() {
             // setting up the individual tabs
             val headlines = TabBarItem(
                 title = "Headlines",
-                selectedIcon = Icons.Filled.Star,
-                unselectedIcon = Icons.Outlined.Star
+                selectedIcon = Icons.Filled.Home,
+                unselectedIcon = Icons.Outlined.Home
             )
             val sources = TabBarItem(
                 title = "Sources",
