@@ -1,17 +1,13 @@
 package com.sagrawal.newsapp.ui.search
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -20,21 +16,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.sagrawal.newsapp.R
 import com.sagrawal.newsapp.data.model.Article
 import com.sagrawal.newsapp.ui.base.BannerImage
 import com.sagrawal.newsapp.ui.base.ShowError
+import com.sagrawal.newsapp.ui.base.ShowLoading
 import com.sagrawal.newsapp.ui.base.TitleText
 import com.sagrawal.newsapp.ui.base.UiState
 import com.sagrawal.newsapp.ui.topheadline.DescriptionText
 import com.sagrawal.newsapp.ui.topheadline.SourceText
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchRoute(
     navHostController: NavHostController,
@@ -45,19 +42,18 @@ fun SearchRoute(
     Scaffold { padding ->
         Column(modifier = Modifier.padding(padding)) {
             SearchBar(onQuerySubmitted = viewModel::searchNews)
-            SearchContent(uiState, onNewsClick)
+            SearchContent(uiState, viewModel, onNewsClick)
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBar(onQuerySubmitted: (String) -> Unit) {
     var query by remember { mutableStateOf("") }
     OutlinedTextField(
         value = query,
         onValueChange = { newValue -> query = newValue },
-        label = { Text("Search") },
+        label = { Text("Search News") },
         singleLine = true,
         modifier = Modifier
             .fillMaxWidth(),
@@ -69,12 +65,14 @@ fun SearchBar(onQuerySubmitted: (String) -> Unit) {
 }
 
 @Composable
-fun SearchContent(uiState: UiState<List<Article>>, onNewsClick: (url: String) -> Unit) {
+fun SearchContent(
+    uiState: UiState<List<Article>>,
+    viewModel: SearchViewModel?,
+    onNewsClick: (url: String) -> Unit
+) {
     when (uiState) {
         is UiState.Loading -> {
-            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-                CircularProgressIndicator()
-            }
+            ShowLoading()
         }
 
         is UiState.Success -> {
@@ -82,7 +80,12 @@ fun SearchContent(uiState: UiState<List<Article>>, onNewsClick: (url: String) ->
         }
 
         is UiState.Error -> {
-            ShowError(text = uiState.message)
+            ShowError(
+                text = stringResource(id = R.string.something_went_wrong),
+                retryEnabled = true
+            ) {
+                viewModel?.createNewsFlow()
+            }
         }
     }
 }

@@ -8,10 +8,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.sagrawal.newsapp.R
 import com.sagrawal.newsapp.data.model.Country
+import com.sagrawal.newsapp.ui.base.CustomTopAppBar
 import com.sagrawal.newsapp.ui.base.Route
 import com.sagrawal.newsapp.ui.base.ShowCards
 import com.sagrawal.newsapp.ui.base.ShowError
@@ -31,16 +34,21 @@ fun CountriesRoute(
         navHostController.navigate(route)
     }
 
-    Scaffold { padding ->
+    Scaffold(topBar = { CustomTopAppBar(navController = navHostController, title = "Countries List") }
+    ) { padding ->
         Column(modifier = Modifier.padding(padding)) {
-            CountriesScreen(uiState, onNewsClick)
+            CountriesScreen(uiState, viewModel, onNewsClick)
         }
     }
 }
 
 
 @Composable
-fun CountriesScreen(uiState: UiState<List<Country>>, onCountryClick: (url: String) -> Unit) {
+fun CountriesScreen(
+    uiState: UiState<List<Country>>,
+    viewModel: CountriesViewModel?,
+    onCountryClick: (url: String) -> Unit
+) {
     when (uiState) {
         is UiState.Success -> {
             LanguagesList(uiState.data, onCountryClick)
@@ -51,7 +59,12 @@ fun CountriesScreen(uiState: UiState<List<Country>>, onCountryClick: (url: Strin
         }
 
         is UiState.Error -> {
-            ShowError(uiState.message)
+            ShowError(
+                text = stringResource(id = R.string.something_went_wrong),
+                retryEnabled = true
+            ) {
+                viewModel?.fetchCountries()
+            }
         }
     }
 }

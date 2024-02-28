@@ -9,7 +9,6 @@ import com.sagrawal.newsapp.utils.AppConstant.DEBOUNCE_TIMEOUT
 import com.sagrawal.newsapp.utils.AppConstant.MIN_SEARCH_CHAR
 import com.sagrawal.newsapp.utils.DispatcherProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -19,7 +18,6 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import org.jetbrains.annotations.VisibleForTesting
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,8 +40,7 @@ class SearchViewModel @Inject constructor(
         query.value = searchQuery
     }
 
-    @VisibleForTesting
-    private fun createNewsFlow() {
+    fun createNewsFlow() {
         viewModelScope.launch(dispatcherProvider.main) {
             query.debounce(DEBOUNCE_TIMEOUT)
                 .filter {

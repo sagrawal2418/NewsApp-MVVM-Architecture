@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -14,10 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.sagrawal.newsapp.R
 import com.sagrawal.newsapp.data.model.Article
 import com.sagrawal.newsapp.data.model.Source
 import com.sagrawal.newsapp.ui.base.BannerImage
@@ -27,7 +28,6 @@ import com.sagrawal.newsapp.ui.base.ShowLoading
 import com.sagrawal.newsapp.ui.base.TitleText
 import com.sagrawal.newsapp.ui.base.UiState
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopHeadlineRoute(
     navHostController: NavHostController,
@@ -40,17 +40,21 @@ fun TopHeadlineRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
-        topBar = { CustomTopAppBar(navController = navHostController, title = "Top Headlines") }
+        topBar = { CustomTopAppBar(navController = navHostController, title = "Latest News") }
     ) { padding ->
         Column(modifier = Modifier.padding(padding)) {
-            TopHeadlineScreen(uiState, onNewsClick)
+            TopHeadlineScreen(uiState, viewModel, onNewsClick)
         }
     }
 }
 
 
 @Composable
-fun TopHeadlineScreen(uiState: UiState<List<Article>>, onNewsClick: (url: String) -> Unit) {
+fun TopHeadlineScreen(
+    uiState: UiState<List<Article>>,
+    viewModel: TopHeadlineViewModel?,
+    onNewsClick: (url: String) -> Unit
+) {
     when (uiState) {
         is UiState.Success -> {
             ArticleList(uiState.data, onNewsClick)
@@ -61,7 +65,12 @@ fun TopHeadlineScreen(uiState: UiState<List<Article>>, onNewsClick: (url: String
         }
 
         is UiState.Error -> {
-            ShowError(uiState.message)
+            ShowError(
+                text = stringResource(id = R.string.something_went_wrong),
+                retryEnabled = true
+            ) {
+                viewModel?.loadTopHeadlines()
+            }
         }
     }
 }
@@ -83,7 +92,7 @@ fun Article(article: Article, onNewsClick: (url: String) -> Unit) {
     Column(modifier = Modifier
         .fillMaxWidth()
         .clickable {
-            if (article.url?.isNotEmpty() == true) {
+            if (article.url.isNotEmpty()) {
                 onNewsClick(article.url)
             }
         }) {

@@ -1,12 +1,9 @@
 package com.sagrawal.newsapp.ui
 
 import app.cash.turbine.test
-import com.sagrawal.newsapp.data.model.Country
 import com.sagrawal.newsapp.data.model.NewsSource
-import com.sagrawal.newsapp.data.repository.CountriesRepository
 import com.sagrawal.newsapp.data.repository.NewsSourcesRepository
 import com.sagrawal.newsapp.ui.base.UiState
-import com.sagrawal.newsapp.ui.countries.CountriesViewModel
 import com.sagrawal.newsapp.ui.newssources.NewsSourcesViewModel
 import com.sagrawal.newsapp.utils.AppConstant
 import com.sagrawal.newsapp.utils.DispatcherProvider

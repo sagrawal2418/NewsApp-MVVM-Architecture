@@ -3,10 +3,8 @@ package com.sagrawal.newsapp.ui
 import app.cash.turbine.test
 import com.sagrawal.newsapp.data.model.Country
 import com.sagrawal.newsapp.data.model.Language
-import com.sagrawal.newsapp.data.repository.CountriesRepository
 import com.sagrawal.newsapp.data.repository.LanguagesRepository
 import com.sagrawal.newsapp.ui.base.UiState
-import com.sagrawal.newsapp.ui.countries.CountriesViewModel
 import com.sagrawal.newsapp.ui.languages.LanguagesViewModel
 import com.sagrawal.newsapp.utils.DispatcherProvider
 import com.sagrawal.newsapp.utils.TestDispatcherProvider

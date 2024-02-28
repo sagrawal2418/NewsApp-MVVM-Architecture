@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import org.jetbrains.annotations.VisibleForTesting
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,8 +30,7 @@ class NewsSourcesViewModel @Inject constructor(
         fetchNews()
     }
 
-    @VisibleForTesting
-    private fun fetchNews() {
+    fun fetchNews() {
         viewModelScope.launch(dispatcherProvider.main) {
             newsSourcesRepository.getNewsSources(COUNTRY)
                 .flowOn(dispatcherProvider.io)

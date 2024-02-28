@@ -9,10 +9,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.sagrawal.newsapp.R
 import com.sagrawal.newsapp.data.model.Language
+import com.sagrawal.newsapp.ui.base.CustomTopAppBar
 import com.sagrawal.newsapp.ui.base.Route
 import com.sagrawal.newsapp.ui.base.ShowCards
 import com.sagrawal.newsapp.ui.base.ShowError
@@ -33,9 +36,10 @@ fun LanguageRoute(
         navHostController.navigate(route)
     }
 
-    Scaffold { padding ->
+    Scaffold(topBar = { CustomTopAppBar(navController = navHostController, title = "Language List") }
+    ) { padding ->
         Column(modifier = Modifier.padding(padding)) {
-            LanguagesScreen(uiState, onNewsClick)
+            LanguagesScreen(uiState, viewModel, onNewsClick)
         }
     }
 
@@ -43,7 +47,11 @@ fun LanguageRoute(
 
 
 @Composable
-fun LanguagesScreen(uiState: UiState<List<Language>>, onLanguageClick: (url: String) -> Unit) {
+fun LanguagesScreen(
+    uiState: UiState<List<Language>>,
+    viewModel: LanguagesViewModel?,
+    onLanguageClick: (url: String) -> Unit
+) {
     when (uiState) {
         is UiState.Success -> {
             LanguagesList(uiState.data, onLanguageClick)
@@ -54,7 +62,12 @@ fun LanguagesScreen(uiState: UiState<List<Language>>, onLanguageClick: (url: Str
         }
 
         is UiState.Error -> {
-            ShowError(uiState.message)
+            ShowError(
+                text = stringResource(id = R.string.something_went_wrong),
+                retryEnabled = true
+            ) {
+                viewModel?.fetchLanguages()
+            }
         }
     }
 }

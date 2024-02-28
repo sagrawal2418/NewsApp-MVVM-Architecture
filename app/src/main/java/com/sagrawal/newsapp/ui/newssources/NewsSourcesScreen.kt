@@ -4,22 +4,23 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.sagrawal.newsapp.R
 import com.sagrawal.newsapp.data.model.NewsSource
+import com.sagrawal.newsapp.ui.base.CustomTopAppBar
 import com.sagrawal.newsapp.ui.base.Route
 import com.sagrawal.newsapp.ui.base.ShowCards
 import com.sagrawal.newsapp.ui.base.ShowError
 import com.sagrawal.newsapp.ui.base.ShowLoading
 import com.sagrawal.newsapp.ui.base.UiState
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsSourcesRoute(
     navHostController: NavHostController,
@@ -33,9 +34,10 @@ fun NewsSourcesRoute(
         navHostController.navigate(route)
     }
 
-    Scaffold { padding ->
+    Scaffold(topBar = { CustomTopAppBar(navController = navHostController, title = "News Sources") }
+    ) { padding ->
         Column(modifier = Modifier.padding(padding)) {
-            NewsSourcesScreen(uiState, onNewsClick)
+            NewsSourcesScreen(uiState, viewModel, onNewsClick)
         }
     }
 
@@ -43,7 +45,11 @@ fun NewsSourcesRoute(
 
 
 @Composable
-fun NewsSourcesScreen(uiState: UiState<List<NewsSource>>, onNewsClick: (url: String) -> Unit) {
+fun NewsSourcesScreen(
+    uiState: UiState<List<NewsSource>>,
+    viewModel: NewsSourcesViewModel?,
+    onNewsClick: (url: String) -> Unit
+) {
     when (uiState) {
         is UiState.Success -> {
             NewsSourceList(uiState.data, onNewsClick)
@@ -54,7 +60,12 @@ fun NewsSourcesScreen(uiState: UiState<List<NewsSource>>, onNewsClick: (url: Str
         }
 
         is UiState.Error -> {
-            ShowError(uiState.message)
+            ShowError(
+                text = stringResource(id = R.string.something_went_wrong),
+                retryEnabled = true
+            ) {
+                viewModel?.fetchNews()
+            }
         }
     }
 }

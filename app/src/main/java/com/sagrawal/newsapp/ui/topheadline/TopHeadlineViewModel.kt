@@ -7,7 +7,6 @@ import com.sagrawal.newsapp.data.model.Article
 import com.sagrawal.newsapp.data.repository.TopHeadlineRepository
 import com.sagrawal.newsapp.ui.base.UiState
 import com.sagrawal.newsapp.utils.AppConstant.COUNTRY
-import com.sagrawal.newsapp.utils.DefaultDispatcherProvider
 import com.sagrawal.newsapp.utils.DispatcherProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,7 +40,7 @@ class TopHeadlineViewModel @Inject constructor(
     }
 
     // Method to load headlines, optionally filtered by ID
-    private fun loadTopHeadlines() {
+    fun loadTopHeadlines() {
         viewModelScope.launch(dispatcherProvider.main) {
             if (newsId?.isNotEmpty() == true) {
                 topHeadlineRepository.getNewsBySources(newsId)

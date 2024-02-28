@@ -1,14 +1,10 @@
 package com.sagrawal.newsapp.data
 
 import app.cash.turbine.test
-import com.sagrawal.newsapp.data.model.Article
 import com.sagrawal.newsapp.data.model.NewsSource
 import com.sagrawal.newsapp.data.model.NewsSourceResponse
-import com.sagrawal.newsapp.data.model.Source
-import com.sagrawal.newsapp.data.model.TopHeadlinesResponse
 import com.sagrawal.newsapp.data.network.NetworkService
 import com.sagrawal.newsapp.data.repository.NewsSourcesRepository
-import com.sagrawal.newsapp.data.repository.TopHeadlineRepository
 import com.sagrawal.newsapp.utils.AppConstant.COUNTRY
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -17,7 +13,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito.anyString
 import org.mockito.Mockito.doReturn
 import org.mockito.Mockito.doThrow
 import org.mockito.Mockito.times
