@@ -1,8 +1,8 @@
 pluginManagement {
     repositories {
-        gradlePluginPortal()
         google()
         mavenCentral()
+        gradlePluginPortal()
     }
 }
 dependencyResolutionManagement {
@@ -12,5 +12,10 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "NewsApp-MVVM-Architecture"
-include ':app'
+
+rootProject.name = "NewsApp-Clean-Architecture"
+include(":app")
+include(":utils")
+include(":data")
+include(":domain")
+include(":presentation")
