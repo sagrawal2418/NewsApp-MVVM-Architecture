@@ -56,7 +56,7 @@ fun SearchBar(onQuerySubmitted: (String) -> Unit) {
     OutlinedTextField(
         value = query,
         onValueChange = { newValue -> query = newValue },
-        label = { Text("Search News") },
+        label = { Text(stringResource(R.string.search_news)) },
         singleLine = true,
         modifier = Modifier
             .fillMaxWidth(),

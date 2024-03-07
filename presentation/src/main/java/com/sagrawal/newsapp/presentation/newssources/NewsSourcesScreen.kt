@@ -36,7 +36,7 @@ fun NewsSourcesRoute(
         navHostController.navigate(route)
     }
 
-    Scaffold(topBar = { CustomTopAppBar(navController = navHostController, title = "News Sources") }
+    Scaffold(topBar = { CustomTopAppBar(navController = navHostController, title = stringResource(R.string.news_sources)) }
     ) { padding ->
         Column(modifier = Modifier.padding(padding)) {
             NewsSourcesScreen(uiState, viewModel, onNewsClick)

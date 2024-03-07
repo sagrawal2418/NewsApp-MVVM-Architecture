@@ -7,6 +7,7 @@ import com.sagrawal.newsapp.domain.model.Article
 import com.sagrawal.newsapp.domain.usecase.topheadline.TopHeadlineUseCases
 import com.sagrawal.newsapp.presentation.base.UiState
 import com.sagrawal.newsapp.util.DispatcherProvider
+import com.sagrawal.newsapp.utils.AppConstant
 import com.sagrawal.newsapp.utils.AppConstant.COUNTRY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,19 +21,18 @@ import javax.inject.Inject
 class TopHeadlineViewModel @Inject constructor(
     private val useCases: TopHeadlineUseCases,
     private val dispatcherProvider: DispatcherProvider,
-    savedStateHandle: SavedStateHandle // For receiving navigation arguments
-) :
+    savedStateHandle: SavedStateHandle) :
     ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState<List<Article>>>(UiState.Loading)
 
     val uiState: StateFlow<UiState<List<Article>>> = _uiState
 
-    private val newsId: String? = savedStateHandle["newsId"]
+    private val newsId: String? = savedStateHandle[AppConstant.NAV_ARG_NEWS_ID]
 
-    private val country: String? = savedStateHandle["country"]
+    private val country: String? = savedStateHandle[AppConstant.NAV_ARG_COUNTRY]
 
-    private val language: String? = savedStateHandle["language"]
+    private val language: String? = savedStateHandle[AppConstant.NAV_ARG_LANGUAGE]
 
 
     init {

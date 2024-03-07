@@ -29,8 +29,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import com.sagrawal.newsapp.presentation.R
 import com.sagrawal.newsapp.presentation.base.NewsNavHost
 import com.sagrawal.newsapp.ui.theme.NewsAppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,27 +52,27 @@ class MainActivity : ComponentActivity() {
         setContent {
             // setting up the individual tabs
             val headlines = TabBarItem(
-                title = "Headlines",
+                title = stringResource(id = R.string.headlines),
                 selectedIcon = Icons.Filled.Home,
                 unselectedIcon = Icons.Outlined.Home
             )
             val sources = TabBarItem(
-                title = "Sources",
+                title = stringResource(id = R.string.sources),
                 selectedIcon = Icons.Filled.Info,
                 unselectedIcon = Icons.Outlined.Info
             )
             val countries = TabBarItem(
-                title = "Countries",
+                title = stringResource(id = R.string.countries),
                 selectedIcon = Icons.Filled.Place,
                 unselectedIcon = Icons.Outlined.Place
             )
             val languages = TabBarItem(
-                title = "Languages",
+                title = stringResource(id = R.string.languages),
                 selectedIcon = Icons.Filled.Face,
                 unselectedIcon = Icons.Outlined.Face
             )
             val search = TabBarItem(
-                title = "Search",
+                title = stringResource(id = R.string.search),
                 selectedIcon = Icons.Filled.Search,
                 unselectedIcon = Icons.Outlined.Search
             )

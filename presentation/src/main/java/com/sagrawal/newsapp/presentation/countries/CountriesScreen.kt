@@ -39,7 +39,7 @@ fun CountriesRoute(
     Scaffold(topBar = {
         CustomTopAppBar(
             navController = navHostController,
-            title = "Countries List"
+            title = stringResource(R.string.countries_list)
         )
     }
     ) { padding ->

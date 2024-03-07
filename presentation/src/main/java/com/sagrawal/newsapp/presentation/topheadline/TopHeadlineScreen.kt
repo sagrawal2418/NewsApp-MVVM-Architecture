@@ -42,7 +42,7 @@ fun TopHeadlineRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
-        topBar = { CustomTopAppBar(navController = navHostController, title = "Latest News") }
+        topBar = { CustomTopAppBar(navController = navHostController, title = stringResource(R.string.latest_news)) }
     ) { padding ->
         Column(modifier = Modifier.padding(padding)) {
             TopHeadlineScreen(uiState, viewModel, onNewsClick)
