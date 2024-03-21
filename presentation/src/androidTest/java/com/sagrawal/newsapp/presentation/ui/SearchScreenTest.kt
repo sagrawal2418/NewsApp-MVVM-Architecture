@@ -1,19 +1,20 @@
 package com.sagrawal.newsapp.presentation.ui
 
-import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.hasScrollToNodeAction
 import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performImeAction
 import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTextInput
+import androidx.test.platform.app.InstrumentationRegistry
 import com.sagrawal.newsapp.presentation.R
+import com.sagrawal.newsapp.presentation.base.UiState
 import com.sagrawal.newsapp.presentation.search.SearchBar
 import com.sagrawal.newsapp.presentation.search.SearchContent
-import com.sagrawal.newsapp.presentation.base.UiState
+import com.sagrawal.newsapp.presentation.TestUtils.testApiArticles
 import junit.framework.TestCase.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -21,7 +22,7 @@ import org.junit.Test
 class SearchScreenTest {
 
     @get:Rule
-    val composeTestRule = createAndroidComposeRule<ComponentActivity>()
+    val composeTestRule = createComposeRule()
 
     @Test
     fun searchBarTest() {
@@ -37,12 +38,12 @@ class SearchScreenTest {
 
         // Find the text field and input the test query
         composeTestRule
-            .onNodeWithText("Search")
+            .onNodeWithText("Search News")
             .performTextInput(testQuery)
 
         // Perform the IME action which should trigger onQuerySubmitted
         composeTestRule
-            .onNodeWithText("Search")
+            .onNodeWithText("Search News")
             .performImeAction()
 
         // Assert that onQuerySubmitted was called with the correct value
@@ -57,19 +58,21 @@ class SearchScreenTest {
                 null,
                 onNewsClick = {})
         }
-        composeTestRule.onNodeWithContentDescription(composeTestRule.activity.resources.getString(R.string.loading))
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+
+        composeTestRule.onNodeWithContentDescription(context.resources.getString(R.string.loading))
             .assertExists()
     }
 
     @Test
     fun articles_whenUiStateIsSuccess_isShown() {
         composeTestRule.setContent {
-            SearchContent(uiState = UiState.Success(testArticles), null, onNewsClick = {})
+            SearchContent(uiState = UiState.Success(testApiArticles), null, onNewsClick = {})
         }
 
         composeTestRule
             .onNodeWithText(
-                testArticles[0].title,
+                testApiArticles[0].title,
                 substring = true
             )
             .assertExists()
@@ -78,14 +81,14 @@ class SearchScreenTest {
         composeTestRule.onNode(hasScrollToNodeAction())
             .performScrollToNode(
                 hasText(
-                    testArticles[5].title,
+                    testApiArticles[5].title,
                     substring = true
                 )
             )
 
         composeTestRule
             .onNodeWithText(
-                testArticles[5].title,
+                testApiArticles[5].title,
                 substring = true
             )
             .assertExists()

@@ -36,7 +36,7 @@ fun LanguageRoute(
         navHostController.navigate(route)
     }
 
-    Scaffold(topBar = { CustomTopAppBar(navController = navHostController, title = stringResource(R.string.language_list)) }
+    Scaffold(topBar = { CustomTopAppBar(title = stringResource(R.string.language_list)) }
     ) { padding ->
         Column(modifier = Modifier.padding(padding)) {
             LanguagesScreen(uiState, viewModel, onNewsClick)

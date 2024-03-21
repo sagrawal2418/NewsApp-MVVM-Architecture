@@ -1,14 +1,14 @@
 package com.sagrawal.newsapp.presentation.ui
 
-import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.hasScrollToNodeAction
 import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToNode
+import androidx.test.platform.app.InstrumentationRegistry
 import com.sagrawal.newsapp.data.util.ListUtil.LANGUAGES
 import com.sagrawal.newsapp.presentation.R
 import com.sagrawal.newsapp.presentation.base.UiState
@@ -19,7 +19,7 @@ import org.junit.Test
 class LanguageScreenTest {
 
     @get:Rule
-    val composeTestRule = createAndroidComposeRule<ComponentActivity>()
+    val composeTestRule = createComposeRule()
 
     @Test
     fun loading_whenUiStateIsLoading_isShown() {
@@ -29,7 +29,9 @@ class LanguageScreenTest {
                 null,
                 onLanguageClick = {})
         }
-        composeTestRule.onNodeWithContentDescription(composeTestRule.activity.resources.getString(R.string.loading))
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+
+        composeTestRule.onNodeWithContentDescription(context.resources.getString(R.string.loading))
             .assertExists()
     }
 

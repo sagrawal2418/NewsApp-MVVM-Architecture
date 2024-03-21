@@ -22,8 +22,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
-import com.sagrawal.newsapp.domain.model.Article
+import com.sagrawal.newsapp.domain.local.entity.Article
+import com.sagrawal.newsapp.domain.model.ApiArticle
 import com.sagrawal.newsapp.presentation.R
 import com.sagrawal.newsapp.presentation.base.BannerImage
 import com.sagrawal.newsapp.presentation.base.ShowError
@@ -36,8 +36,8 @@ import com.sagrawal.newsapp.presentation.topheadline.SourceText
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchRoute(
-    navHostController: NavHostController,
-    onNewsClick: (url: String) -> Unit, viewModel: SearchViewModel = hiltViewModel()
+    onNewsClick: (url: String) -> Unit,
+    viewModel: SearchViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 

@@ -56,7 +56,7 @@ fun NewsNavHost(tabBarItems: List<TabBarItem>) {
             startDestination = stringResource(id = R.string.headlines)
         ) {
             composable(AppConstant.HEADLINES) {
-                TopHeadlineRoute(navController, onNewsClick = {
+                TopHeadlineRoute(onNewsClick = {
                     openCustomChromeTab(context, it)
                 })
             }
@@ -71,7 +71,7 @@ fun NewsNavHost(tabBarItems: List<TabBarItem>) {
                 LanguageRoute(navController)
             }
             composable(AppConstant.SEARCH) {
-                SearchRoute(navController, onNewsClick = {
+                SearchRoute(onNewsClick = {
                     openCustomChromeTab(context, it)
                 })
             }
@@ -84,8 +84,6 @@ fun NewsNavHost(tabBarItems: List<TabBarItem>) {
             ) { backStackEntry ->
                 val newsId = backStackEntry.arguments?.getString(NAV_ARG_NEWS_ID) ?: ""
                 TopHeadlineRoute(
-                    newsId = newsId,
-                    navHostController = navController,
                     onNewsClick = {
                         openCustomChromeTab(context, it)
                     })
@@ -99,8 +97,6 @@ fun NewsNavHost(tabBarItems: List<TabBarItem>) {
             ) { backStackEntry ->
                 val country = backStackEntry.arguments?.getString(AppConstant.NAV_ARG_COUNTRY) ?: ""
                 TopHeadlineRoute(
-                    country = country,
-                    navHostController = navController,
                     onNewsClick = {
                         openCustomChromeTab(context, it)
                     })
@@ -115,8 +111,6 @@ fun NewsNavHost(tabBarItems: List<TabBarItem>) {
                 val language =
                     backStackEntry.arguments?.getString(AppConstant.NAV_ARG_LANGUAGE) ?: ""
                 TopHeadlineRoute(
-                    language = language,
-                    navHostController = navController,
                     onNewsClick = {
                         openCustomChromeTab(context, it)
                     })
@@ -129,10 +123,6 @@ fun openCustomChromeTab(context: Context, url: String) {
     val builder = CustomTabsIntent.Builder()
     val customTabsIntent = builder.build()
     customTabsIntent.launchUrl(context, Uri.parse(url))
-}
-
-sealed class Routes {
-
 }
 
 

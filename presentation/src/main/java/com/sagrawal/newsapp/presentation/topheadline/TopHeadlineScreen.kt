@@ -18,9 +18,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
-import com.sagrawal.newsapp.domain.model.Article
-import com.sagrawal.newsapp.domain.model.Source
 import com.sagrawal.newsapp.presentation.R
 import com.sagrawal.newsapp.presentation.base.BannerImage
 import com.sagrawal.newsapp.presentation.base.CustomTopAppBar
@@ -32,17 +29,13 @@ import com.sagrawal.newsapp.presentation.base.UiState
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopHeadlineRoute(
-    navHostController: NavHostController,
-    newsId: String? = null,
-    country: String? = null,
-    language: String? = null,
     onNewsClick: (url: String) -> Unit,
     viewModel: TopHeadlineViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
-        topBar = { CustomTopAppBar(navController = navHostController, title = stringResource(R.string.latest_news)) }
+        topBar = { CustomTopAppBar(title = stringResource(R.string.latest_news)) }
     ) { padding ->
         Column(modifier = Modifier.padding(padding)) {
             TopHeadlineScreen(uiState, viewModel, onNewsClick)

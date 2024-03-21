@@ -38,7 +38,6 @@ fun CountriesRoute(
 
     Scaffold(topBar = {
         CustomTopAppBar(
-            navController = navHostController,
             title = stringResource(R.string.countries_list)
         )
     }
@@ -53,12 +52,12 @@ fun CountriesRoute(
 @Composable
 fun CountriesScreen(
     uiState: UiState<List<Country>>,
-    viewModel: CountriesViewModel,
+    viewModel: CountriesViewModel?,
     onCountryClick: (url: String) -> Unit
 ) {
     when (uiState) {
         is UiState.Success -> {
-            LanguagesList(uiState.data, onCountryClick)
+            CountriesList(uiState.data, onCountryClick)
         }
 
         is UiState.Loading -> {
@@ -70,14 +69,14 @@ fun CountriesScreen(
                 text = stringResource(id = R.string.something_went_wrong),
                 retryEnabled = true
             ) {
-                viewModel.fetchCountries()
+                viewModel?.fetchCountries()
             }
         }
     }
 }
 
 @Composable
-fun LanguagesList(countries: List<Country>, onCountryClick: (url: String) -> Unit) {
+fun CountriesList(countries: List<Country>, onCountryClick: (url: String) -> Unit) {
     LazyColumn {
         items(countries, key = { country -> country.id }) { country ->
             Country(country, onCountryClick)
