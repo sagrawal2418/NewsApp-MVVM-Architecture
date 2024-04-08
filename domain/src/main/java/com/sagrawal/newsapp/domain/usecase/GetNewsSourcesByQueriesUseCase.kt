@@ -1,8 +1,7 @@
 package com.sagrawal.newsapp.domain.usecase
 
-import com.sagrawal.newsapp.domain.model.Article
-import com.sagrawal.newsapp.domain.model.NewsSource
-import com.sagrawal.newsapp.domain.repository.NewsSourcesRepository
+import com.sagrawal.newsapp.domain.local.entity.Article
+import com.sagrawal.newsapp.domain.model.ApiArticle
 import com.sagrawal.newsapp.domain.repository.SearchSourcesRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

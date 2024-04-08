@@ -1,6 +1,7 @@
 package com.sagrawal.newsapp.domain.usecase.topheadline
 
-import com.sagrawal.newsapp.domain.model.Article
+import com.sagrawal.newsapp.domain.local.entity.Article
+import com.sagrawal.newsapp.domain.model.ApiArticle
 import com.sagrawal.newsapp.domain.repository.TopHeadlineRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

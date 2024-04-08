@@ -31,7 +31,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.sagrawal.newsapp.domain.model.Article
+import com.sagrawal.newsapp.domain.local.entity.Article
+import com.sagrawal.newsapp.domain.model.ApiArticle
 import com.sagrawal.newsapp.presentation.R
 
 @Composable
@@ -80,10 +81,10 @@ fun TitleTextLarge(title: String) {
 }
 
 @Composable
-fun BannerImage(article: Article) {
+fun BannerImage(apiArticle: Article) {
     AsyncImage(
-        model = article.imageUrl,
-        contentDescription = article.title,
+        model = apiArticle.imageUrl,
+        contentDescription = apiArticle.title,
         contentScale = ContentScale.Crop,
         modifier = Modifier
             .height(200.dp)

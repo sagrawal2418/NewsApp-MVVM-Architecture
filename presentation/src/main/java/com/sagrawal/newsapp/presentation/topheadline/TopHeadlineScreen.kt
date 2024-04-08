@@ -18,6 +18,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.sagrawal.newsapp.domain.local.entity.Article
+import com.sagrawal.newsapp.domain.local.entity.Source
 import com.sagrawal.newsapp.presentation.R
 import com.sagrawal.newsapp.presentation.base.BannerImage
 import com.sagrawal.newsapp.presentation.base.CustomTopAppBar
@@ -74,7 +76,7 @@ fun TopHeadlineScreen(
 fun ArticleList(articles: List<Article>, onNewsClick: (url: String) -> Unit) {
     LazyColumn {
         items(articles, key = { article ->
-            article.uniqueId
+            article.id
         }) { article ->
             Article(article, onNewsClick)
         }

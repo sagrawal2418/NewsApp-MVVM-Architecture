@@ -3,7 +3,8 @@ package com.sagrawal.newsapp.presentation.topheadline
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sagrawal.newsapp.domain.model.Article
+import com.sagrawal.newsapp.domain.local.entity.Article
+import com.sagrawal.newsapp.domain.model.ApiArticle
 import com.sagrawal.newsapp.domain.usecase.topheadline.TopHeadlineUseCases
 import com.sagrawal.newsapp.presentation.base.UiState
 import com.sagrawal.newsapp.util.DispatcherProvider

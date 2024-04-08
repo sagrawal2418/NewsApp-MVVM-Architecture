@@ -2,7 +2,8 @@ package com.sagrawal.newsapp.presentation.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sagrawal.newsapp.domain.model.Article
+import com.sagrawal.newsapp.domain.local.entity.Article
+import com.sagrawal.newsapp.domain.model.ApiArticle
 import com.sagrawal.newsapp.domain.usecase.GetNewsSourcesByQueriesUseCase
 import com.sagrawal.newsapp.presentation.base.UiState
 import com.sagrawal.newsapp.util.DispatcherProvider

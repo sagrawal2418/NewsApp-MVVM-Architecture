@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import com.sagrawal.newsapp.data.api.NetworkService
+import com.sagrawal.newsapp.data.local.AppDatabaseService
 import com.sagrawal.newsapp.data.repository.CountriesRepositoryImpl
 import com.sagrawal.newsapp.data.repository.LanguagesRepositoryImpl
 import com.sagrawal.newsapp.data.repository.NewsSourcesRepositoryImpl
@@ -23,8 +24,8 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideTopHeadlineRepository(networkService: NetworkService): TopHeadlineRepository {
-        return TopHeadlineRepositoryImpl(networkService)
+    fun provideTopHeadlineRepository(databaseService: AppDatabaseService, networkService: NetworkService): TopHeadlineRepository {
+        return TopHeadlineRepositoryImpl(databaseService, networkService)
     }
 
     @Provides
@@ -47,8 +48,10 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideSearchSourcesRepository(networkService: NetworkService): SearchSourcesRepository {
-        return SearchSourcesRepositoryImpl(networkService)
+    fun provideSearchSourcesRepository(
+        databaseService: AppDatabaseService,
+        networkService: NetworkService): SearchSourcesRepository {
+        return SearchSourcesRepositoryImpl(databaseService,networkService)
     }
 
 }
