@@ -11,11 +11,12 @@ import com.sagrawal.newsapp.presentation.base.UiState
 import com.sagrawal.newsapp.presentation.topheadline.TopHeadlineViewModel
 import com.sagrawal.newsapp.presentation.utils.TestDispatcherProvider
 import com.sagrawal.newsapp.util.DispatcherProvider
+import com.sagrawal.newsapp.util.NetworkHelper
 import com.sagrawal.newsapp.utils.AppConstant
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -37,6 +38,9 @@ class TopHeadlineViewModelTest {
     private lateinit var useCases: TopHeadlineUseCases
 
     @Mock
+    private lateinit var networkHelper: NetworkHelper
+
+    @Mock
     private lateinit var getTopHeadlineUseCase: GetTopHeadlineUseCase
 
     @Mock
@@ -51,19 +55,22 @@ class TopHeadlineViewModelTest {
     @Mock
     private lateinit var savedStateHandle: SavedStateHandle
 
+    private lateinit var viewModel: TopHeadlineViewModel
+
     @Before
     fun setUp() {
         dispatcherProvider = TestDispatcherProvider()
+        viewModel = TopHeadlineViewModel(networkHelper, useCases, dispatcherProvider, savedStateHandle)
         // Mock the use case within the TopHeadlineUseCases container
         `when`(useCases.getTopHeadlineUseCase).thenReturn(getTopHeadlineUseCase)
         `when`(useCases.getNewsByLanguageUseCase).thenReturn(getNewsByLanguageUseCase)
         `when`(useCases.getNewsBySourceUseCase).thenReturn(getNewsBySourceUseCase)
-
+        `when`(networkHelper.isNetworkConnected()).thenReturn(true)
     }
 
     @Test
     fun loadTopHeadlines_newsSources_whenRepositoryResponseSuccess_shouldSetSuccessUiState() {
-        runTest {
+        runBlocking {
 
             // Suppose "newsId" is the key used to retrieve the ID from SavedStateHandle
             val expectedNewsId = "12345"
@@ -74,7 +81,8 @@ class TopHeadlineViewModelTest {
             }.`when`(getNewsBySourceUseCase).invoke(expectedNewsId)
 
 
-            val viewModel = TopHeadlineViewModel(useCases, dispatcherProvider, savedStateHandle)
+            val viewModel =
+                TopHeadlineViewModel(networkHelper, useCases, dispatcherProvider, savedStateHandle)
             viewModel.uiState.test {
                 assertEquals(UiState.Success(emptyList<List<Article>>()), awaitItem())
                 cancelAndIgnoreRemainingEvents()
@@ -86,7 +94,7 @@ class TopHeadlineViewModelTest {
     @Test
     fun loadTopHeadlines_newsSources_whenRepositoryResponseError_shouldSetErrorUiState() {
 
-        runTest {
+        runBlocking {
             val newsId = "abcde"
             `when`(savedStateHandle.get<String>("newsId")).thenReturn(newsId)
 
@@ -96,7 +104,8 @@ class TopHeadlineViewModelTest {
                 flow<List<Article>> { throw IllegalStateException(errorMessage) }
             }.`when`(getNewsBySourceUseCase).invoke(newsId)
 
-            val viewModel = TopHeadlineViewModel(useCases, dispatcherProvider, savedStateHandle)
+            val viewModel =
+                TopHeadlineViewModel(networkHelper, useCases, dispatcherProvider, savedStateHandle)
             viewModel.uiState.test {
                 assertEquals(
                     UiState.Error(IllegalStateException(errorMessage).toString()),
@@ -110,12 +119,13 @@ class TopHeadlineViewModelTest {
 
     @Test
     fun loadTopHeadlines_whenRepositoryResponseSuccess_shouldSetSuccessUiState() {
-        runTest {
+        runBlocking {
 
             doReturn(flowOf(emptyList<Article>()))
                 .`when`(getTopHeadlineUseCase)
                 .invoke(AppConstant.COUNTRY)
-            val viewModel = TopHeadlineViewModel(useCases, dispatcherProvider, savedStateHandle)
+            val viewModel =
+                TopHeadlineViewModel(networkHelper, useCases, dispatcherProvider, savedStateHandle)
             viewModel.uiState.test {
                 assertEquals(UiState.Success(emptyList<List<Article>>()), awaitItem())
                 cancelAndIgnoreRemainingEvents()
@@ -126,7 +136,7 @@ class TopHeadlineViewModelTest {
 
     @Test
     fun loadTopHeadlines_country_whenRepositoryResponseSuccess_shouldSetSuccessUiState() {
-        runTest {
+        runBlocking {
 
             // Suppose "newsId" is the key used to retrieve the ID from SavedStateHandle
             val expectedCountry = "abcde"
@@ -135,7 +145,8 @@ class TopHeadlineViewModelTest {
             doReturn(flowOf(emptyList<Article>()))
                 .`when`(getTopHeadlineUseCase)
                 .invoke(expectedCountry)
-            val viewModel = TopHeadlineViewModel(useCases, dispatcherProvider, savedStateHandle)
+            val viewModel =
+                TopHeadlineViewModel(networkHelper, useCases, dispatcherProvider, savedStateHandle)
             viewModel.uiState.test {
                 assertEquals(UiState.Success(emptyList<List<Article>>()), awaitItem())
                 cancelAndIgnoreRemainingEvents()
@@ -146,7 +157,7 @@ class TopHeadlineViewModelTest {
 
     @Test
     fun loadTopHeadlines_country_whenRepositoryResponseError_shouldSetErrorUiState() {
-        runTest {
+        runBlocking {
 
             // Suppose "newsId" is the key used to retrieve the ID from SavedStateHandle
             val expectedCountry = "abcde"
@@ -159,7 +170,8 @@ class TopHeadlineViewModelTest {
                 .`when`(getTopHeadlineUseCase)
                 .invoke(expectedCountry)
 
-            val viewModel = TopHeadlineViewModel(useCases, dispatcherProvider, savedStateHandle)
+            val viewModel =
+                TopHeadlineViewModel(networkHelper, useCases, dispatcherProvider, savedStateHandle)
             viewModel.uiState.test {
                 assertEquals(
                     UiState.Error(IllegalStateException(errorMessage).toString()),
@@ -173,7 +185,7 @@ class TopHeadlineViewModelTest {
 
     @Test
     fun loadTopHeadlines_language_whenRepositoryResponseSuccess_shouldSetSuccessUiState() {
-        runTest {
+        runBlocking {
 
             // Suppose "newsId" is the key used to retrieve the ID from SavedStateHandle
             val expectedLanguage = "abcde"
@@ -182,7 +194,8 @@ class TopHeadlineViewModelTest {
             doReturn(flowOf(emptyList<Article>()))
                 .`when`(getNewsByLanguageUseCase)
                 .invoke(expectedLanguage)
-            val viewModel = TopHeadlineViewModel(useCases, dispatcherProvider, savedStateHandle)
+            val viewModel =
+                TopHeadlineViewModel(networkHelper, useCases, dispatcherProvider, savedStateHandle)
             viewModel.uiState.test {
                 assertEquals(UiState.Success(emptyList<List<Article>>()), awaitItem())
                 cancelAndIgnoreRemainingEvents()
@@ -193,7 +206,7 @@ class TopHeadlineViewModelTest {
 
     @Test
     fun loadTopHeadlines_language_whenRepositoryResponseError_shouldSetErrorUiState() {
-        runTest {
+        runBlocking {
 
             // Suppose "newsId" is the key used to retrieve the ID from SavedStateHandle
             val expectedCountry = "abcde"
@@ -206,7 +219,8 @@ class TopHeadlineViewModelTest {
                 .`when`(getNewsByLanguageUseCase)
                 .invoke(expectedCountry)
 
-            val viewModel = TopHeadlineViewModel(useCases, dispatcherProvider, savedStateHandle)
+            val viewModel =
+                TopHeadlineViewModel(networkHelper, useCases, dispatcherProvider, savedStateHandle)
             viewModel.uiState.test {
                 assertEquals(
                     UiState.Error(IllegalStateException(errorMessage).toString()),

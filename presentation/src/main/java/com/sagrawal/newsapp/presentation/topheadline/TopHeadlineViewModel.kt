@@ -8,6 +8,7 @@ import com.sagrawal.newsapp.domain.model.ApiArticle
 import com.sagrawal.newsapp.domain.usecase.topheadline.TopHeadlineUseCases
 import com.sagrawal.newsapp.presentation.base.UiState
 import com.sagrawal.newsapp.util.DispatcherProvider
+import com.sagrawal.newsapp.util.NetworkHelper
 import com.sagrawal.newsapp.utils.AppConstant
 import com.sagrawal.newsapp.utils.AppConstant.COUNTRY
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,9 +21,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TopHeadlineViewModel @Inject constructor(
+    private val networkHelper: NetworkHelper,
     private val useCases: TopHeadlineUseCases,
     private val dispatcherProvider: DispatcherProvider,
-    savedStateHandle: SavedStateHandle) :
+    savedStateHandle: SavedStateHandle
+) :
     ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState<List<Article>>>(UiState.Loading)
@@ -43,24 +46,34 @@ class TopHeadlineViewModel @Inject constructor(
     // Method to load headlines, optionally filtered by ID
     fun loadTopHeadlines() {
         viewModelScope.launch(dispatcherProvider.main) {
-            if (newsId?.isNotEmpty() == true) {
-                useCases.getNewsBySourceUseCase.invoke(newsId)
+            if (newsId?.isNotEmpty() == true)
+                if (networkHelper.isNetworkConnected()) {
+                    useCases.getNewsBySourceUseCase.invoke(newsId)
+                } else {
+                    useCases.getTopHeadlineUseCase.invoke()
+                }
                     .flowOn(dispatcherProvider.io)
                     .catch { e ->
                         _uiState.value = UiState.Error(e.toString())
                     }.collect {
                         _uiState.value = UiState.Success(it)
-                    }
-            } else if (language?.isNotEmpty() == true) {
-                useCases.getNewsByLanguageUseCase.invoke(language)
+                    } else if (language?.isNotEmpty() == true)
+                if (networkHelper.isNetworkConnected()) {
+                    useCases.getNewsByLanguageUseCase.invoke(language)
+                } else {
+                    useCases.getTopHeadlineUseCase.invoke()
+                }
                     .flowOn(dispatcherProvider.io)
                     .catch { e ->
                         _uiState.value = UiState.Error(e.toString())
                     }.collect {
                         _uiState.value = UiState.Success(it)
-                    }
-            } else {
-                useCases.getTopHeadlineUseCase.invoke(country ?: COUNTRY)
+                    } else {
+                if (networkHelper.isNetworkConnected()) {
+                    useCases.getTopHeadlineUseCase.invoke(country ?: COUNTRY)
+                } else {
+                    useCases.getTopHeadlineUseCase.invoke()
+                }
                     .flowOn(dispatcherProvider.io)
                     .catch { e ->
                         _uiState.value = UiState.Error(e.toString())
@@ -70,5 +83,4 @@ class TopHeadlineViewModel @Inject constructor(
             }
         }
     }
-
 }

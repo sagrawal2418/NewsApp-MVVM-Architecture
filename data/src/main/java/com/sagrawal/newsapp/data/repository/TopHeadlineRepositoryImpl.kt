@@ -6,6 +6,7 @@ import com.sagrawal.newsapp.domain.local.entity.Article
 import com.sagrawal.newsapp.domain.model.ApiArticle
 import com.sagrawal.newsapp.domain.model.toArticleEntity
 import com.sagrawal.newsapp.domain.repository.TopHeadlineRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapConcat
@@ -18,7 +19,7 @@ class TopHeadlineRepositoryImpl @Inject constructor(
     private val networkService: NetworkService
 ) : TopHeadlineRepository {
 
-    @OptIn(FlowPreview::class)
+    @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
     override fun getTopHeadlines(country: String): Flow<List<Article>> {
 
         return flow { emit(networkService.getTopHeadlines(country)) }
@@ -35,6 +36,7 @@ class TopHeadlineRepositoryImpl @Inject constructor(
         return databaseService.getArticles()
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun getNewsBySources(query: String): Flow<List<Article>> {
         return flow { emit(networkService.getNewsBySources(query)) }
             .map { response ->
@@ -46,6 +48,7 @@ class TopHeadlineRepositoryImpl @Inject constructor(
             }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun getNewsByLanguage(query: String): Flow<List<Article>> {
         return flow { emit(networkService.getNewsByLanguage(query)) }
             .map { response ->

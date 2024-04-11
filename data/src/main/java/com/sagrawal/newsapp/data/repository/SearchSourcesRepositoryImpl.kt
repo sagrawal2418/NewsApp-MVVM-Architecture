@@ -3,7 +3,6 @@ package com.sagrawal.newsapp.data.repository
 import com.sagrawal.newsapp.data.api.NetworkService
 import com.sagrawal.newsapp.data.local.AppDatabaseService
 import com.sagrawal.newsapp.domain.local.entity.Article
-import com.sagrawal.newsapp.domain.model.ApiArticle
 import com.sagrawal.newsapp.domain.model.toArticleEntity
 import com.sagrawal.newsapp.domain.repository.SearchSourcesRepository
 import kotlinx.coroutines.flow.Flow

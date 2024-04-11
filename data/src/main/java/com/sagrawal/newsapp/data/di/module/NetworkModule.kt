@@ -1,13 +1,17 @@
 package com.sagrawal.newsapp.data.di.module
 
+import android.content.Context
 import com.sagrawal.newsapp.data.api.NetworkService
 import com.sagrawal.newsapp.data.di.BaseUrl
 import com.sagrawal.newsapp.data.di.NetworkApiKey
 import com.sagrawal.newsapp.util.DefaultDispatcherProvider
+import com.sagrawal.newsapp.util.DefaultNetworkHelper
 import com.sagrawal.newsapp.util.DispatcherProvider
+import com.sagrawal.newsapp.util.NetworkHelper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -39,6 +43,12 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideGsonConverterFactory(): GsonConverterFactory = GsonConverterFactory.create()
+
+    @Provides
+    @Singleton
+    fun provideNetworkHelper(@ApplicationContext context: Context): NetworkHelper {
+        return DefaultNetworkHelper(context)
+    }
 
     @Provides
     @Singleton

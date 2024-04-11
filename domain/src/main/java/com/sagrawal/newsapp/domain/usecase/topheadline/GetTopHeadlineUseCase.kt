@@ -14,4 +14,8 @@ class GetTopHeadlineUseCase @Inject constructor(private val topHeadlineRepositor
         return topHeadlineRepository.getTopHeadlines(country)
     }
 
+    operator fun invoke(): Flow<List<Article>> {
+        return topHeadlineRepository.getArticlesDirectlyFromDB()
+    }
+
 }
