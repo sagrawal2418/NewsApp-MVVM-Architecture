@@ -1,8 +1,12 @@
 package com.sagrawal.newsapp.presentation.data
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import app.cash.turbine.test
 import com.sagrawal.newsapp.data.api.NetworkService
 import com.sagrawal.newsapp.data.local.AppDatabaseService
+import com.sagrawal.newsapp.data.repository.TopHeadlinePagingSource
 import com.sagrawal.newsapp.data.repository.TopHeadlineRepositoryImpl
 import com.sagrawal.newsapp.domain.model.ApiArticle
 import com.sagrawal.newsapp.domain.model.ApiSource
@@ -13,7 +17,9 @@ import com.sagrawal.newsapp.domain.model.toArticleEntity
 import com.sagrawal.newsapp.domain.repository.TopHeadlineRepository
 import com.sagrawal.newsapp.presentation.base.UiState
 import com.sagrawal.newsapp.utils.AppConstant.COUNTRY
+import com.sagrawal.newsapp.utils.AppConstant.PAGE_SIZE
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
@@ -45,9 +51,12 @@ class TopHeadlineRepositoryTest {
 
     private lateinit var topHeadlineRepository: TopHeadlineRepository
 
+    private lateinit var topHeadlinePagingSource: TopHeadlinePagingSource
+
     @Before
     fun setUp() {
         topHeadlineRepository = TopHeadlineRepositoryImpl(databaseService, networkService)
+        topHeadlinePagingSource = TopHeadlinePagingSource(networkService)
     }
 
     @Test
@@ -75,17 +84,18 @@ class TopHeadlineRepositoryTest {
                     "description",
                     "url",
                     "urlToImage",
+                    imageUrl = "imageUrl",
                     apiSource = ApiSource("id", "name")
                 )
             )
             val articles = listOf(
-                Article(
+                ApiArticle(
                     "title",
                     "description",
                     "url",
                     "urlToImage",
                     "imageUrl",
-                    Source("id", "name")
+                    ApiSource("id", "name")
                 )
             )
 
@@ -96,7 +106,6 @@ class TopHeadlineRepositoryTest {
                     apiArticles = apiArticles
                 )
             ).`when`(networkService).getNewsBySources(anyString())
-            doReturn(flowOf(articles)).`when`(databaseService).getArticles()
 
             // When
             val result = topHeadlineRepository.getNewsBySources(anyString())
@@ -104,8 +113,6 @@ class TopHeadlineRepositoryTest {
             // Then
             assertEquals(articles, result.toList()[0])
             verify(networkService).getNewsBySources(anyString())
-            verify(databaseService).deleteAllAndInsertAll(anyList())
-            verify(databaseService).getArticles()
         }
     }
 
@@ -134,17 +141,18 @@ class TopHeadlineRepositoryTest {
                     "description",
                     "url",
                     "urlToImage",
+                    "imageUrl",
                     apiSource = ApiSource("id", "name")
                 )
             )
             val articles = listOf(
-                Article(
+                ApiArticle(
                     "title",
                     "description",
                     "url",
                     "urlToImage",
                     "imageUrl",
-                    Source("id", "name")
+                    ApiSource("id", "name")
                 )
             )
 
@@ -155,7 +163,6 @@ class TopHeadlineRepositoryTest {
                     apiArticles = apiArticles
                 )
             ).`when`(networkService).getNewsByLanguage(anyString())
-            doReturn(flowOf(articles)).`when`(databaseService).getArticles()
 
             // When
             val result = topHeadlineRepository.getNewsByLanguage(anyString())
@@ -163,8 +170,6 @@ class TopHeadlineRepositoryTest {
             // Then
             assertEquals(articles, result.toList()[0])
             verify(networkService).getNewsByLanguage(anyString())
-            verify(databaseService).deleteAllAndInsertAll(anyList())
-            verify(databaseService).getArticles()
         }
     }
 
@@ -226,6 +231,48 @@ class TopHeadlineRepositoryTest {
             verify(networkService).getTopHeadlines(country)
             verify(databaseService).deleteAllAndInsertAll(anyList())
             verify(databaseService).getArticles()
+        }
+    }
+
+    @Test
+    fun getNetworkTopHeadlines_whenNetworkServiceResponseSuccess_shouldReturnSuccess() {
+        runBlocking {
+
+            val apiArticles = listOf(
+                ApiArticle(
+                    "title",
+                    "description",
+                    "url",
+                    "urlToImage",
+                    "imageUrl",
+                    apiSource = ApiSource("id", "name")
+                )
+            )
+            val articles = listOf(
+                ApiArticle(
+                    "title",
+                    "description",
+                    "url",
+                    "urlToImage",
+                    "imageUrl",
+                    ApiSource("id", "name")
+                )
+            )
+
+            doReturn(
+                TopHeadlinesResponse(
+                    status = "ok",
+                    totalResults = 1,
+                    apiArticles = apiArticles
+                )
+            ).`when`(networkService).getTopHeadlines(anyString())
+
+            // When
+            val result = topHeadlineRepository.getNetworkTopHeadlines(anyString())
+
+            // Then
+            assertEquals(articles, result.toList()[0])
+            verify(networkService).getTopHeadlines(anyString())
         }
     }
 

@@ -9,10 +9,12 @@ import com.sagrawal.newsapp.domain.usecase.GetCountriesUseCase
 import com.sagrawal.newsapp.domain.usecase.GetLanguagesUseCase
 import com.sagrawal.newsapp.domain.usecase.GetNewsSourcesByQueriesUseCase
 import com.sagrawal.newsapp.domain.usecase.GetNewsSourcesUseCase
-import com.sagrawal.newsapp.domain.usecase.topheadline.GetNewsByLanguageUseCase
-import com.sagrawal.newsapp.domain.usecase.topheadline.GetNewsBySourceUseCase
-import com.sagrawal.newsapp.domain.usecase.topheadline.GetTopHeadlineUseCase
-import com.sagrawal.newsapp.domain.usecase.topheadline.TopHeadlineUseCases
+import com.sagrawal.newsapp.domain.usecase.topheadline.GetOfflineTopHeadlineUseCase
+import com.sagrawal.newsapp.domain.usecase.topheadline.GetPagingTopHeadlineUseCase
+import com.sagrawal.newsapp.domain.usecase.topheadline.networkTopHeadline.GetNetworkTopHeadlineUseCase
+import com.sagrawal.newsapp.domain.usecase.topheadline.networkTopHeadline.GetNewsByLanguageUseCase
+import com.sagrawal.newsapp.domain.usecase.topheadline.networkTopHeadline.GetNewsBySourceUseCase
+import com.sagrawal.newsapp.domain.usecase.topheadline.networkTopHeadline.NetworkTopHeadlineUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,8 +51,20 @@ class UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideGetTopHeadlineUseCase(topHeadlineRepository: TopHeadlineRepository): GetTopHeadlineUseCase {
-        return GetTopHeadlineUseCase(topHeadlineRepository)
+    fun provideGetNetworkTopHeadlineUseCase(topHeadlineRepository: TopHeadlineRepository): GetNetworkTopHeadlineUseCase {
+        return GetNetworkTopHeadlineUseCase(topHeadlineRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideOfflineTopHeadlineUseCase(topHeadlineRepository: TopHeadlineRepository): GetOfflineTopHeadlineUseCase {
+        return GetOfflineTopHeadlineUseCase(topHeadlineRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun providePagingTopHeadlineUseCase(topHeadlineRepository: TopHeadlineRepository): GetPagingTopHeadlineUseCase {
+        return GetPagingTopHeadlineUseCase(topHeadlineRepository)
     }
 
     @Provides
@@ -67,12 +81,12 @@ class UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideTopHeadlineUseCases(
-        getTopHeadlineUseCase: GetTopHeadlineUseCase,
+    fun provideNetworkTopHeadlineUseCases(
+        getTopHeadlineUseCase: GetNetworkTopHeadlineUseCase,
         getNewsByLanguageUseCase: GetNewsByLanguageUseCase,
         getNewsBySourceUseCase: GetNewsBySourceUseCase
-    ): TopHeadlineUseCases {
-        return TopHeadlineUseCases(
+    ): NetworkTopHeadlineUseCases {
+        return NetworkTopHeadlineUseCases(
             getTopHeadlineUseCase,
             getNewsByLanguageUseCase,
             getNewsBySourceUseCase

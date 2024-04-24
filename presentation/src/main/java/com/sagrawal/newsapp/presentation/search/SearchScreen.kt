@@ -22,7 +22,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.sagrawal.newsapp.domain.local.entity.Article
 import com.sagrawal.newsapp.domain.model.ApiArticle
 import com.sagrawal.newsapp.presentation.R
 import com.sagrawal.newsapp.presentation.base.BannerImage
@@ -30,8 +29,7 @@ import com.sagrawal.newsapp.presentation.base.ShowError
 import com.sagrawal.newsapp.presentation.base.ShowLoading
 import com.sagrawal.newsapp.presentation.base.TitleText
 import com.sagrawal.newsapp.presentation.base.UiState
-import com.sagrawal.newsapp.presentation.topheadline.DescriptionText
-import com.sagrawal.newsapp.presentation.topheadline.SourceText
+import com.sagrawal.newsapp.presentation.topheadline.offline.DescriptionText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -69,7 +67,7 @@ fun SearchBar(onQuerySubmitted: (String) -> Unit) {
 
 @Composable
 fun SearchContent(
-    uiState: UiState<List<Article>>,
+    uiState: UiState<List<ApiArticle>>,
     viewModel: SearchViewModel?,
     onNewsClick: (url: String) -> Unit
 ) {
@@ -94,7 +92,7 @@ fun SearchContent(
 }
 
 @Composable
-fun SearchResultList(searchResults: List<Article>, onNewsClick: (url: String) -> Unit) {
+fun SearchResultList(searchResults: List<ApiArticle>, onNewsClick: (url: String) -> Unit) {
     LazyColumn {
         items(searchResults) { article ->
             SearchResultItem(article = article, onNewsClick)
@@ -103,7 +101,7 @@ fun SearchResultList(searchResults: List<Article>, onNewsClick: (url: String) ->
 }
 
 @Composable
-fun SearchResultItem(article: Article, onNewsClick: (url: String) -> Unit) {
+fun SearchResultItem(article: ApiArticle, onNewsClick: (url: String) -> Unit) {
     Column(modifier = Modifier
         .fillMaxWidth()
         .clickable {
@@ -114,7 +112,7 @@ fun SearchResultItem(article: Article, onNewsClick: (url: String) -> Unit) {
         BannerImage(article)
         TitleText(article.title)
         DescriptionText(article.description)
-        SourceText(article.source)
+        com.sagrawal.newsapp.presentation.base.SourceText(article.apiSource)
     }
 }
 

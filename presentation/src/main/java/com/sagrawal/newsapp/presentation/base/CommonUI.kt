@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.sagrawal.newsapp.domain.local.entity.Article
 import com.sagrawal.newsapp.domain.model.ApiArticle
+import com.sagrawal.newsapp.domain.model.ApiSource
 import com.sagrawal.newsapp.presentation.R
 
 @Composable
@@ -82,6 +83,18 @@ fun TitleTextLarge(title: String) {
 
 @Composable
 fun BannerImage(apiArticle: Article) {
+    AsyncImage(
+        model = apiArticle.imageUrl,
+        contentDescription = apiArticle.title,
+        contentScale = ContentScale.Crop,
+        modifier = Modifier
+            .height(200.dp)
+            .fillMaxWidth()
+    )
+}
+
+@Composable
+fun BannerImage(apiArticle: ApiArticle) {
     AsyncImage(
         model = apiArticle.imageUrl,
         contentDescription = apiArticle.title,
@@ -146,5 +159,59 @@ fun ShowCards(title: String, id: String, onClick: (url: String) -> Unit) {
         ) {
             TitleTextLarge(title)
         }
+    }
+}
+
+@Composable
+fun SourceText(source: ApiSource?) {
+    source?.name?.let {
+        Text(
+            text = it,
+            style = MaterialTheme.typography.titleSmall,
+            color = Color.Gray,
+            maxLines = 1,
+            modifier = Modifier.padding(start = 4.dp, end = 4.dp, top = 4.dp, bottom = 8.dp)
+        )
+    }
+}
+
+@Composable
+fun Article(article: ApiArticle, onNewsClick: (url: String) -> Unit) {
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .clickable {
+            if (article.url.isNotEmpty()) {
+                onNewsClick(article.url)
+            }
+        }) {
+        ApiBannerImage(article)
+        TitleText(article.title)
+        ApiDescriptionText(article.description)
+        SourceText(article.apiSource)
+    }
+}
+
+@Composable
+private fun ApiBannerImage(apiArticle: ApiArticle) {
+    AsyncImage(
+        model = apiArticle.imageUrl,
+        contentDescription = apiArticle.title,
+        contentScale = ContentScale.Crop,
+        modifier = Modifier
+            .height(200.dp)
+            .fillMaxWidth()
+    )
+}
+
+@Composable
+fun ApiDescriptionText(description: String?) {
+    if (!description.isNullOrEmpty()) {
+        Text(
+            text = description,
+            style = MaterialTheme.typography.bodyMedium,
+            color = Color.Gray,
+            maxLines = 2,
+            modifier = Modifier.padding(4.dp)
+        )
     }
 }

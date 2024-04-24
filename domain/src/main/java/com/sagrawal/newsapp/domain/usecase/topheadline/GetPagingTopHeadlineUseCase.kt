@@ -1,5 +1,6 @@
 package com.sagrawal.newsapp.domain.usecase.topheadline
 
+import androidx.paging.PagingData
 import com.sagrawal.newsapp.domain.local.entity.Article
 import com.sagrawal.newsapp.domain.model.ApiArticle
 import com.sagrawal.newsapp.domain.repository.TopHeadlineRepository
@@ -8,10 +9,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GetNewsByLanguageUseCase @Inject constructor(private val topHeadlineRepository: TopHeadlineRepository) {
+class GetPagingTopHeadlineUseCase @Inject constructor(private val topHeadlineRepository: TopHeadlineRepository) {
 
-    operator fun invoke(query: String): Flow<List<Article>> {
-        return topHeadlineRepository.getNewsByLanguage(query)
+    operator fun invoke(): Flow<PagingData<ApiArticle>> {
+        return topHeadlineRepository.getPagingTopHeadlines()
     }
-
 }

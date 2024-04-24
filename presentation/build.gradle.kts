@@ -53,6 +53,7 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation("com.google.dagger:hilt-android:2.48.1")
+    implementation("androidx.paging:paging-compose:3.2.1")
     kapt("com.google.dagger:hilt-compiler:2.48.1")
     implementation("androidx.browser:browser:1.8.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")

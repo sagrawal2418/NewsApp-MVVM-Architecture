@@ -3,12 +3,12 @@ package com.sagrawal.newsapp.presentation.ui
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.sagrawal.newsapp.domain.model.Article
-import com.sagrawal.newsapp.domain.usecase.topheadline.GetNewsByLanguageUseCase
-import com.sagrawal.newsapp.domain.usecase.topheadline.GetNewsBySourceUseCase
-import com.sagrawal.newsapp.domain.usecase.topheadline.GetTopHeadlineUseCase
-import com.sagrawal.newsapp.domain.usecase.topheadline.TopHeadlineUseCases
+import com.sagrawal.newsapp.domain.usecase.topheadline.networkTopHeadline.GetNetworkTopHeadlineUseCase
+import com.sagrawal.newsapp.domain.usecase.topheadline.networkTopHeadline.GetNewsByLanguageUseCase
+import com.sagrawal.newsapp.domain.usecase.topheadline.networkTopHeadline.GetNewsBySourceUseCase
+import com.sagrawal.newsapp.domain.usecase.topheadline.networkTopHeadline.NetworkTopHeadlineUseCases
 import com.sagrawal.newsapp.presentation.base.UiState
-import com.sagrawal.newsapp.presentation.topheadline.TopHeadlineViewModel
+import com.sagrawal.newsapp.presentation.topheadline.network.NetworkTopHeadlineViewModel
 import com.sagrawal.newsapp.presentation.utils.TestDispatcherProvider
 import com.sagrawal.newsapp.util.DispatcherProvider
 import com.sagrawal.newsapp.util.NetworkHelper
@@ -32,16 +32,13 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
-class TopHeadlineViewModelTest {
+class NetworkTopHeadlineViewModelTest {
 
     @Mock
-    private lateinit var useCases: TopHeadlineUseCases
+    private lateinit var useCases: NetworkTopHeadlineUseCases
 
     @Mock
-    private lateinit var networkHelper: NetworkHelper
-
-    @Mock
-    private lateinit var getTopHeadlineUseCase: GetTopHeadlineUseCase
+    private lateinit var getTopHeadlineUseCase: GetNetworkTopHeadlineUseCase
 
     @Mock
     private lateinit var getNewsByLanguageUseCase: GetNewsByLanguageUseCase
@@ -49,23 +46,25 @@ class TopHeadlineViewModelTest {
     @Mock
     private lateinit var getNewsBySourceUseCase: GetNewsBySourceUseCase
 
-
     private lateinit var dispatcherProvider: DispatcherProvider
 
     @Mock
     private lateinit var savedStateHandle: SavedStateHandle
 
-    private lateinit var viewModel: TopHeadlineViewModel
+    private lateinit var viewModel: NetworkTopHeadlineViewModel
 
     @Before
     fun setUp() {
         dispatcherProvider = TestDispatcherProvider()
-        viewModel = TopHeadlineViewModel(networkHelper, useCases, dispatcherProvider, savedStateHandle)
+        viewModel = NetworkTopHeadlineViewModel(
+            useCases,
+            dispatcherProvider,
+            savedStateHandle
+        )
         // Mock the use case within the TopHeadlineUseCases container
         `when`(useCases.getTopHeadlineUseCase).thenReturn(getTopHeadlineUseCase)
         `when`(useCases.getNewsByLanguageUseCase).thenReturn(getNewsByLanguageUseCase)
         `when`(useCases.getNewsBySourceUseCase).thenReturn(getNewsBySourceUseCase)
-        `when`(networkHelper.isNetworkConnected()).thenReturn(true)
     }
 
     @Test
@@ -80,9 +79,12 @@ class TopHeadlineViewModelTest {
                 flowOf(emptyList<Article>())
             }.`when`(getNewsBySourceUseCase).invoke(expectedNewsId)
 
-
             val viewModel =
-                TopHeadlineViewModel(networkHelper, useCases, dispatcherProvider, savedStateHandle)
+                NetworkTopHeadlineViewModel(
+                    useCases,
+                    dispatcherProvider,
+                    savedStateHandle
+                )
             viewModel.uiState.test {
                 assertEquals(UiState.Success(emptyList<List<Article>>()), awaitItem())
                 cancelAndIgnoreRemainingEvents()
@@ -105,7 +107,11 @@ class TopHeadlineViewModelTest {
             }.`when`(getNewsBySourceUseCase).invoke(newsId)
 
             val viewModel =
-                TopHeadlineViewModel(networkHelper, useCases, dispatcherProvider, savedStateHandle)
+                NetworkTopHeadlineViewModel(
+                    useCases,
+                    dispatcherProvider,
+                    savedStateHandle
+                )
             viewModel.uiState.test {
                 assertEquals(
                     UiState.Error(IllegalStateException(errorMessage).toString()),
@@ -125,7 +131,11 @@ class TopHeadlineViewModelTest {
                 .`when`(getTopHeadlineUseCase)
                 .invoke(AppConstant.COUNTRY)
             val viewModel =
-                TopHeadlineViewModel(networkHelper, useCases, dispatcherProvider, savedStateHandle)
+                NetworkTopHeadlineViewModel(
+                    useCases,
+                    dispatcherProvider,
+                    savedStateHandle
+                )
             viewModel.uiState.test {
                 assertEquals(UiState.Success(emptyList<List<Article>>()), awaitItem())
                 cancelAndIgnoreRemainingEvents()
@@ -146,7 +156,11 @@ class TopHeadlineViewModelTest {
                 .`when`(getTopHeadlineUseCase)
                 .invoke(expectedCountry)
             val viewModel =
-                TopHeadlineViewModel(networkHelper, useCases, dispatcherProvider, savedStateHandle)
+                NetworkTopHeadlineViewModel(
+                    useCases,
+                    dispatcherProvider,
+                    savedStateHandle
+                )
             viewModel.uiState.test {
                 assertEquals(UiState.Success(emptyList<List<Article>>()), awaitItem())
                 cancelAndIgnoreRemainingEvents()
@@ -171,7 +185,11 @@ class TopHeadlineViewModelTest {
                 .invoke(expectedCountry)
 
             val viewModel =
-                TopHeadlineViewModel(networkHelper, useCases, dispatcherProvider, savedStateHandle)
+                NetworkTopHeadlineViewModel(
+                    useCases,
+                    dispatcherProvider,
+                    savedStateHandle
+                )
             viewModel.uiState.test {
                 assertEquals(
                     UiState.Error(IllegalStateException(errorMessage).toString()),
@@ -195,7 +213,11 @@ class TopHeadlineViewModelTest {
                 .`when`(getNewsByLanguageUseCase)
                 .invoke(expectedLanguage)
             val viewModel =
-                TopHeadlineViewModel(networkHelper, useCases, dispatcherProvider, savedStateHandle)
+                NetworkTopHeadlineViewModel(
+                    useCases,
+                    dispatcherProvider,
+                    savedStateHandle
+                )
             viewModel.uiState.test {
                 assertEquals(UiState.Success(emptyList<List<Article>>()), awaitItem())
                 cancelAndIgnoreRemainingEvents()
@@ -220,7 +242,11 @@ class TopHeadlineViewModelTest {
                 .invoke(expectedCountry)
 
             val viewModel =
-                TopHeadlineViewModel(networkHelper, useCases, dispatcherProvider, savedStateHandle)
+                NetworkTopHeadlineViewModel(
+                    useCases,
+                    dispatcherProvider,
+                    savedStateHandle
+                )
             viewModel.uiState.test {
                 assertEquals(
                     UiState.Error(IllegalStateException(errorMessage).toString()),

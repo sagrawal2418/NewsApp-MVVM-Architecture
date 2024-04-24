@@ -24,7 +24,10 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideTopHeadlineRepository(databaseService: AppDatabaseService, networkService: NetworkService): TopHeadlineRepository {
+    fun provideTopHeadlineRepository(
+        databaseService: AppDatabaseService,
+        networkService: NetworkService
+    ): TopHeadlineRepository {
         return TopHeadlineRepositoryImpl(databaseService, networkService)
     }
 
@@ -49,9 +52,9 @@ class RepositoryModule {
     @Provides
     @Singleton
     fun provideSearchSourcesRepository(
-        databaseService: AppDatabaseService,
-        networkService: NetworkService): SearchSourcesRepository {
-        return SearchSourcesRepositoryImpl(databaseService,networkService)
+        networkService: NetworkService
+    ): SearchSourcesRepository {
+        return SearchSourcesRepositoryImpl(networkService)
     }
 
 }

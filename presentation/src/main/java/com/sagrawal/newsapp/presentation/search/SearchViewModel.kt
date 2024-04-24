@@ -10,6 +10,8 @@ import com.sagrawal.newsapp.util.DispatcherProvider
 import com.sagrawal.newsapp.utils.AppConstant.DEBOUNCE_TIMEOUT
 import com.sagrawal.newsapp.utils.AppConstant.MIN_SEARCH_CHAR
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -27,11 +29,11 @@ class SearchViewModel @Inject constructor(
     private val dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<UiState<List<Article>>>(UiState.Success(emptyList()))
+    private val _uiState = MutableStateFlow<UiState<List<ApiArticle>>>(UiState.Success(emptyList()))
 
-    val uiState: StateFlow<UiState<List<Article>>> = _uiState
+    val uiState: StateFlow<UiState<List<ApiArticle>>> = _uiState
 
-    private val query = MutableStateFlow("")
+    val query = MutableStateFlow("")
 
     init {
         createNewsFlow()
@@ -41,6 +43,7 @@ class SearchViewModel @Inject constructor(
         query.value = searchQuery
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     fun createNewsFlow() {
         viewModelScope.launch(dispatcherProvider.main) {
             query.debounce(DEBOUNCE_TIMEOUT)

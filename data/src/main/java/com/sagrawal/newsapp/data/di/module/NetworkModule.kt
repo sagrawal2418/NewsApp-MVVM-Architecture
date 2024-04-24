@@ -1,6 +1,7 @@
 package com.sagrawal.newsapp.data.di.module
 
 import android.content.Context
+import com.sagrawal.newsapp.data.api.ApiKeyInterceptor
 import com.sagrawal.newsapp.data.api.NetworkService
 import com.sagrawal.newsapp.data.di.BaseUrl
 import com.sagrawal.newsapp.data.di.NetworkApiKey
@@ -8,6 +9,7 @@ import com.sagrawal.newsapp.util.DefaultDispatcherProvider
 import com.sagrawal.newsapp.util.DefaultNetworkHelper
 import com.sagrawal.newsapp.util.DispatcherProvider
 import com.sagrawal.newsapp.util.NetworkHelper
+import com.sagrawal.newsapp.utils.AppConstant
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,15 +24,21 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
 
-    //TODO pick the value from build.config
-    @NetworkApiKey
     @Provides
-    fun provideApiKey(): String = "9f6482a584804376874b848980b7a044"
+    @Singleton
+    fun provideApiKeyInterceptor(@NetworkApiKey apiKey: String): ApiKeyInterceptor =
+        ApiKeyInterceptor(apiKey)
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient =
-        OkHttpClient().newBuilder().build()
+    fun provideOkHttpClient(apiKeyInterceptor: ApiKeyInterceptor):
+            OkHttpClient = OkHttpClient().newBuilder()
+        .addInterceptor(apiKeyInterceptor)
+        .build()
+
+    @NetworkApiKey
+    @Provides
+    fun provideApiKey(): String = AppConstant.API_KEY
 
     @Provides
     @Singleton
@@ -38,7 +46,7 @@ class NetworkModule {
 
     @BaseUrl
     @Provides
-    fun provideBaseUrl(): String = "https://newsapi.org/v2/"
+    fun provideBaseUrl(): String = AppConstant.BASE_URL
 
     @Provides
     @Singleton
@@ -54,10 +62,12 @@ class NetworkModule {
     @Singleton
     fun provideNetworkService(
         @BaseUrl baseUrl: String,
+        okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory
     ): NetworkService {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
+            .client(okHttpClient)
             .addConverterFactory(gsonConverterFactory)
             .build()
             .create(NetworkService::class.java)

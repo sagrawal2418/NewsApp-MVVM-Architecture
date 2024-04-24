@@ -32,6 +32,7 @@ dependencies {
     implementation(project(":utils"))
 
     implementation ("androidx.room:room-runtime:2.6.0")
+    implementation("androidx.paging:paging-common-ktx:3.2.1")
     ksp("androidx.room:room-compiler:2.6.0")
     implementation ("androidx.room:room-ktx:2.6.0")
     implementation("com.google.code.gson:gson:2.10.1")

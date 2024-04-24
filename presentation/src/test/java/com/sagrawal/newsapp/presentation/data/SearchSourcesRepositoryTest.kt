@@ -35,57 +35,40 @@ class SearchSourcesRepositoryTest {
     @Mock
     private lateinit var networkService: NetworkService
 
-    @Mock
-    private lateinit var databaseService: AppDatabaseService
-
     private lateinit var searchSourcesRepository: SearchSourcesRepository
 
     @Before
     fun setUp() {
-        searchSourcesRepository = SearchSourcesRepositoryImpl(databaseService, networkService)
+        searchSourcesRepository = SearchSourcesRepositoryImpl(networkService)
     }
 
     @Test
     fun getNewsSourcesByQueries_whenNetworkServiceResponseSuccess_shouldReturnSuccess() {
-        runBlocking {
-
-            val apiArticles = listOf(
-                ApiArticle(
-                    "title",
-                    "description",
-                    "url",
-                    "urlToImage",
-                    apiSource = ApiSource("id", "name")
-                )
-            )
-            val articles = listOf(
-                Article(
-                    "title",
-                    "description",
-                    "url",
-                    "urlToImage",
-                    "imageUrl",
-                    Source("id", "name")
-                )
+        runTest {
+            val source = ApiSource(id = "sourceId", name = "sourceName")
+            val article = ApiArticle(
+                title = "title",
+                description = "description",
+                url = "url",
+                imageUrl = "urlToImage",
+                apiSource = source
             )
 
-            doReturn(
-                TopHeadlinesResponse(
-                    status = "ok",
-                    totalResults = 1,
-                    apiArticles = apiArticles
-                )
-            ).`when`(networkService).getNewsByQueries(anyString())
-            doReturn(flowOf(articles)).`when`(databaseService).getArticles()
+            val articles = mutableListOf<ApiArticle>()
+            articles.add(article)
 
-            // When
-            val result = searchSourcesRepository.getNewsSourcesByQueries(anyString())
+            val topHeadlinesResponse = TopHeadlinesResponse(
+                status = "ok", totalResults = 1, apiArticles = articles
+            )
 
-            // Then
-            assertEquals(articles, result.toList()[0])
-            verify(networkService).getNewsByQueries(anyString())
-            verify(databaseService).deleteAllAndInsertAll(Mockito.anyList())
-            verify(databaseService).getArticles()
+            doReturn(topHeadlinesResponse).`when`(networkService).getNewsByQueries(anyString())
+
+            searchSourcesRepository.getNewsSourcesByQueries(anyString()).test {
+                assertEquals(topHeadlinesResponse.apiArticles, awaitItem())
+                cancelAndIgnoreRemainingEvents()
+            }
+
+            verify(networkService, times(1)).getNewsByQueries(anyString())
         }
     }
 
@@ -104,5 +87,4 @@ class SearchSourcesRepositoryTest {
             verify(networkService, times(1)).getNewsByQueries(anyString())
         }
     }
-
 }

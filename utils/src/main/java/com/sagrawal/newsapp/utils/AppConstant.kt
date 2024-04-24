@@ -8,7 +8,8 @@ object AppConstant {
     const val COUNTRY = "us"
     const val DEBOUNCE_TIMEOUT = 300L
     const val MIN_SEARCH_CHAR = 3
-    const val API_KEY = "b2ab15af13604703a9c0d9717aa0b0a4"
+    const val API_KEY = "9f6482a584804376874b848980b7a044"
+    const val BASE_URL = "https://newsapi.org/v2/"
     const val HEADLINES = "Headlines"
     const val SOURCES = "Sources"
     const val COUNTRIES = "Countries"
@@ -17,5 +18,7 @@ object AppConstant {
     const val NAV_ARG_NEWS_ID = "newsId"
     const val NAV_ARG_COUNTRY = "country"
     const val NAV_ARG_LANGUAGE = "language"
+    const val INITIAL_PAGE = 1
+    const val PAGE_SIZE = 10
 
 }
