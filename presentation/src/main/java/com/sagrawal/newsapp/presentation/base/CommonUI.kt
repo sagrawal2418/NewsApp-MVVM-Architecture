@@ -1,5 +1,6 @@
 package com.sagrawal.newsapp.presentation.base
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,15 +24,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.sagrawal.newsapp.domain.local.entity.Article
 import com.sagrawal.newsapp.domain.model.ApiArticle
 import com.sagrawal.newsapp.domain.model.ApiSource
 import com.sagrawal.newsapp.presentation.R
@@ -50,59 +52,6 @@ fun ShowLoading() {
                 contentDescription = contentDesc
             })
     }
-}
-
-@Composable
-fun TitleText(title: String) {
-    if (title.isNotEmpty()) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.titleMedium,
-            color = Color.Black,
-            maxLines = 2,
-            modifier = Modifier.padding(4.dp)
-        )
-    }
-}
-
-@Composable
-fun TitleTextLarge(title: String) {
-    if (title.isNotEmpty()) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.titleLarge,
-            color = Color.Black,
-            maxLines = 2,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .padding(4.dp)
-                .fillMaxWidth()
-        )
-    }
-}
-
-@Composable
-fun BannerImage(apiArticle: Article) {
-    AsyncImage(
-        model = apiArticle.imageUrl,
-        contentDescription = apiArticle.title,
-        contentScale = ContentScale.Crop,
-        modifier = Modifier
-            .height(200.dp)
-            .fillMaxWidth()
-    )
-}
-
-@Composable
-fun BannerImage(apiArticle: ApiArticle) {
-    AsyncImage(
-        model = apiArticle.imageUrl,
-        contentDescription = apiArticle.title,
-        contentScale = ContentScale.Crop,
-        modifier = Modifier
-            .height(200.dp)
-            .fillMaxWidth()
-    )
 }
 
 @Composable
@@ -142,6 +91,35 @@ fun ShowError(
 }
 
 @Composable
+fun TitleText(title: String) {
+    if (title.isNotEmpty()) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleMedium,
+            color = Color.Black,
+            maxLines = 2,
+            modifier = Modifier.padding(4.dp)
+        )
+    }
+}
+
+@Composable
+fun TitleTextLarge(title: String) {
+    if (title.isNotEmpty()) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleLarge,
+            color = Color.Black,
+            maxLines = 2,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .padding(4.dp)
+                .fillMaxWidth()
+        )
+    }
+}
+
+@Composable
 fun ShowCards(title: String, id: String, onClick: (url: String) -> Unit) {
     Card(modifier = Modifier
         .fillMaxWidth()
@@ -163,8 +141,8 @@ fun ShowCards(title: String, id: String, onClick: (url: String) -> Unit) {
 }
 
 @Composable
-fun SourceText(source: ApiSource?) {
-    source?.name?.let {
+fun SourceText(name: String?) {
+    name?.let {
         Text(
             text = it,
             style = MaterialTheme.typography.titleSmall,
@@ -184,18 +162,18 @@ fun Article(article: ApiArticle, onNewsClick: (url: String) -> Unit) {
                 onNewsClick(article.url)
             }
         }) {
-        ApiBannerImage(article)
+        BannerImage(article.imageUrl, article.title)
         TitleText(article.title)
-        ApiDescriptionText(article.description)
-        SourceText(article.apiSource)
+        DescriptionText(article.description)
+        SourceText(article.apiSource.name)
     }
 }
 
 @Composable
-private fun ApiBannerImage(apiArticle: ApiArticle) {
+fun BannerImage(imageUrl: String?, title: String?) {
     AsyncImage(
-        model = apiArticle.imageUrl,
-        contentDescription = apiArticle.title,
+        model = imageUrl,
+        contentDescription = title,
         contentScale = ContentScale.Crop,
         modifier = Modifier
             .height(200.dp)
@@ -204,7 +182,7 @@ private fun ApiBannerImage(apiArticle: ApiArticle) {
 }
 
 @Composable
-fun ApiDescriptionText(description: String?) {
+fun DescriptionText(description: String?) {
     if (!description.isNullOrEmpty()) {
         Text(
             text = description,
@@ -213,5 +191,17 @@ fun ApiDescriptionText(description: String?) {
             maxLines = 2,
             modifier = Modifier.padding(4.dp)
         )
+    }
+}
+
+@SuppressLint("DiscouragedApi")
+@Composable
+fun calculateBottomNavigationBarHeight(): Dp {
+    val context = LocalContext.current
+    val resourceId = context.resources.getIdentifier("navigation_bar_height", "dimen", "android")
+    return if (resourceId > 0) {
+        context.resources.getDimensionPixelSize(resourceId).dp + 20.dp
+    } else {
+        0.dp // Return a default height or handle the case when navigation bar height is not available
     }
 }

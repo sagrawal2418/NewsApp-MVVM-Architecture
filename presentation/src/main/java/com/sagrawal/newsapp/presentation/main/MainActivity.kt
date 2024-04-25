@@ -9,11 +9,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Face
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Place
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Icon
@@ -68,8 +70,8 @@ class MainActivity : ComponentActivity() {
             )
             val languages = TabBarItem(
                 title = stringResource(id = R.string.languages),
-                selectedIcon = Icons.Filled.Face,
-                unselectedIcon = Icons.Outlined.Face
+                selectedIcon = Icons.Filled.Person,
+                unselectedIcon = Icons.Outlined.Person
             )
             val search = TabBarItem(
                 title = stringResource(id = R.string.search),
@@ -82,9 +84,7 @@ class MainActivity : ComponentActivity() {
 
             NewsAppTheme {
 
-                val navigationBarColor = Color.Black // Define your desired black color
-
-                // ... rest of your content
+                val navigationBarColor = Color.Black
 
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -137,8 +137,6 @@ fun TabView(tabBarItems: List<TabBarItem>, navController: NavController) {
     }
 }
 
-// This component helps to clean up the API call from our TabView above,
-// but could just as easily be added inside the TabView without creating this custom component
 @Composable
 fun TabBarIconView(
     isSelected: Boolean,
@@ -154,6 +152,6 @@ fun TabBarIconView(
             unselectedIcon
         },
         contentDescription = title,
-        tint = if (isSelected) Color.White else Color.LightGray // Set white for selected, light gray for unselected
+        tint = if (isSelected) Color.White else Color.LightGray
     )
 }

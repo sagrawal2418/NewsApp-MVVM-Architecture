@@ -1,6 +1,7 @@
 package com.sagrawal.newsapp.presentation.newssources
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -21,6 +22,7 @@ import com.sagrawal.newsapp.presentation.base.ShowCards
 import com.sagrawal.newsapp.presentation.base.ShowError
 import com.sagrawal.newsapp.presentation.base.ShowLoading
 import com.sagrawal.newsapp.presentation.base.UiState
+import com.sagrawal.newsapp.presentation.base.calculateBottomNavigationBarHeight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -74,7 +76,9 @@ fun NewsSourcesScreen(
 
 @Composable
 fun NewsSourceList(newsSources: List<NewsSource>, onNewsClick: (url: String) -> Unit) {
-    LazyColumn {
+    LazyColumn(
+        contentPadding = PaddingValues(bottom = calculateBottomNavigationBarHeight())
+    ) {
         items(newsSources, key = { newsSource -> newsSource.url }) { newsSource ->
             NewsSource(newsSource, onNewsClick)
         }

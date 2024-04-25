@@ -4,7 +4,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.sagrawal.newsapp.ui.theme.Typography
 
 private val LightColorScheme = lightColorScheme(
     primary = Color.Black,

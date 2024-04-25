@@ -2,6 +2,7 @@ package com.sagrawal.newsapp.presentation.topheadline.offline
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,11 +24,15 @@ import coil.compose.AsyncImage
 import com.sagrawal.newsapp.domain.local.entity.Article
 import com.sagrawal.newsapp.domain.local.entity.Source
 import com.sagrawal.newsapp.presentation.R
+import com.sagrawal.newsapp.presentation.base.BannerImage
 import com.sagrawal.newsapp.presentation.base.CustomTopAppBar
+import com.sagrawal.newsapp.presentation.base.DescriptionText
 import com.sagrawal.newsapp.presentation.base.ShowError
 import com.sagrawal.newsapp.presentation.base.ShowLoading
+import com.sagrawal.newsapp.presentation.base.SourceText
 import com.sagrawal.newsapp.presentation.base.TitleText
 import com.sagrawal.newsapp.presentation.base.UiState
+import com.sagrawal.newsapp.presentation.base.calculateBottomNavigationBarHeight
 
 @Composable
 fun OfflineTopHeadlineRoute(
@@ -74,7 +79,9 @@ fun OfflineTopHeadlineScreen(
 
 @Composable
 fun ArticleList(articles: List<Article>, onNewsClick: (url: String) -> Unit) {
-    LazyColumn {
+    LazyColumn(
+        contentPadding = PaddingValues(bottom = calculateBottomNavigationBarHeight())
+    ) {
         items(articles, key = { article -> article.url }) { article ->
             Article(article, onNewsClick)
         }
@@ -90,47 +97,9 @@ fun Article(article: Article, onNewsClick: (url: String) -> Unit) {
                 onNewsClick(article.url)
             }
         }) {
-        BannerImage(article)
+        BannerImage(article.imageUrl, article.title)
         TitleText(article.title)
         DescriptionText(article.description)
-        SourceText(article.source)
-    }
-}
-
-@Composable
-fun SourceText(source: Source?) {
-    source?.name?.let {
-        Text(
-            text = it,
-            style = MaterialTheme.typography.titleSmall,
-            color = Color.Gray,
-            maxLines = 1,
-            modifier = Modifier.padding(start = 4.dp, end = 4.dp, top = 4.dp, bottom = 8.dp)
-        )
-    }
-}
-
-@Composable
-private fun BannerImage(article: Article) {
-    AsyncImage(
-        model = article.imageUrl,
-        contentDescription = article.title,
-        contentScale = ContentScale.Crop,
-        modifier = Modifier
-            .height(200.dp)
-            .fillMaxWidth()
-    )
-}
-
-@Composable
-fun DescriptionText(description: String?) {
-    if (!description.isNullOrEmpty()) {
-        Text(
-            text = description,
-            style = MaterialTheme.typography.bodyMedium,
-            color = Color.Gray,
-            maxLines = 2,
-            modifier = Modifier.padding(4.dp)
-        )
+        SourceText(article.source.name)
     }
 }

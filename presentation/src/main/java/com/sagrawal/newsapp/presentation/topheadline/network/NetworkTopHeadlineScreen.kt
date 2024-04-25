@@ -1,7 +1,9 @@
 package com.sagrawal.newsapp.presentation.topheadline.network
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,7 +17,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -28,6 +32,7 @@ import com.sagrawal.newsapp.presentation.base.ShowError
 import com.sagrawal.newsapp.presentation.base.ShowLoading
 import com.sagrawal.newsapp.presentation.base.TitleText
 import com.sagrawal.newsapp.presentation.base.UiState
+import com.sagrawal.newsapp.presentation.base.calculateBottomNavigationBarHeight
 
 @Composable
 fun NetworkTopHeadlineRoute(
@@ -76,7 +81,9 @@ fun NetworkTopHeadlineScreen(
 
 @Composable
 fun ApiArticleList(articles: List<ApiArticle>, onNewsClick: (url: String) -> Unit) {
-    LazyColumn {
+    LazyColumn(
+        contentPadding = PaddingValues(bottom = calculateBottomNavigationBarHeight())
+    ) {
         items(articles, key = { article -> article.url }) { article ->
             Article(article, onNewsClick)
         }

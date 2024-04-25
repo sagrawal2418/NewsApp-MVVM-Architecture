@@ -1,6 +1,7 @@
 package com.sagrawal.newsapp.presentation.countries
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -21,6 +22,7 @@ import com.sagrawal.newsapp.presentation.base.ShowLoading
 import com.sagrawal.newsapp.presentation.base.CustomTopAppBar
 import com.sagrawal.newsapp.presentation.base.Route
 import com.sagrawal.newsapp.presentation.base.UiState
+import com.sagrawal.newsapp.presentation.base.calculateBottomNavigationBarHeight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -77,7 +79,9 @@ fun CountriesScreen(
 
 @Composable
 fun CountriesList(countries: List<Country>, onCountryClick: (url: String) -> Unit) {
-    LazyColumn {
+    LazyColumn(
+        contentPadding = PaddingValues(bottom = calculateBottomNavigationBarHeight())
+    ) {
         items(countries, key = { country -> country.id }) { country ->
             Country(country, onCountryClick)
         }

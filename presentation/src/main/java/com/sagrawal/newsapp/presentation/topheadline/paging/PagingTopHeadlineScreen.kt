@@ -1,8 +1,10 @@
 package com.sagrawal.newsapp.presentation.topheadline.paging
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -18,6 +20,7 @@ import com.sagrawal.newsapp.presentation.base.Article
 import com.sagrawal.newsapp.presentation.base.CustomTopAppBar
 import com.sagrawal.newsapp.presentation.base.ShowError
 import com.sagrawal.newsapp.presentation.base.ShowLoading
+import com.sagrawal.newsapp.presentation.base.calculateBottomNavigationBarHeight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -74,12 +77,13 @@ fun PagingTopHeadlineScreen(
             }
         }
     }
-
 }
 
 @Composable
 fun ArticleList(articles: LazyPagingItems<ApiArticle>, onNewsClick: (url: String) -> Unit) {
-    LazyColumn {
+    LazyColumn(
+        contentPadding = PaddingValues(bottom = calculateBottomNavigationBarHeight())
+    ) {
         items(articles.itemCount, key = { index -> articles[index]!!.url }) { index ->
             Article(articles[index]!!, onNewsClick)
         }

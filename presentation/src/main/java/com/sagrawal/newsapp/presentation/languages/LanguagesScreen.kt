@@ -1,6 +1,7 @@
 package com.sagrawal.newsapp.presentation.languages
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -21,6 +22,7 @@ import com.sagrawal.newsapp.presentation.base.ShowLoading
 import com.sagrawal.newsapp.presentation.base.CustomTopAppBar
 import com.sagrawal.newsapp.presentation.base.Route
 import com.sagrawal.newsapp.presentation.base.UiState
+import com.sagrawal.newsapp.presentation.base.calculateBottomNavigationBarHeight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -74,7 +76,9 @@ fun LanguagesScreen(
 
 @Composable
 fun LanguagesList(languages: List<Language>, onLanguageClick: (url: String) -> Unit) {
-    LazyColumn {
+    LazyColumn(
+        contentPadding = PaddingValues(bottom = calculateBottomNavigationBarHeight())
+    ) {
         items(languages, key = { language -> language.id }) { language ->
             Language(language, onLanguageClick)
         }
