@@ -3,9 +3,7 @@ package com.sagrawal.newsapp.data.api
 
 import com.sagrawal.newsapp.domain.model.NewsSourceResponse
 import com.sagrawal.newsapp.domain.model.TopHeadlinesResponse
-import com.sagrawal.newsapp.utils.AppConstant.API_KEY
 import retrofit2.http.GET
-import retrofit2.http.Headers
 import retrofit2.http.Query
 import javax.inject.Singleton
 

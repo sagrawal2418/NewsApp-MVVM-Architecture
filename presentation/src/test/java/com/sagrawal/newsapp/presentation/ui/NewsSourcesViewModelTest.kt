@@ -77,9 +77,4 @@ class NewsSourcesViewModelTest {
     }
 
 
-    @After
-    fun tearDown() {
-        // do something if required
-    }
-
 }

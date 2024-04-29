@@ -1,3 +1,10 @@
+import com.sagrawal.newsapp.buildsrc.ProjectConfig
+import com.sagrawal.newsapp.buildsrc.compose
+import com.sagrawal.newsapp.buildsrc.composeBom
+import com.sagrawal.newsapp.buildsrc.daggerHilt
+import com.sagrawal.newsapp.buildsrc.hiltWorkManager
+import com.sagrawal.newsapp.buildsrc.workManager
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -7,10 +14,21 @@ plugins {
 
 android {
     namespace = "com.sagrawal.newsapp.sync"
-    compileSdk = 34
+    compileSdk = ProjectConfig.compileSdk
+    buildToolsVersion = ProjectConfig.buildToolsVersion
 
     defaultConfig {
-        minSdk = 24
+        minSdk = ProjectConfig.minSdk
+        targetSdk = ProjectConfig.targetSdk
+
+        vectorDrawables {
+            useSupportLibrary = true
+        }
+
+        resourceConfigurations.add("en")
+
+        consumerProguardFiles("consumer-rules.pro")
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -18,22 +36,18 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
     kotlinOptions {
         jvmTarget = "17"
     }
+
     buildFeatures {
+        buildConfig = true
         compose = true
     }
+
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.3"
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-    kotlin {
-        jvmToolchain(17)
     }
 }
 
@@ -43,14 +57,10 @@ dependencies {
     implementation(project(":utils"))
     implementation(project(":presentation"))
 
-    implementation(platform("androidx.compose:compose-bom:2024.04.00"))
-    implementation("androidx.compose.ui:ui")
-
-    //WorkManager
-    implementation("androidx.work:work-runtime-ktx:2.9.0")
-    implementation("androidx.hilt:hilt-work:1.1.0")
-
-    implementation("com.google.dagger:hilt-android:2.48.1")
-    kapt("com.google.dagger:hilt-compiler:2.48.1")
+    composeBom()
+    compose()
+    workManager()
+    hiltWorkManager()
+    daggerHilt()
 
 }

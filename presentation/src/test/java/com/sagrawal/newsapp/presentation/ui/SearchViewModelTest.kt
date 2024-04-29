@@ -2,16 +2,12 @@ package com.sagrawal.newsapp.presentation.ui
 
 import com.sagrawal.newsapp.domain.usecase.GetNewsSourcesByQueriesUseCase
 import com.sagrawal.newsapp.presentation.base.UiState
-import com.sagrawal.newsapp.presentation.newssources.NewsSourcesViewModel
 import com.sagrawal.newsapp.presentation.search.SearchViewModel
 import com.sagrawal.newsapp.presentation.utils.TestDispatcherProvider
 import com.sagrawal.newsapp.util.DispatcherProvider
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -33,11 +29,6 @@ class SearchViewModelTest {
     fun setUp() {
         dispatcherProvider = TestDispatcherProvider()
         viewModel = SearchViewModel(useCase, dispatcherProvider)
-    }
-
-    @After
-    fun tearDown() {
-        // do something if required
     }
 
     @Test

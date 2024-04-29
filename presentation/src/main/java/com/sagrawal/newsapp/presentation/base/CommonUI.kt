@@ -35,7 +35,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.sagrawal.newsapp.domain.model.ApiArticle
-import com.sagrawal.newsapp.domain.model.ApiSource
 import com.sagrawal.newsapp.presentation.R
 
 @Composable
@@ -194,7 +193,7 @@ fun DescriptionText(description: String?) {
     }
 }
 
-@SuppressLint("DiscouragedApi")
+@SuppressLint("DiscouragedApi", "InternalInsetResource")
 @Composable
 fun calculateBottomNavigationBarHeight(): Dp {
     val context = LocalContext.current

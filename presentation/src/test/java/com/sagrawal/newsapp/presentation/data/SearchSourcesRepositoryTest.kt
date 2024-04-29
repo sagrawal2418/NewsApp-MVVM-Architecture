@@ -2,25 +2,18 @@ package com.sagrawal.newsapp.presentation.data
 
 import app.cash.turbine.test
 import com.sagrawal.newsapp.data.api.NetworkService
-import com.sagrawal.newsapp.data.local.AppDatabaseService
 import com.sagrawal.newsapp.data.repository.SearchSourcesRepositoryImpl
 import com.sagrawal.newsapp.domain.model.ApiArticle
 import com.sagrawal.newsapp.domain.model.ApiSource
-import com.sagrawal.newsapp.domain.model.Article
-import com.sagrawal.newsapp.domain.model.Source
 import com.sagrawal.newsapp.domain.model.TopHeadlinesResponse
 import com.sagrawal.newsapp.domain.repository.SearchSourcesRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.anyString
 import org.mockito.Mockito.doReturn
 import org.mockito.Mockito.doThrow

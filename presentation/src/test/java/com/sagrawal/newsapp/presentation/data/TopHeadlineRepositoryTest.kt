@@ -1,8 +1,5 @@
 package com.sagrawal.newsapp.presentation.data
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
 import app.cash.turbine.test
 import com.sagrawal.newsapp.data.api.NetworkService
 import com.sagrawal.newsapp.data.local.AppDatabaseService
@@ -13,18 +10,13 @@ import com.sagrawal.newsapp.domain.model.ApiSource
 import com.sagrawal.newsapp.domain.model.Article
 import com.sagrawal.newsapp.domain.model.Source
 import com.sagrawal.newsapp.domain.model.TopHeadlinesResponse
-import com.sagrawal.newsapp.domain.model.toArticleEntity
 import com.sagrawal.newsapp.domain.repository.TopHeadlineRepository
-import com.sagrawal.newsapp.presentation.base.UiState
 import com.sagrawal.newsapp.utils.AppConstant.COUNTRY
-import com.sagrawal.newsapp.utils.AppConstant.PAGE_SIZE
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
-import net.bytebuddy.matcher.ElementMatchers.any
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -36,7 +28,6 @@ import org.mockito.Mockito.doReturn
 import org.mockito.Mockito.doThrow
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
-import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
 
 @ExperimentalCoroutinesApi

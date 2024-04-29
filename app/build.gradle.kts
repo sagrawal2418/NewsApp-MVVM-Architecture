@@ -1,3 +1,10 @@
+import com.sagrawal.newsapp.buildsrc.ProjectConfig
+import com.sagrawal.newsapp.buildsrc.addModule
+import com.sagrawal.newsapp.buildsrc.daggerHilt
+import com.sagrawal.newsapp.buildsrc.hiltWorkManager
+import com.sagrawal.newsapp.buildsrc.multiDex
+import com.sagrawal.newsapp.buildsrc.workManager
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -6,65 +13,65 @@ plugins {
 }
 
 android {
-    namespace = "com.sagrawal.newsapp"
-    compileSdk = 34
+    namespace = ProjectConfig.appID
+    testNamespace = ProjectConfig.appTestID
+
+    compileSdk = ProjectConfig.compileSdk
+    buildToolsVersion = ProjectConfig.buildToolsVersion
 
     defaultConfig {
-        applicationId = "com.sagrawal.newsapp"
-        minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = ProjectConfig.appID
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        minSdk = ProjectConfig.minSdk
+        targetSdk = ProjectConfig.targetSdk
+
+        versionCode = ProjectConfig.versionCode
+        versionName = ProjectConfig.versionName
+
+        multiDexEnabled = true
     }
 
     buildTypes {
-        release {
+        getByName("debug") {
+            isDebuggable = true
+            isJniDebuggable = true
             isMinifyEnabled = false
+            isShrinkResources = false
+        }
+        getByName("release") {
+            isDebuggable = false
+            isJniDebuggable = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
     kotlinOptions {
         jvmTarget = "17"
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-    kotlin {
-        jvmToolchain(17)
+
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
     }
 }
 
 dependencies {
-    implementation(project(":presentation"))
-    implementation(project(":utils"))
 
-    implementation(project(":sync"))
-    implementation(platform("androidx.compose:compose-bom:2024.04.00"))
-    implementation("androidx.compose.ui:ui")
-    implementation("com.google.dagger:hilt-android:2.48.1")
-    kapt("com.google.dagger:hilt-compiler:2.48.1")
-
-    //WorkManager
-    implementation("androidx.work:work-runtime-ktx:2.9.0")
-    implementation("androidx.hilt:hilt-work:1.1.0")
+    addModule("presentation")
+    addModule("utils")
+    addModule("sync")
+    multiDex()
+    daggerHilt()
+    workManager()
+    hiltWorkManager()
 }

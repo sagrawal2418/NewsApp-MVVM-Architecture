@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,6 +23,7 @@ import com.sagrawal.newsapp.presentation.base.CustomTopAppBar
 import com.sagrawal.newsapp.presentation.base.Route
 import com.sagrawal.newsapp.presentation.base.TitleTextLarge
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopHeadlineRoute(navHostController: NavHostController) {
     Scaffold(

@@ -1,4 +1,4 @@
-package com.sagrawal.newsapp.utils
+package com.sagrawal.nativelib
 
 import org.junit.Test
 

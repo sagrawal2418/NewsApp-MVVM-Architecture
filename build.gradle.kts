@@ -1,9 +1,9 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    id("com.android.application") version "8.0.2" apply false
-    id("org.jetbrains.kotlin.android") version "1.9.10" apply false
-    id("com.google.dagger.hilt.android") version "2.49" apply false
-    id("com.android.library") version "8.0.2" apply false
-    id("org.jetbrains.kotlin.jvm") version "1.8.10" apply false
-    id("com.google.devtools.ksp") version "1.9.10-1.0.13" apply false
+    id("com.android.application") version com.sagrawal.newsapp.buildsrc.Versions.applicationVersion apply false
+    id("com.android.library") version com.sagrawal.newsapp.buildsrc.Versions.applicationVersion apply false
+    id("org.jetbrains.kotlin.android") version com.sagrawal.newsapp.buildsrc.Versions.jetBrainKotlinVersion apply false
+    id("com.google.dagger.hilt.android") version com.sagrawal.newsapp.buildsrc.Versions.daggerHilt apply false
+    id("com.google.devtools.ksp") version com.sagrawal.newsapp.buildsrc.Versions.ksp apply false
+    id("org.jetbrains.kotlin.jvm") version com.sagrawal.newsapp.buildsrc.Versions.jetBrainJavaVersion apply false
+
 }

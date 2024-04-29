@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -84,8 +83,12 @@ fun ArticleList(articles: LazyPagingItems<ApiArticle>, onNewsClick: (url: String
     LazyColumn(
         contentPadding = PaddingValues(bottom = calculateBottomNavigationBarHeight())
     ) {
-        items(articles.itemCount, key = { index -> articles[index]!!.url }) { index ->
-            Article(articles[index]!!, onNewsClick)
+        items(articles.itemCount, key = { index ->
+            articles[index]?.let { "${it.url}_$index" }!!  // Safely generate a unique key, appending index
+        }) { index ->
+            articles[index]?.let { article ->
+                Article(article, onNewsClick)
+            }
         }
     }
 }

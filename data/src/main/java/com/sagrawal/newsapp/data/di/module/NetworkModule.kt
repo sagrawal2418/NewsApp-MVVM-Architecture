@@ -1,6 +1,9 @@
 package com.sagrawal.newsapp.data.di.module
 
 import android.content.Context
+import com.sagrawal.nativelib.Provider.getApiKey
+import com.sagrawal.nativelib.Provider.getBaseUrl
+import com.sagrawal.newsapp.data.BuildConfig
 import com.sagrawal.newsapp.data.api.ApiKeyInterceptor
 import com.sagrawal.newsapp.data.api.NetworkService
 import com.sagrawal.newsapp.data.di.BaseUrl
@@ -9,7 +12,6 @@ import com.sagrawal.newsapp.util.DefaultDispatcherProvider
 import com.sagrawal.newsapp.util.DefaultNetworkHelper
 import com.sagrawal.newsapp.util.DispatcherProvider
 import com.sagrawal.newsapp.util.NetworkHelper
-import com.sagrawal.newsapp.utils.AppConstant
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,17 +38,21 @@ class NetworkModule {
         .addInterceptor(apiKeyInterceptor)
         .build()
 
-    @NetworkApiKey
     @Provides
-    fun provideApiKey(): String = AppConstant.API_KEY
+    @Singleton
+    @BaseUrl
+    fun provideBaseUrl(@ApplicationContext context: Context) =
+        getBaseUrl(BuildConfig.DEBUG, context)
+
+    @Provides
+    @Singleton
+    @NetworkApiKey
+    fun provideNetworkKey(@ApplicationContext context: Context) =
+        getApiKey(BuildConfig.DEBUG, context)
 
     @Provides
     @Singleton
     fun provideDispatcherProvider(): DispatcherProvider = DefaultDispatcherProvider()
-
-    @BaseUrl
-    @Provides
-    fun provideBaseUrl(): String = AppConstant.BASE_URL
 
     @Provides
     @Singleton

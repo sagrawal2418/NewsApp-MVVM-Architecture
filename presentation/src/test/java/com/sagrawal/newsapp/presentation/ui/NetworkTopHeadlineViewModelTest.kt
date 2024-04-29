@@ -11,13 +11,11 @@ import com.sagrawal.newsapp.presentation.base.UiState
 import com.sagrawal.newsapp.presentation.topheadline.network.NetworkTopHeadlineViewModel
 import com.sagrawal.newsapp.presentation.utils.TestDispatcherProvider
 import com.sagrawal.newsapp.util.DispatcherProvider
-import com.sagrawal.newsapp.util.NetworkHelper
 import com.sagrawal.newsapp.utils.AppConstant
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -258,10 +256,5 @@ class NetworkTopHeadlineViewModelTest {
         }
     }
 
-
-    @After
-    fun tearDown() {
-        // do something if required
-    }
 
 }

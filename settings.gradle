@@ -20,3 +20,4 @@ include(":data")
 include(":domain")
 include(":presentation")
 include(":sync")
+include ':nativelib'

@@ -9,7 +9,7 @@ interface NetworkHelper {
     fun isNetworkConnected(): Boolean
 }
 
-class DefaultNetworkHelper constructor(private val context: Context) : NetworkHelper {
+class DefaultNetworkHelper(private val context: Context) : NetworkHelper {
 
     override fun isNetworkConnected(): Boolean {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
