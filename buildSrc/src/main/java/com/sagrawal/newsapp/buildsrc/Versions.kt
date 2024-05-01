@@ -17,7 +17,7 @@ object Versions {
 
     const val workManager = "2.9.0"
 
-    const val hiltWorkManager = "1.1.0"
+    const val hilt = "1.1.0"
 
     //libs
     internal const val coreKtx = "1.6.0"

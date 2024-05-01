@@ -18,7 +18,6 @@ import com.sagrawal.newsapp.presentation.R
 import com.sagrawal.newsapp.presentation.countries.CountriesRoute
 import com.sagrawal.newsapp.presentation.languages.LanguageRoute
 import com.sagrawal.newsapp.presentation.main.TabBarItem
-import com.sagrawal.newsapp.presentation.main.TabView
 import com.sagrawal.newsapp.presentation.newssources.NewsSourcesRoute
 import com.sagrawal.newsapp.presentation.search.SearchRoute
 import com.sagrawal.newsapp.presentation.topheadline.network.NetworkTopHeadlineRoute

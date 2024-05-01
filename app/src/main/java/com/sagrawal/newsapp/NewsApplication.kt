@@ -54,5 +54,4 @@ class NewsApplication : Application(), Configuration.Provider{
             ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE, workRequest
         )
     }
-
 }

@@ -5,7 +5,6 @@ object AppConstant {
     const val COUNTRY = "us"
     const val DEBOUNCE_TIMEOUT = 300L
     const val MIN_SEARCH_CHAR = 3
-    const val API_KEY = "9f6482a584804376874b848980b7a044"
     const val HEADLINES = "Headlines"
     const val SOURCES = "Sources"
     const val COUNTRIES = "Countries"

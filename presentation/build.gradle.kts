@@ -8,6 +8,7 @@ import com.sagrawal.newsapp.buildsrc.daggerHiltNavigation
 import com.sagrawal.newsapp.buildsrc.instrumentalTesting
 import com.sagrawal.newsapp.buildsrc.kotlin
 import com.sagrawal.newsapp.buildsrc.localUnitTesting
+import com.sagrawal.newsapp.buildsrc.mockitoTest
 import com.sagrawal.newsapp.buildsrc.navigationCompose
 import com.sagrawal.newsapp.buildsrc.paging
 import com.sagrawal.newsapp.buildsrc.pagingCompose
@@ -77,4 +78,5 @@ dependencies {
     daggerHiltNavigation()
     instrumentalTesting()
     localUnitTesting()
+    mockitoTest()
 }

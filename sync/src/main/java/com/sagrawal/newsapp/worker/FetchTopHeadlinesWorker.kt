@@ -15,6 +15,7 @@ import com.sagrawal.newsapp.data.api.NetworkService
 import com.sagrawal.newsapp.data.local.DatabaseService
 import com.sagrawal.newsapp.domain.model.apiArticleListToArticleList
 import com.sagrawal.newsapp.presentation.main.MainActivity
+import com.sagrawal.newsapp.sync.R
 import com.sagrawal.newsapp.utils.AppConstant
 import com.sagrawal.newsapp.utils.AppConstant.NOTIFICATION_ID
 import dagger.assisted.Assisted
@@ -31,7 +32,8 @@ class FetchTopHeadlinesWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
         lateinit var result: Result
         kotlin.runCatching {
-            val articles = networkService.getTopHeadlines(AppConstant.COUNTRY).apiArticles.apiArticleListToArticleList()
+            val articles = networkService.getTopHeadlines(AppConstant.COUNTRY)
+                .apiArticles.apiArticleListToArticleList()
             databaseService.deleteAllAndInsertAll(articles)
         }.onSuccess {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -73,6 +75,7 @@ class FetchTopHeadlinesWorker @AssistedInject constructor(
         // Build the notification
         val notification =
             NotificationCompat.Builder(applicationContext, AppConstant.NOTIFICATION_CHANNEL_ID)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentText(AppConstant.NOTIFICATION_CONTENT_TEXT)
                 .setContentTitle(AppConstant.NOTIFICATION_CONTENT_TITLE)
                 .setContentIntent(pendingIntent)

@@ -42,7 +42,8 @@ internal object Dependencies {
     const val daggerHilt = "com.google.dagger:hilt-android:${Versions.daggerHilt}"
     const val daggerHiltCompiler = "com.google.dagger:hilt-compiler:${Versions.daggerHilt}"
     const val hiltNavigation =
-        "androidx.hilt:hilt-navigation-compose:${Versions.hiltNavigation}"
+        "androidx.hilt:hilt-navigation-compose:${Versions.hilt}"
+    const val androidHiltCompiler = "androidx.hilt:hilt-compiler:${Versions.hilt}"
 
     // room-db
     const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
@@ -54,7 +55,7 @@ internal object Dependencies {
 
     //work manager
     const val workManager = "androidx.work:work-runtime-ktx:${Versions.workManager}"
-    const val hiltWorkManager = "androidx.hilt:hilt-work:${Versions.hiltWorkManager}"
+    const val hiltWorkManager = "androidx.hilt:hilt-work:${Versions.hilt}"
 
     //test libs
     const val junit = "junit:junit:${Versions.junit}"
@@ -121,8 +122,9 @@ fun DependencyHandler.workManager() {
     implementation(Dependencies.workManager)
 }
 
-fun DependencyHandler.hiltWorkManager(){
+fun DependencyHandler.hiltWorkManager() {
     implementation(Dependencies.hiltWorkManager)
+    kapt(Dependencies.androidHiltCompiler)
 }
 
 fun DependencyHandler.gson() {
@@ -171,7 +173,7 @@ fun DependencyHandler.paging() {
     implementation(Dependencies.paging)
 }
 
-fun DependencyHandler.pagingCompose(){
+fun DependencyHandler.pagingCompose() {
     implementation(Dependencies.pagingCompose)
 }
 
