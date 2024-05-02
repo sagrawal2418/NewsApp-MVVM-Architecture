@@ -36,12 +36,8 @@ fun OfflineTopHeadlineRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    Scaffold(
-        topBar = { CustomTopAppBar(title = stringResource(R.string.offline_topheadlines)) }
-    ) { padding ->
-        Column(modifier = Modifier.padding(padding)) {
-            OfflineTopHeadlineScreen(uiState, viewModel, onNewsClick)
-        }
+    Column {
+        OfflineTopHeadlineScreen(uiState, viewModel, onNewsClick)
     }
 }
 

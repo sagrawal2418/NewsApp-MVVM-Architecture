@@ -24,6 +24,7 @@ import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Place
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Surface
@@ -31,6 +32,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -50,7 +52,6 @@ data class TabBarItem(
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector
 )
-
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
@@ -91,11 +92,8 @@ class MainActivity : ComponentActivity() {
 
             NewsAppTheme {
 
-                val navigationBarColor = Color.Black
-
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = navigationBarColor
+                    modifier = Modifier.fillMaxSize()
                 ) {
                     NewsNavHost(tabBarItems)
                 }

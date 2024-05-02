@@ -33,7 +33,7 @@ class OfflineTopHeadlineViewModel @Inject constructor(
     }
 
     fun loadTopHeadlines() {
-        viewModelScope.launch(dispatcherProvider.main) {
+        viewModelScope.launch(dispatcherProvider.io) {
             if (networkHelper.isNetworkConnected()) {
                 useCase.invoke(COUNTRY)
             } else {

@@ -13,9 +13,9 @@
     <string name="headlines">Headlines</string>
     <string name="sources">Sources</string>
     <string name="search">Search</string>
-    <string name="network_topheadlines">Network TopHeadlines</string>
-    <string name="offline_topheadlines">Offline TopHeadlines</string>
-    <string name="paging_topheadlines">Paging TopHeadlines</string>
+    <string name="network_topheadlines">Network</string>
+    <string name="offline_topheadlines">Offline</string>
+    <string name="paging_topheadlines">Paging</string>
 
 
 </resources>

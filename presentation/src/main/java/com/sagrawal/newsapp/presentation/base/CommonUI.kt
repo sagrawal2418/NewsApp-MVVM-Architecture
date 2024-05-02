@@ -20,6 +20,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -105,7 +106,6 @@ fun TitleText(title: String) {
         Text(
             text = title,
             style = MaterialTheme.typography.titleMedium,
-            color = Color.Black,
             maxLines = 2,
             modifier = Modifier.padding(4.dp)
         )
@@ -118,7 +118,6 @@ fun TitleTextLarge(title: String) {
         Text(
             text = title,
             style = MaterialTheme.typography.titleLarge,
-            color = Color.Black,
             maxLines = 2,
             textAlign = TextAlign.Center,
             modifier = Modifier
@@ -155,7 +154,6 @@ fun SourceText(name: String?) {
         Text(
             text = it,
             style = MaterialTheme.typography.titleSmall,
-            color = Color.Gray,
             maxLines = 1,
             modifier = Modifier.padding(start = 4.dp, end = 4.dp, top = 4.dp, bottom = 8.dp)
         )
@@ -196,7 +194,6 @@ fun DescriptionText(description: String?) {
         Text(
             text = description,
             style = MaterialTheme.typography.bodyMedium,
-            color = Color.Gray,
             maxLines = 2,
             modifier = Modifier.padding(4.dp)
         )
@@ -227,8 +224,9 @@ fun TabView(tabBarItems: List<TabBarItem>, navController: NavController) {
     NavigationBar {
         // looping over each tab to generate the views and navigation for each item
         tabBarItems.forEachIndexed { index, tabBarItem ->
+            val selected = selectedTabIndex == index
             NavigationBarItem(
-                selected = selectedTabIndex == index,
+                selected = selected,
                 onClick = {
                     selectedTabIndex = index
                     navController.navigate(tabBarItem.title) {
@@ -244,13 +242,24 @@ fun TabView(tabBarItems: List<TabBarItem>, navController: NavController) {
                 },
                 icon = {
                     TabBarIconView(
-                        isSelected = selectedTabIndex == index,
+                        isSelected = selected,
                         selectedIcon = tabBarItem.selectedIcon,
                         unselectedIcon = tabBarItem.unselectedIcon,
                         title = tabBarItem.title,
                     )
                 },
-                label = { Text(tabBarItem.title) })
+                label = {
+                    Text(text = tabBarItem.title)
+                },
+                colors = NavigationBarItemDefaults.colors(
+                    indicatorColor = Color.LightGray,
+                    selectedIconColor = MaterialTheme.colorScheme.primary,
+                    unselectedIconColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                    selectedTextColor = MaterialTheme.colorScheme.primary,
+                    unselectedTextColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                )
+
+            )
         }
     }
 }
@@ -269,7 +278,6 @@ fun TabBarIconView(
         } else {
             unselectedIcon
         },
-        contentDescription = title,
-        tint = if (isSelected) Color.White else Color.LightGray
+        contentDescription = title
     )
 }

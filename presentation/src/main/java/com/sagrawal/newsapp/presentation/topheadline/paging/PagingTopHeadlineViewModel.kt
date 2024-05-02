@@ -3,6 +3,7 @@ package com.sagrawal.newsapp.presentation.topheadline.paging
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.sagrawal.newsapp.domain.model.ApiArticle
 import com.sagrawal.newsapp.domain.usecase.topheadline.GetPagingTopHeadlineUseCase
 import com.sagrawal.newsapp.util.DispatcherProvider
@@ -31,7 +32,7 @@ class PagingTopHeadlineViewModel @Inject constructor(
     fun getNews() {
         viewModelScope.launch(dispatcherProvider.main) {
             useCase.invoke()
-                .flowOn(dispatcherProvider.io)
+                .flowOn(dispatcherProvider.io).cachedIn(viewModelScope)
                 .collect {
                     _uiState.value = it
                 }

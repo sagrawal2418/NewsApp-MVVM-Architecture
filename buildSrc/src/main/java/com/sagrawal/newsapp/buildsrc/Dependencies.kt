@@ -51,6 +51,7 @@ internal object Dependencies {
 
     //paging
     const val paging = "androidx.paging:paging-common-ktx:${Versions.paging}"
+    const val pagingCommon = "androidx.paging:paging-common-ktx:${Versions.paging}"
     const val pagingCompose = "androidx.paging:paging-compose:${Versions.paging}"
 
     //work manager
@@ -171,6 +172,7 @@ fun DependencyHandler.roomDB() {
 
 fun DependencyHandler.paging() {
     implementation(Dependencies.paging)
+    implementation(Dependencies.pagingCommon)
 }
 
 fun DependencyHandler.pagingCompose() {

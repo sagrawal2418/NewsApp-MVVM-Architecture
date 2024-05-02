@@ -22,7 +22,7 @@ import com.sagrawal.newsapp.presentation.newssources.NewsSourcesRoute
 import com.sagrawal.newsapp.presentation.search.SearchRoute
 import com.sagrawal.newsapp.presentation.topheadline.network.NetworkTopHeadlineRoute
 import com.sagrawal.newsapp.presentation.topheadline.offline.OfflineTopHeadlineRoute
-import com.sagrawal.newsapp.presentation.topheadline.TopHeadlineRoute
+import com.sagrawal.newsapp.presentation.topheadline.TopHeadlineScreen
 import com.sagrawal.newsapp.presentation.topheadline.paging.PagingTopHeadlineRoute
 import com.sagrawal.newsapp.utils.AppConstant
 import com.sagrawal.newsapp.utils.AppConstant.NAV_ARG_NEWS_ID
@@ -47,18 +47,6 @@ object Route {
     fun topHeadlineScreenWithLanguage(language: String): String {
         return "top-headline/language/$language"
     }
-
-    fun networkTopHeadlineScreen(): String {
-        return "top-headline-network"
-    }
-
-    fun offlineTopHeadlineScreen(): String {
-        return "top-headline-offline"
-    }
-
-    fun pagingTopHeadlineScreen(): String {
-        return "top-headline-paging"
-    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -75,7 +63,7 @@ fun NewsNavHost(tabBarItems: List<TabBarItem>) {
             startDestination = stringResource(id = R.string.headlines)
         ) {
             composable(AppConstant.HEADLINES) {
-                TopHeadlineRoute(navController)
+                TopHeadlineScreen()
             }
             composable(AppConstant.SOURCES) {
                 NewsSourcesRoute(navController)
@@ -129,21 +117,8 @@ fun NewsNavHost(tabBarItems: List<TabBarItem>) {
                 NetworkTopHeadlineRoute(
                     onNewsClick = {
                         openCustomChromeTab(context, it)
-                    })
-            }
-
-            composable(
-                route = Route.TopHeadlineScreenNewsByLanguage,
-                arguments = listOf(navArgument(AppConstant.NAV_ARG_LANGUAGE) {
-                    type = NavType.StringType
-                })
-            ) { backStackEntry ->
-                val language =
-                    backStackEntry.arguments?.getString(AppConstant.NAV_ARG_LANGUAGE) ?: ""
-                NetworkTopHeadlineRoute(
-                    onNewsClick = {
-                        openCustomChromeTab(context, it)
-                    })
+                    }
+                )
             }
             composable(
                 route = Route.NetworkTopHeadlines

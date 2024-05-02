@@ -2,12 +2,9 @@ package com.sagrawal.newsapp.presentation.topheadline.paging
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
@@ -16,12 +13,10 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.sagrawal.newsapp.domain.model.ApiArticle
 import com.sagrawal.newsapp.presentation.R
 import com.sagrawal.newsapp.presentation.base.Article
-import com.sagrawal.newsapp.presentation.base.CustomTopAppBar
 import com.sagrawal.newsapp.presentation.base.ShowError
 import com.sagrawal.newsapp.presentation.base.ShowLoading
 import com.sagrawal.newsapp.presentation.base.calculateBottomNavigationBarHeight
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PagingTopHeadlineRoute(
     onNewsClick: (url: String) -> Unit,
@@ -29,12 +24,8 @@ fun PagingTopHeadlineRoute(
 ) {
     val articles = viewModel.uiState.collectAsLazyPagingItems()
 
-    Scaffold(
-        topBar = { CustomTopAppBar(title = stringResource(R.string.paging_topheadlines)) }
-    ) { padding ->
-        Column(modifier = Modifier.padding(padding)) {
-            PagingTopHeadlineScreen(viewModel, articles, onNewsClick)
-        }
+    Column {
+        PagingTopHeadlineScreen(viewModel, articles, onNewsClick)
     }
 }
 

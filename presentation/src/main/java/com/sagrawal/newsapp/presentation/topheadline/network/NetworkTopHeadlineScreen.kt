@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sagrawal.newsapp.domain.model.ApiArticle
@@ -27,16 +28,12 @@ import com.sagrawal.newsapp.presentation.base.calculateBottomNavigationBarHeight
 @Composable
 fun NetworkTopHeadlineRoute(
     onNewsClick: (url: String) -> Unit,
-    viewModel: NetworkTopHeadlineViewModel = hiltViewModel()
+    viewModel: NetworkTopHeadlineViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    Scaffold(
-        topBar = { CustomTopAppBar(title = stringResource(R.string.network_topheadlines)) }
-    ) { padding ->
-        Column(modifier = Modifier.padding(padding)) {
-            NetworkTopHeadlineScreen(uiState, viewModel, onNewsClick)
-        }
+    Column {
+        NetworkTopHeadlineScreen(uiState, viewModel, onNewsClick)
     }
 }
 
@@ -71,7 +68,9 @@ fun NetworkTopHeadlineScreen(
 @Composable
 fun ApiArticleList(articles: List<ApiArticle>, onNewsClick: (url: String) -> Unit) {
     LazyColumn(
-        contentPadding = PaddingValues(bottom = calculateBottomNavigationBarHeight())
+        contentPadding = PaddingValues(
+            bottom = calculateBottomNavigationBarHeight()
+        )
     ) {
         itemsIndexed(articles) { index, article ->
             key(article.url + index) {  // Create a unique key by appending the index
