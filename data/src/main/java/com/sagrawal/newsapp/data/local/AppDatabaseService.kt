@@ -1,7 +1,7 @@
 package com.sagrawal.newsapp.data.local
 
-import kotlinx.coroutines.flow.Flow
 import com.sagrawal.newsapp.domain.local.entity.Article
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class AppDatabaseService @Inject constructor(private val appDatabase: AppDatabase) : DatabaseService {

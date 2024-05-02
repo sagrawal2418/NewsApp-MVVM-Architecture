@@ -20,9 +20,9 @@ import com.sagrawal.newsapp.presentation.languages.LanguageRoute
 import com.sagrawal.newsapp.presentation.main.TabBarItem
 import com.sagrawal.newsapp.presentation.newssources.NewsSourcesRoute
 import com.sagrawal.newsapp.presentation.search.SearchRoute
+import com.sagrawal.newsapp.presentation.topheadline.TopHeadlineScreen
 import com.sagrawal.newsapp.presentation.topheadline.network.NetworkTopHeadlineRoute
 import com.sagrawal.newsapp.presentation.topheadline.offline.OfflineTopHeadlineRoute
-import com.sagrawal.newsapp.presentation.topheadline.TopHeadlineScreen
 import com.sagrawal.newsapp.presentation.topheadline.paging.PagingTopHeadlineRoute
 import com.sagrawal.newsapp.utils.AppConstant
 import com.sagrawal.newsapp.utils.AppConstant.NAV_ARG_NEWS_ID

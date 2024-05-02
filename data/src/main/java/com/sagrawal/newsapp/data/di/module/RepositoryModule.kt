@@ -1,21 +1,21 @@
 package com.sagrawal.newsapp.data.di.module
 
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 import com.sagrawal.newsapp.data.api.NetworkService
 import com.sagrawal.newsapp.data.local.AppDatabaseService
 import com.sagrawal.newsapp.data.repository.CountriesRepositoryImpl
 import com.sagrawal.newsapp.data.repository.LanguagesRepositoryImpl
 import com.sagrawal.newsapp.data.repository.NewsSourcesRepositoryImpl
 import com.sagrawal.newsapp.data.repository.SearchSourcesRepositoryImpl
-import com.sagrawal.newsapp.domain.repository.TopHeadlineRepository
 import com.sagrawal.newsapp.data.repository.TopHeadlineRepositoryImpl
 import com.sagrawal.newsapp.domain.repository.CountriesRepository
 import com.sagrawal.newsapp.domain.repository.LanguagesRepository
 import com.sagrawal.newsapp.domain.repository.NewsSourcesRepository
 import com.sagrawal.newsapp.domain.repository.SearchSourcesRepository
+import com.sagrawal.newsapp.domain.repository.TopHeadlineRepository
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module

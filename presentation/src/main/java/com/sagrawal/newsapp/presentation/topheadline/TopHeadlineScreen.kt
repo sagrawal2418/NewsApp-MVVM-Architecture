@@ -21,7 +21,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
@@ -33,7 +32,6 @@ import androidx.compose.ui.res.stringResource
 import com.sagrawal.newsapp.presentation.R
 import com.sagrawal.newsapp.presentation.base.CustomTopAppBar
 import com.sagrawal.newsapp.presentation.base.openCustomChromeTab
-import com.sagrawal.newsapp.presentation.languages.LanguagesScreen
 import com.sagrawal.newsapp.presentation.topheadline.network.NetworkTopHeadlineRoute
 import com.sagrawal.newsapp.presentation.topheadline.offline.OfflineTopHeadlineRoute
 import com.sagrawal.newsapp.presentation.topheadline.paging.PagingTopHeadlineRoute

@@ -4,11 +4,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
@@ -19,7 +17,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sagrawal.newsapp.domain.local.entity.Article
 import com.sagrawal.newsapp.presentation.R
 import com.sagrawal.newsapp.presentation.base.BannerImage
-import com.sagrawal.newsapp.presentation.base.CustomTopAppBar
 import com.sagrawal.newsapp.presentation.base.DescriptionText
 import com.sagrawal.newsapp.presentation.base.ShowError
 import com.sagrawal.newsapp.presentation.base.ShowLoading

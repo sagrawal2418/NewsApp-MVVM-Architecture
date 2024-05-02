@@ -4,8 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
-import kotlinx.coroutines.flow.Flow
 import com.sagrawal.newsapp.domain.local.entity.Article
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ArticleDao {
