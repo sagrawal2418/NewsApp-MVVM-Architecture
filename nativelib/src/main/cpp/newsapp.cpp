@@ -6,9 +6,9 @@ static const std::string myPkName = "com.sagrawal.newsapp";
 static std::string getData(bool debugMode) {
     std::string app_secret = "Null";
     if (debugMode) {
-        app_secret = "9f6482a584804376874b848980b7a044"; // Local APi
+        app_secret = "ba07a65dfd724ffd8481044578ae0cb8"; // Local APi
     } else {
-        app_secret = "9f6482a584804376874b848980b7a044"; // Live API
+        app_secret = "ba07a65dfd724ffd8481044578ae0cb8"; // Live API
     }
     return app_secret;
 }

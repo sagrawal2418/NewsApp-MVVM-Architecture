@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.sagrawal.newsapp.domain.model.ApiArticle
 import com.sagrawal.newsapp.presentation.R
 import com.sagrawal.newsapp.presentation.main.TabBarItem
@@ -179,12 +180,17 @@ fun Article(article: ApiArticle, onNewsClick: (url: String) -> Unit) {
 @Composable
 fun BannerImage(imageUrl: String?, title: String?) {
     AsyncImage(
-        model = imageUrl,
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(imageUrl)
+            .crossfade(true)
+            .build(),
         contentDescription = title,
         contentScale = ContentScale.Crop,
         modifier = Modifier
             .height(200.dp)
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        placeholder = painterResource(R.drawable.ic_launcher_background),
+        error = painterResource(R.drawable.ic_error)
     )
 }
 

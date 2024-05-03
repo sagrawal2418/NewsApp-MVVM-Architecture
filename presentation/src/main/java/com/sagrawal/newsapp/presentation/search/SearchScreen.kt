@@ -120,7 +120,7 @@ fun SearchResultItem(article: ApiArticle, onNewsClick: (url: String) -> Unit) {
                 onNewsClick(article.url)
             }
         }) {
-        BannerImage(article.url, article.title)
+        BannerImage(article.imageUrl, article.title)
         TitleText(article.title)
         DescriptionText(article.description)
         SourceText(article.apiSource.name)
