@@ -18,3 +18,6 @@
 
 ## Description
 **NewsApp-MVVM-Architecture** demonstrates Clean Architecture and MVVM in Android development. This app uses Kotlin, Retrofit2, Room, and Kotlin Flow, and uses C++ for secure configuration management. It’s an ideal resource to improve skills in building secure, robust Android applications.
+
+## Architecture
+![Architecture](https://github.com/sagrawal2418/NewsApp-MVVM-Architecture/blob/main/image.png)
