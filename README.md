@@ -30,3 +30,29 @@
 <img alt="NewsApp" height="450px" src="https://github.com/sagrawal2418/NewsApp-MVVM-Architecture/blob/main/Screenshot_20240503_171531.png" />
 <img alt="NewsApp" height="450px" src="https://github.com/sagrawal2418/NewsApp-MVVM-Architecture/blob/main/Screenshot_20240503_171604.png" />
 </p>
+
+## Steps to build the app
+- Create your API key at [News API](https://newsapi.org/)
+- Navigate to the `nativelib` directory in your project structure. 
+- Open the `newsapp.cpp` file. 
+- Locate the `getData` method:
+   ```cpp
+   static std::string getData(bool debugMode) {
+       std::string app_secret = "Null";
+       if (debugMode) {
+           app_secret = "ba07a65dfd724ffd8481044578ae0cb8"; // Local API
+       } else {
+           app_secret = "ba07a65dfd724ffd8481044578ae0cb8"; // Live API
+       }
+       return app_secret;
+   }
+  
+- Replace the placeholder API key (ba07a65dfd724ffd8481044578ae0cb8) with your actual API key for both the local and live environments as needed.
+- Build and run the app.
+
+## Donation
+If this project help you reduce time to develop, you can buy me a cup of coffee :)
+
+<a href="https://buymeacoffee.com/sandeepagrz" target="_blank"><img src="https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
+
+Thank you!
