@@ -21,3 +21,10 @@
 
 ## Architecture
 ![Architecture](https://github.com/sagrawal2418/NewsApp-MVVM-Architecture/blob/main/image.png)
+
+## Screenshots
+<img alt="NewsApp" height="450px" src="https://github.com/sagrawal2418/NewsApp-MVVM-Architecture/blob/main/Screenshot_20240503_171501.png" />
+<img alt="NewsApp" height="450px" src="https://github.com/sagrawal2418/NewsApp-MVVM-Architecture/blob/main/Screenshot_20240503_171514.png" />
+<img alt="NewsApp" height="450px" src="https://github.com/sagrawal2418/NewsApp-MVVM-Architecture/blob/main/Screenshot_20240503_171523.png" />
+<img alt="NewsApp" height="450px" src="https://github.com/sagrawal2418/NewsApp-MVVM-Architecture/blob/main/Screenshot_20240503_171531.png" />
+<img alt="NewsApp" height="450px" src="https://github.com/sagrawal2418/NewsApp-MVVM-Architecture/blob/main/Screenshot_20240503_171604.png" />
