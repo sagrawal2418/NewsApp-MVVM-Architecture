@@ -1,4 +1,5 @@
 # Clean-MVVM-NewsApp
+![Architecture](https://github.com/sagrawal2418/NewsApp-MVVM-Architecture/blob/main/Your%20paragraph%20text%20(1).png)
 
 > An Android application built using Clean + MVVM architecture.
 
